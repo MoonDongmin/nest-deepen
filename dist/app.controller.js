@@ -16,8 +16,43 @@ let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
     }
-    getHello() {
-        return this.appService.getHello();
+    getMovies() {
+        return [
+            {
+                id: 1,
+                name: '해리포터',
+                character: ['해리포터', '엠마왓슨'],
+            },
+            {
+                id: 2,
+                name: '반지의 제왕',
+                character: ['간달프'],
+            },
+        ];
+    }
+    getMovie() {
+        return {
+            id: 1,
+            name: '해리포터',
+            character: ['해리포터', '엠마왓슨'],
+        };
+    }
+    postMovie() {
+        return {
+            id: 3,
+            name: '어벤져스',
+            character: ['아이언맨', '캡틴아메리카'],
+        };
+    }
+    patchMovie() {
+        return {
+            id: 3,
+            name: '어벤져스',
+            character: ['아이언맨', '블랙위도우'],
+        };
+    }
+    deleteMovie() {
+        return 3;
     }
 };
 exports.AppController = AppController;
@@ -25,8 +60,32 @@ __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], AppController.prototype, "getHello", null);
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getMovies", null);
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getMovie", null);
+__decorate([
+    (0, common_1.Post)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "postMovie", null);
+__decorate([
+    (0, common_1.Patch)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "patchMovie", null);
+__decorate([
+    (0, common_1.Delete)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "deleteMovie", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
