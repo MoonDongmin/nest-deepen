@@ -63,7 +63,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "getMovies", null);
 __decorate([
-    (0, common_1.Get)(),
+    (0, common_1.Get)(':id'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
@@ -75,19 +75,19 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "postMovie", null);
 __decorate([
-    (0, common_1.Patch)(),
+    (0, common_1.Patch)(':id'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "patchMovie", null);
 __decorate([
-    (0, common_1.Delete)(),
+    (0, common_1.Delete)(':id'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AppController.prototype, "deleteMovie", null);
 exports.AppController = AppController = __decorate([
-    (0, common_1.Controller)(),
+    (0, common_1.Controller)('movie'),
     __metadata("design:paramtypes", [app_service_1.AppService])
 ], AppController);
 //# sourceMappingURL=app.controller.js.map
