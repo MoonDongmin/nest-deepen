@@ -1,26 +1,17 @@
 import { AppService } from './app.service';
+interface Movie {
+    id: number;
+    title: string;
+}
 export declare class AppController {
     private readonly appService;
+    private movies;
+    private idCounter;
     constructor(appService: AppService);
-    getMovies(): {
-        id: number;
-        name: string;
-        character: string[];
-    }[];
-    getMovie(): {
-        id: number;
-        name: string;
-        character: string[];
-    };
-    postMovie(): {
-        id: number;
-        name: string;
-        character: string[];
-    };
-    patchMovie(): {
-        id: number;
-        name: string;
-        character: string[];
-    };
-    deleteMovie(): number;
+    getMovies(title?: string): Movie[];
+    getMovie(id: string): Movie;
+    postMovie(title: string): Movie;
+    patchMovie(id: string, title: string): Movie;
+    deleteMovie(id: string): string;
 }
+export {};
