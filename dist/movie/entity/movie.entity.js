@@ -5,13 +5,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppService = void 0;
-const common_1 = require("@nestjs/common");
-let AppService = class AppService {
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-exports.AppService = AppService;
-exports.AppService = AppService = __decorate([
-    (0, common_1.Injectable)()
-], AppService);
-//# sourceMappingURL=app.service.js.map
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Movie = void 0;
+const class_transformer_1 = require("class-transformer");
+class Movie {
+}
+exports.Movie = Movie;
+__decorate([
+    (0, class_transformer_1.Transform)(({ value }) => value.toUpperCase()),
+    __metadata("design:type", String)
+], Movie.prototype, "genre", void 0);
+//# sourceMappingURL=movie.entity.js.map
