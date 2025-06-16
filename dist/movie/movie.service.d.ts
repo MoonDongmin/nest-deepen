@@ -1,9 +1,13 @@
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
+export interface Movie {
+    id: number;
+    title: string;
+}
 export declare class MovieService {
-    create(createMovieDto: CreateMovieDto): string;
-    findAll(): string;
-    findOne(id: number): string;
-    update(id: number, updateMovieDto: UpdateMovieDto): string;
-    remove(id: number): string;
+    private movies;
+    private idCounter;
+    getManyMovies(title?: string): Movie[];
+    getMovieById(id: number): Movie;
+    createMovie(title: string): Movie;
+    updateMovie(id: number, title: string): Movie;
+    deleteMovie(id: number): number;
 }

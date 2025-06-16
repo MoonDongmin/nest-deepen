@@ -9,56 +9,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
 let AppService = class AppService {
-    constructor() {
-        this.movies = [
-            {
-                id: 1,
-                title: '해리포터',
-            },
-            {
-                id: 2,
-                title: '반지의 제왕',
-            },
-        ];
-        this.idCounter = 3;
-    }
-    getManyMovies(title) {
-        if (!title) {
-            return this.movies;
-        }
-        return this.movies.filter((m) => m.title.startsWith(title));
-    }
-    getMovieById(id) {
-        const movie = this.movies.find((m) => m.id === +id);
-        if (!movie) {
-            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
-        }
-        return movie;
-    }
-    createMovie(title) {
-        const movie = {
-            id: this.idCounter++,
-            title: title,
-        };
-        this.movies.push(movie);
-        return movie;
-    }
-    updateMovie(id, title) {
-        const movie = this.movies.find((m) => m.id === +id);
-        if (!movie) {
-            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
-        }
-        Object.assign(movie, { title });
-        return movie;
-    }
-    deleteMovie(id) {
-        const movieIndex = this.movies.findIndex((m) => m.id === +id);
-        if (movieIndex === -1) {
-            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
-        }
-        this.movies.splice(movieIndex, 1);
-        return id;
-    }
 };
 exports.AppService = AppService;
 exports.AppService = AppService = __decorate([

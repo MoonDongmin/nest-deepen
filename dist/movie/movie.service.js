@@ -9,20 +9,55 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MovieService = void 0;
 const common_1 = require("@nestjs/common");
 let MovieService = class MovieService {
-    create(createMovieDto) {
-        return 'This action adds a new movie';
+    constructor() {
+        this.movies = [
+            {
+                id: 1,
+                title: '해리포터',
+            },
+            {
+                id: 2,
+                title: '반지의 제왕',
+            },
+        ];
+        this.idCounter = 3;
     }
-    findAll() {
-        return `This action returns all movie`;
+    getManyMovies(title) {
+        if (!title) {
+            return this.movies;
+        }
+        return this.movies.filter((m) => m.title.startsWith(title));
     }
-    findOne(id) {
-        return `This action returns a #${id} movie`;
+    getMovieById(id) {
+        const movie = this.movies.find((m) => m.id === +id);
+        if (!movie) {
+            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
+        }
+        return movie;
     }
-    update(id, updateMovieDto) {
-        return `This action updates a #${id} movie`;
+    createMovie(title) {
+        const movie = {
+            id: this.idCounter++,
+            title: title,
+        };
+        this.movies.push(movie);
+        return movie;
     }
-    remove(id) {
-        return `This action removes a #${id} movie`;
+    updateMovie(id, title) {
+        const movie = this.movies.find((m) => m.id === +id);
+        if (!movie) {
+            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
+        }
+        Object.assign(movie, { title });
+        return movie;
+    }
+    deleteMovie(id) {
+        const movieIndex = this.movies.findIndex((m) => m.id === +id);
+        if (movieIndex === -1) {
+            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
+        }
+        this.movies.splice(movieIndex, 1);
+        return id;
     }
 };
 exports.MovieService = MovieService;
