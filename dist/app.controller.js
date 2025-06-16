@@ -18,54 +18,21 @@ const app_service_1 = require("./app.service");
 let AppController = class AppController {
     constructor(appService) {
         this.appService = appService;
-        this.movies = [
-            {
-                id: 1,
-                title: '해리포터',
-            },
-            {
-                id: 2,
-                title: '반지의 제왕',
-            },
-        ];
-        this.idCounter = 3;
     }
     getMovies(title) {
-        if (!title) {
-            return this.movies;
-        }
-        return this.movies.filter((m) => m.title.startsWith(title));
+        return this.appService.getManyMovies(title);
     }
     getMovie(id) {
-        const movie = this.movies.find((m) => m.id === +id);
-        if (!movie) {
-            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
-        }
-        return movie;
+        return this.appService.getMovieById(+id);
     }
     postMovie(title) {
-        const movie = {
-            id: this.idCounter++,
-            title: title,
-        };
-        this.movies.push(movie);
-        return movie;
+        return this.appService.createMovie(title);
     }
     patchMovie(id, title) {
-        const movie = this.movies.find((m) => m.id === +id);
-        if (!movie) {
-            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
-        }
-        Object.assign(movie, { title });
-        return movie;
+        return this.appService.updateMovie(+id, title);
     }
     deleteMovie(id) {
-        const movieIndex = this.movies.findIndex((m) => m.id === +id);
-        if (movieIndex === -1) {
-            throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
-        }
-        this.movies.splice(movieIndex, 1);
-        return id;
+        return this.appService.deleteMovie(+id);
     }
 };
 exports.AppController = AppController;
