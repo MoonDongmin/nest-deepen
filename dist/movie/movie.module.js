@@ -10,11 +10,14 @@ exports.MovieModule = void 0;
 const common_1 = require("@nestjs/common");
 const movie_service_1 = require("./movie.service");
 const movie_controller_1 = require("./movie.controller");
+const typeorm_1 = require("@nestjs/typeorm");
+const movie_entity_1 = require("./entity/movie.entity");
 let MovieModule = class MovieModule {
 };
 exports.MovieModule = MovieModule;
 exports.MovieModule = MovieModule = __decorate([
     (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([movie_entity_1.Movie])],
         controllers: [movie_controller_1.MovieController],
         providers: [movie_service_1.MovieService],
     })
