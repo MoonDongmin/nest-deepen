@@ -43,6 +43,9 @@ let MovieService = class MovieService {
         const movie = {
             id: this.idCounter++,
             ...createMovieDto,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            version: 0,
         };
         this.movies.push(movie);
         return movie;

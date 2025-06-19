@@ -10,12 +10,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Movie = void 0;
-const class_transformer_1 = require("class-transformer");
-class Movie {
-}
+const typeorm_1 = require("typeorm");
+let Movie = class Movie {
+};
 exports.Movie = Movie;
 __decorate([
-    (0, class_transformer_1.Transform)(({ value }) => value.toUpperCase()),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], Movie.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Movie.prototype, "title", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Movie.prototype, "genre", void 0);
+__decorate([
+    (0, typeorm_1.CreateDateColumn)(),
+    __metadata("design:type", Date)
+], Movie.prototype, "createdAt", void 0);
+__decorate([
+    (0, typeorm_1.UpdateDateColumn)(),
+    __metadata("design:type", Date)
+], Movie.prototype, "updatedAt", void 0);
+__decorate([
+    (0, typeorm_1.VersionColumn)(),
+    __metadata("design:type", Number)
+], Movie.prototype, "version", void 0);
+exports.Movie = Movie = __decorate([
+    (0, typeorm_1.Entity)()
+], Movie);
 //# sourceMappingURL=movie.entity.js.map
