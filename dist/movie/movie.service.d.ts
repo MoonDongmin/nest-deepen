@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 export declare class MovieService {
     private readonly movieRepository;
     constructor(movieRepository: Repository<Movie>);
-    getManyMovies(title?: string): Promise<Movie[]>;
+    getManyMovies(title?: string): Promise<Movie[] | (number | Movie[])[]>;
     getMovieById(id: number): Promise<Movie>;
     createMovie(createMovieDto: CreateMovieDto): Promise<CreateMovieDto & Movie>;
     updateMovie(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie>;

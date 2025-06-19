@@ -21,8 +21,18 @@ let MovieService = class MovieService {
     constructor(movieRepository) {
         this.movieRepository = movieRepository;
     }
-    getManyMovies(title) {
-        return this.movieRepository.find();
+    async getManyMovies(title) {
+        if (!title) {
+            return [
+                await this.movieRepository.find(),
+                await this.movieRepository.count(),
+            ];
+        }
+        return this.movieRepository.find({
+            where: {
+                title: (0, typeorm_2.Like)(`%${title}%`),
+            },
+        });
     }
     async getMovieById(id) {
         const movie = await this.movieRepository.findOne({
