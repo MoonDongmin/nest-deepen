@@ -11,22 +11,37 @@ const common_1 = require("@nestjs/common");
 const movie_module_1 = require("./movie/movie.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
+const Joi = require("joi");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot(),
-            typeorm_1.TypeOrmModule.forRoot({
-                type: process.env.DB_TYPE,
-                host: process.env.DB_HOST,
-                port: parseInt(process.env.DB_PORT),
-                username: process.env.DB_USERNAME,
-                password: process.env.DB_PASSWORD,
-                database: process.env.DB_DATABASE,
-                entities: [],
-                synchronize: true,
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                validationSchema: Joi.object({
+                    ENV: Joi.string().valid('dev', 'prod').required(),
+                    DB_TYPE: Joi.string().valid('postgres').required(),
+                    DB_HOST: Joi.string().required(),
+                    DB_PORT: Joi.number().required(),
+                    DB_USERNAME: Joi.string().required(),
+                    DB_PASSWORD: Joi.string().required(),
+                    DB_DATABASE: Joi.string().required(),
+                }),
+            }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                useFactory: (configService) => ({
+                    type: configService.get('DB_TYPE'),
+                    host: configService.get('DB_HOST'),
+                    port: configService.get('DB_PORT'),
+                    username: configService.get('DB_USERNAME'),
+                    password: configService.get('DB_PASSWORD'),
+                    database: configService.get('DB_DATABASE'),
+                    entities: [],
+                    synchronize: true,
+                }),
+                inject: [config_1.ConfigService],
             }),
             movie_module_1.MovieModule,
         ],
