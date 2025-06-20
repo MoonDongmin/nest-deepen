@@ -9,31 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Movie = void 0;
+exports.MovieDetail = void 0;
 const typeorm_1 = require("typeorm");
-const base_table_entity_1 = require("./base-table.entity");
-const movie_detail_entity_1 = require("./movie-detail.entity");
-let Movie = class Movie extends base_table_entity_1.BaseTable {
+const movie_entity_1 = require("./movie.entity");
+let MovieDetail = class MovieDetail {
 };
-exports.Movie = Movie;
+exports.MovieDetail = MovieDetail;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Movie.prototype, "id", void 0);
+], MovieDetail.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Movie.prototype, "title", void 0);
+], MovieDetail.prototype, "detail", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], Movie.prototype, "genre", void 0);
-__decorate([
-    (0, typeorm_1.OneToOne)(() => movie_detail_entity_1.MovieDetail),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", movie_detail_entity_1.MovieDetail)
-], Movie.prototype, "detail", void 0);
-exports.Movie = Movie = __decorate([
+    (0, typeorm_1.OneToOne)(() => movie_entity_1.Movie),
+    __metadata("design:type", movie_entity_1.Movie)
+], MovieDetail.prototype, "movie", void 0);
+exports.MovieDetail = MovieDetail = __decorate([
     (0, typeorm_1.Entity)()
-], Movie);
-//# sourceMappingURL=movie.entity.js.map
+], MovieDetail);
+//# sourceMappingURL=movie-detail.entity.js.map

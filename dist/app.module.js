@@ -13,6 +13,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const config_1 = require("@nestjs/config");
 const Joi = require("joi");
 const movie_entity_1 = require("./movie/entity/movie.entity");
+const movie_detail_entity_1 = require("./movie/entity/movie-detail.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -39,7 +40,7 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get('DB_USERNAME'),
                     password: configService.get('DB_PASSWORD'),
                     database: configService.get('DB_DATABASE'),
-                    entities: [movie_entity_1.Movie],
+                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail],
                     synchronize: true,
                 }),
                 inject: [config_1.ConfigService],
