@@ -29,4 +29,9 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateMovieDto.prototype, "genre", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateMovieDto.prototype, "detail", void 0);
 //# sourceMappingURL=update-movie.dto.js.map

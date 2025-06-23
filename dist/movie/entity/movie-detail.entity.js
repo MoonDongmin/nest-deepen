@@ -24,7 +24,7 @@ __decorate([
     __metadata("design:type", String)
 ], MovieDetail.prototype, "detail", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => movie_entity_1.Movie),
+    (0, typeorm_1.OneToOne)(() => movie_entity_1.Movie, (movie) => movie.id),
     __metadata("design:type", movie_entity_1.Movie)
 ], MovieDetail.prototype, "movie", void 0);
 exports.MovieDetail = MovieDetail = __decorate([

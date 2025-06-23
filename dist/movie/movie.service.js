@@ -17,14 +17,16 @@ const common_1 = require("@nestjs/common");
 const movie_entity_1 = require("./entity/movie.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
+const movie_detail_entity_1 = require("./entity/movie-detail.entity");
 let MovieService = class MovieService {
-    constructor(movieRepository) {
+    constructor(movieRepository, movieDetailRepository) {
         this.movieRepository = movieRepository;
+        this.movieDetailRepository = movieDetailRepository;
     }
     async getManyMovies(title) {
         if (!title) {
             return [
-                await this.movieRepository.find(),
+                await this.movieRepository.find({ relations: ['detail'] }),
                 await this.movieRepository.count(),
             ];
         }
@@ -32,6 +34,7 @@ let MovieService = class MovieService {
             where: {
                 title: (0, typeorm_2.Like)(`%${title}%`),
             },
+            relations: ['detail'],
         });
     }
     async getMovieById(id) {
@@ -39,6 +42,7 @@ let MovieService = class MovieService {
             where: {
                 id,
             },
+            relations: ['detail'],
         });
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
@@ -46,7 +50,14 @@ let MovieService = class MovieService {
         return movie;
     }
     async createMovie(createMovieDto) {
-        const movie = await this.movieRepository.save(createMovieDto);
+        const movieDetail = await this.movieDetailRepository.save({
+            detail: createMovieDto.detail,
+        });
+        const movie = await this.movieRepository.save({
+            title: createMovieDto.title,
+            genre: createMovieDto.genre,
+            detail: movieDetail,
+        });
         return movie;
     }
     async updateMovie(id, updateMovieDto) {
@@ -54,17 +65,25 @@ let MovieService = class MovieService {
             where: {
                 id,
             },
+            relations: ['detail'],
         });
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
+        const { detail, ...movieRest } = updateMovieDto;
         await this.movieRepository.update({
             id,
-        }, updateMovieDto);
+        }, movieRest);
+        if (detail) {
+            await this.movieDetailRepository.update({
+                id: movie.detail.id,
+            }, { detail });
+        }
         const newMovie = await this.movieRepository.findOne({
             where: {
                 id,
             },
+            relations: ['detail'],
         });
         return newMovie;
     }
@@ -73,11 +92,13 @@ let MovieService = class MovieService {
             where: {
                 id,
             },
+            relations: ['detail'],
         });
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
         await this.movieRepository.delete(id);
+        await this.movieDetailRepository.delete(movie.detail.id);
         return id;
     }
 };
@@ -85,6 +106,8 @@ exports.MovieService = MovieService;
 exports.MovieService = MovieService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movie_entity_1.Movie)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(movie_detail_entity_1.MovieDetail)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], MovieService);
 //# sourceMappingURL=movie.service.js.map

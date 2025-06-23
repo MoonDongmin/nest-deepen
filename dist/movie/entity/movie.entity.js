@@ -29,7 +29,9 @@ __decorate([
     __metadata("design:type", String)
 ], Movie.prototype, "genre", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => movie_detail_entity_1.MovieDetail),
+    (0, typeorm_1.OneToOne)(() => movie_detail_entity_1.MovieDetail, (movieDetail) => movieDetail, {
+        cascade: true,
+    }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", movie_detail_entity_1.MovieDetail)
 ], Movie.prototype, "detail", void 0);
