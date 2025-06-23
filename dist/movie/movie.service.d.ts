@@ -7,15 +7,15 @@ export declare class MovieService {
     private readonly movieRepository;
     private readonly movieDetailRepository;
     constructor(movieRepository: Repository<Movie>, movieDetailRepository: Repository<MovieDetail>);
-    getManyMovies(title?: string): Promise<Movie[] | (number | Movie[])[]>;
-    getMovieById(id: number): Promise<Movie>;
-    createMovie(createMovieDto: CreateMovieDto): Promise<{
+    findAll(title?: string): Promise<Movie[] | (number | Movie[])[]>;
+    findOne(id: number): Promise<Movie>;
+    create(createMovieDto: CreateMovieDto): Promise<{
         title: string;
         genre: string;
         detail: {
             detail: string;
         } & MovieDetail;
     } & Movie>;
-    updateMovie(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie>;
-    deleteMovie(id: number): Promise<number>;
+    update(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie>;
+    remove(id: number): Promise<number>;
 }

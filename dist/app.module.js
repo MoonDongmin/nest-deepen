@@ -14,6 +14,8 @@ const config_1 = require("@nestjs/config");
 const Joi = require("joi");
 const movie_entity_1 = require("./movie/entity/movie.entity");
 const movie_detail_entity_1 = require("./movie/entity/movie-detail.entity");
+const director_module_1 = require("./director/director.module");
+const director_entity_1 = require("./director/entity/director.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -40,12 +42,13 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get('DB_USERNAME'),
                     password: configService.get('DB_PASSWORD'),
                     database: configService.get('DB_DATABASE'),
-                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail],
+                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director],
                     synchronize: true,
                 }),
                 inject: [config_1.ConfigService],
             }),
             movie_module_1.MovieModule,
+            director_module_1.DirectorModule,
         ],
     })
 ], AppModule);

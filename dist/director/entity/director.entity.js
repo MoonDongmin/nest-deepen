@@ -9,38 +9,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Movie = void 0;
+exports.Director = void 0;
 const typeorm_1 = require("typeorm");
 const base_table_entity_1 = require("../../common/entity/base-table.entity");
-const movie_detail_entity_1 = require("./movie-detail.entity");
-const director_entity_1 = require("../../director/entity/director.entity");
-let Movie = class Movie extends base_table_entity_1.BaseTable {
+const movie_entity_1 = require("../../movie/entity/movie.entity");
+let Director = class Director extends base_table_entity_1.BaseTable {
 };
-exports.Movie = Movie;
+exports.Director = Director;
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Movie.prototype, "id", void 0);
+], Director.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Movie.prototype, "title", void 0);
+], Director.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Date)
+], Director.prototype, "dob", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Movie.prototype, "genre", void 0);
+], Director.prototype, "nationality", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => movie_detail_entity_1.MovieDetail, (movieDetail) => movieDetail, {
-        cascade: true,
-    }),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", movie_detail_entity_1.MovieDetail)
-], Movie.prototype, "detail", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => director_entity_1.Director, (director) => director.id),
-    __metadata("design:type", director_entity_1.Director)
-], Movie.prototype, "director", void 0);
-exports.Movie = Movie = __decorate([
+    (0, typeorm_1.OneToMany)(() => movie_entity_1.Movie, (movie) => movie.director),
+    __metadata("design:type", Array)
+], Director.prototype, "movies", void 0);
+exports.Director = Director = __decorate([
     (0, typeorm_1.Entity)()
-], Movie);
-//# sourceMappingURL=movie.entity.js.map
+], Director);
+//# sourceMappingURL=director.entity.js.map

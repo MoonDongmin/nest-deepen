@@ -23,7 +23,7 @@ let MovieService = class MovieService {
         this.movieRepository = movieRepository;
         this.movieDetailRepository = movieDetailRepository;
     }
-    async getManyMovies(title) {
+    async findAll(title) {
         if (!title) {
             return [
                 await this.movieRepository.find({ relations: ['detail'] }),
@@ -37,7 +37,7 @@ let MovieService = class MovieService {
             relations: ['detail'],
         });
     }
-    async getMovieById(id) {
+    async findOne(id) {
         const movie = await this.movieRepository.findOne({
             where: {
                 id,
@@ -49,7 +49,7 @@ let MovieService = class MovieService {
         }
         return movie;
     }
-    async createMovie(createMovieDto) {
+    async create(createMovieDto) {
         const movieDetail = await this.movieDetailRepository.save({
             detail: createMovieDto.detail,
         });
@@ -60,7 +60,7 @@ let MovieService = class MovieService {
         });
         return movie;
     }
-    async updateMovie(id, updateMovieDto) {
+    async update(id, updateMovieDto) {
         const movie = await this.movieRepository.findOne({
             where: {
                 id,
@@ -87,7 +87,7 @@ let MovieService = class MovieService {
         });
         return newMovie;
     }
-    async deleteMovie(id) {
+    async remove(id) {
         const movie = await this.movieRepository.findOne({
             where: {
                 id,

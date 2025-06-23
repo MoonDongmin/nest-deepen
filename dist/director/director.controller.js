@@ -12,71 +12,69 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MovieController = void 0;
+exports.DirectorController = void 0;
 const common_1 = require("@nestjs/common");
-const movie_service_1 = require("./movie.service");
-const create_movie_dto_1 = require("./dto/create-movie.dto");
-const update_movie_dto_1 = require("./dto/update-movie.dto");
-let MovieController = class MovieController {
-    constructor(movieService) {
-        this.movieService = movieService;
+const director_service_1 = require("./director.service");
+const create_director_dto_1 = require("./dto/create-director.dto");
+const update_director_dto_1 = require("./dto/update-director.dto");
+let DirectorController = class DirectorController {
+    constructor(directorService) {
+        this.directorService = directorService;
     }
-    getMovies(title) {
-        return this.movieService.findAll(title);
+    findAll() {
+        return this.directorService.findAll();
     }
-    getMovie(id) {
-        return this.movieService.findOne(+id);
+    findOne(id) {
+        return this.directorService.findOne(+id);
     }
-    postMovie(body) {
-        return this.movieService.create(body);
+    create(createDirectorDto) {
+        return this.directorService.create(createDirectorDto);
     }
-    patchMovie(id, body) {
-        return this.movieService.update(+id, body);
+    update(id, updateDirectorDto) {
+        return this.directorService.update(+id, updateDirectorDto);
     }
-    deleteMovie(id) {
-        return this.movieService.remove(+id);
+    remove(id) {
+        return this.directorService.remove(+id);
     }
 };
-exports.MovieController = MovieController;
+exports.DirectorController = DirectorController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)('title')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
-], MovieController.prototype, "getMovies", null);
+], DirectorController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], MovieController.prototype, "getMovie", null);
+], DirectorController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto]),
+    __metadata("design:paramtypes", [create_director_dto_1.CreateDirectorDto]),
     __metadata("design:returntype", void 0)
-], MovieController.prototype, "postMovie", null);
+], DirectorController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_movie_dto_1.UpdateMovieDto]),
+    __metadata("design:paramtypes", [String, update_director_dto_1.UpdateDirectorDto]),
     __metadata("design:returntype", void 0)
-], MovieController.prototype, "patchMovie", null);
+], DirectorController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], MovieController.prototype, "deleteMovie", null);
-exports.MovieController = MovieController = __decorate([
-    (0, common_1.Controller)('movie'),
-    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
-    __metadata("design:paramtypes", [movie_service_1.MovieService])
-], MovieController);
-//# sourceMappingURL=movie.controller.js.map
+], DirectorController.prototype, "remove", null);
+exports.DirectorController = DirectorController = __decorate([
+    (0, common_1.Controller)('director'),
+    __metadata("design:paramtypes", [director_service_1.DirectorService])
+], DirectorController);
+//# sourceMappingURL=director.controller.js.map
