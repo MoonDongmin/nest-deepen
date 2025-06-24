@@ -22,7 +22,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Movie.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({
+        unique: true,
+    }),
     __metadata("design:type", String)
 ], Movie.prototype, "title", void 0);
 __decorate([
@@ -32,12 +34,16 @@ __decorate([
 __decorate([
     (0, typeorm_1.OneToOne)(() => movie_detail_entity_1.MovieDetail, (movieDetail) => movieDetail, {
         cascade: true,
+        nullable: false,
     }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", movie_detail_entity_1.MovieDetail)
 ], Movie.prototype, "detail", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => director_entity_1.Director, (director) => director.id),
+    (0, typeorm_1.ManyToOne)(() => director_entity_1.Director, (director) => director.id, {
+        cascade: true,
+        nullable: false,
+    }),
     __metadata("design:type", director_entity_1.Director)
 ], Movie.prototype, "director", void 0);
 exports.Movie = Movie = __decorate([

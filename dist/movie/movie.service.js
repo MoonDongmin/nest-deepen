@@ -18,15 +18,17 @@ const movie_entity_1 = require("./entity/movie.entity");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const movie_detail_entity_1 = require("./entity/movie-detail.entity");
+const director_entity_1 = require("../director/entity/director.entity");
 let MovieService = class MovieService {
-    constructor(movieRepository, movieDetailRepository) {
+    constructor(movieRepository, movieDetailRepository, directorRepository) {
         this.movieRepository = movieRepository;
         this.movieDetailRepository = movieDetailRepository;
+        this.directorRepository = directorRepository;
     }
     async findAll(title) {
         if (!title) {
             return [
-                await this.movieRepository.find({ relations: ['detail'] }),
+                await this.movieRepository.find({ relations: ['director'] }),
                 await this.movieRepository.count(),
             ];
         }
@@ -34,7 +36,7 @@ let MovieService = class MovieService {
             where: {
                 title: (0, typeorm_2.Like)(`%${title}%`),
             },
-            relations: ['detail'],
+            relations: ['director'],
         });
     }
     async findOne(id) {
@@ -42,7 +44,7 @@ let MovieService = class MovieService {
             where: {
                 id,
             },
-            relations: ['detail'],
+            relations: ['detail', 'director'],
         });
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
@@ -50,6 +52,14 @@ let MovieService = class MovieService {
         return movie;
     }
     async create(createMovieDto) {
+        const director = await this.directorRepository.findOne({
+            where: {
+                id: createMovieDto.directorId,
+            },
+        });
+        if (!director) {
+            throw new common_1.NotFoundException(`존재하지 않는 ID의 감독입니다!`);
+        }
         const movieDetail = await this.movieDetailRepository.save({
             detail: createMovieDto.detail,
         });
@@ -57,6 +67,7 @@ let MovieService = class MovieService {
             title: createMovieDto.title,
             genre: createMovieDto.genre,
             detail: movieDetail,
+            director: director,
         });
         return movie;
     }
@@ -70,10 +81,26 @@ let MovieService = class MovieService {
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
-        const { detail, ...movieRest } = updateMovieDto;
+        const { detail, directorId, ...movieRest } = updateMovieDto;
+        let newDirector;
+        if (directorId) {
+            const director = await this.directorRepository.findOne({
+                where: {
+                    id: directorId,
+                },
+            });
+            if (!director) {
+                throw new common_1.NotFoundException(`존재하지 않는 ID의 감독입니다!`);
+            }
+            newDirector = director;
+        }
+        const movieUpdateFields = {
+            ...movieRest,
+            ...(newDirector && { director: newDirector }),
+        };
         await this.movieRepository.update({
             id,
-        }, movieRest);
+        }, movieUpdateFields);
         if (detail) {
             await this.movieDetailRepository.update({
                 id: movie.detail.id,
@@ -83,7 +110,7 @@ let MovieService = class MovieService {
             where: {
                 id,
             },
-            relations: ['detail'],
+            relations: ['detail', 'director'],
         });
         return newMovie;
     }
@@ -107,7 +134,9 @@ exports.MovieService = MovieService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movie_entity_1.Movie)),
     __param(1, (0, typeorm_1.InjectRepository)(movie_detail_entity_1.MovieDetail)),
+    __param(2, (0, typeorm_1.InjectRepository)(director_entity_1.Director)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository])
 ], MovieService);
 //# sourceMappingURL=movie.service.js.map

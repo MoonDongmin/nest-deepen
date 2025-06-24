@@ -12,6 +12,7 @@ export declare class MovieController {
         detail: {
             detail: string;
         } & import("./entity/movie-detail.entity").MovieDetail;
+        director: import("../director/entity/director.entity").Director;
     } & import("./entity/movie.entity").Movie>;
     patchMovie(id: string, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: string): Promise<number>;

@@ -26,4 +26,8 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateMovieDto.prototype, "detail", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Number)
+], CreateMovieDto.prototype, "directorId", void 0);
 //# sourceMappingURL=create-movie.dto.js.map
