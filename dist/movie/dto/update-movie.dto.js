@@ -21,12 +21,29 @@ class UpdateMovieDto {
 exports.UpdateMovieDto = UpdateMovieDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateMovieDto.prototype, "title", void 0);
 __decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.ArrayNotEmpty)(),
+    (0, class_validator_1.IsNumber)({}, {
+        each: true,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
+], UpdateMovieDto.prototype, "genreIds", void 0);
+__decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
-], UpdateMovieDto.prototype, "genre", void 0);
+], UpdateMovieDto.prototype, "detail", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateMovieDto.prototype, "directorId", void 0);
 //# sourceMappingURL=update-movie.dto.js.map

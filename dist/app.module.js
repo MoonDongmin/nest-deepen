@@ -9,12 +9,50 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const movie_module_1 = require("./movie/movie.module");
+const typeorm_1 = require("@nestjs/typeorm");
+const config_1 = require("@nestjs/config");
+const Joi = require("joi");
+const movie_entity_1 = require("./movie/entity/movie.entity");
+const movie_detail_entity_1 = require("./movie/entity/movie-detail.entity");
+const director_module_1 = require("./director/director.module");
+const director_entity_1 = require("./director/entity/director.entity");
+const genre_module_1 = require("./genre/genre.module");
+const genre_entity_1 = require("./genre/entity/genre.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [movie_module_1.MovieModule],
+        imports: [
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                validationSchema: Joi.object({
+                    ENV: Joi.string().valid('dev', 'prod').required(),
+                    DB_TYPE: Joi.string().valid('postgres').required(),
+                    DB_HOST: Joi.string().required(),
+                    DB_PORT: Joi.number().required(),
+                    DB_USERNAME: Joi.string().required(),
+                    DB_PASSWORD: Joi.string().required(),
+                    DB_DATABASE: Joi.string().required(),
+                }),
+            }),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                useFactory: (configService) => ({
+                    type: configService.get('DB_TYPE'),
+                    host: configService.get('DB_HOST'),
+                    port: configService.get('DB_PORT'),
+                    username: configService.get('DB_USERNAME'),
+                    password: configService.get('DB_PASSWORD'),
+                    database: configService.get('DB_DATABASE'),
+                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre],
+                    synchronize: true,
+                }),
+                inject: [config_1.ConfigService],
+            }),
+            movie_module_1.MovieModule,
+            director_module_1.DirectorModule,
+            genre_module_1.GenreModule,
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

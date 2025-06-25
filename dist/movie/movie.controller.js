@@ -22,19 +22,19 @@ let MovieController = class MovieController {
         this.movieService = movieService;
     }
     getMovies(title) {
-        return this.movieService.getManyMovies(title);
+        return this.movieService.findAll(title);
     }
     getMovie(id) {
-        return this.movieService.getMovieById(+id);
+        return this.movieService.findOne(+id);
     }
     postMovie(body) {
-        return this.movieService.createMovie(body);
+        return this.movieService.create(body);
     }
     patchMovie(id, body) {
-        return this.movieService.updateMovie(+id, body);
+        return this.movieService.update(+id, body);
     }
     deleteMovie(id) {
-        return this.movieService.deleteMovie(+id);
+        return this.movieService.remove(+id);
     }
 };
 exports.MovieController = MovieController;

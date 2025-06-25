@@ -1,4 +1,6 @@
 export declare class UpdateMovieDto {
     title?: string;
-    genre?: string;
+    genreIds?: number[];
+    detail?: string;
+    directorId?: number;
 }

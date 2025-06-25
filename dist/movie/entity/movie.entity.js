@@ -10,12 +10,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Movie = void 0;
-const class_transformer_1 = require("class-transformer");
-class Movie {
-}
+const typeorm_1 = require("typeorm");
+const base_table_entity_1 = require("../../common/entity/base-table.entity");
+const movie_detail_entity_1 = require("./movie-detail.entity");
+const director_entity_1 = require("../../director/entity/director.entity");
+const genre_entity_1 = require("../../genre/entity/genre.entity");
+let Movie = class Movie extends base_table_entity_1.BaseTable {
+};
 exports.Movie = Movie;
 __decorate([
-    (0, class_transformer_1.Transform)(({ value }) => value.toUpperCase()),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
+], Movie.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        unique: true,
+    }),
     __metadata("design:type", String)
-], Movie.prototype, "genre", void 0);
+], Movie.prototype, "title", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => genre_entity_1.Genre, (genre) => genre.movies),
+    (0, typeorm_1.JoinTable)(),
+    __metadata("design:type", Array)
+], Movie.prototype, "genres", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => movie_detail_entity_1.MovieDetail, (movieDetail) => movieDetail, {
+        cascade: true,
+        nullable: false,
+    }),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", movie_detail_entity_1.MovieDetail)
+], Movie.prototype, "detail", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => director_entity_1.Director, (director) => director.id, {
+        cascade: true,
+        nullable: false,
+    }),
+    __metadata("design:type", director_entity_1.Director)
+], Movie.prototype, "director", void 0);
+exports.Movie = Movie = __decorate([
+    (0, typeorm_1.Entity)()
+], Movie);
 //# sourceMappingURL=movie.entity.js.map
