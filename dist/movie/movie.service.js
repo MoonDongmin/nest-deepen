@@ -19,16 +19,18 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const movie_detail_entity_1 = require("./entity/movie-detail.entity");
 const director_entity_1 = require("../director/entity/director.entity");
+const genre_entity_1 = require("../genre/entity/genre.entity");
 let MovieService = class MovieService {
-    constructor(movieRepository, movieDetailRepository, directorRepository) {
+    constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository) {
         this.movieRepository = movieRepository;
         this.movieDetailRepository = movieDetailRepository;
         this.directorRepository = directorRepository;
+        this.genreRepository = genreRepository;
     }
     async findAll(title) {
         if (!title) {
             return [
-                await this.movieRepository.find({ relations: ['director'] }),
+                await this.movieRepository.find({ relations: ['director', 'genres'] }),
                 await this.movieRepository.count(),
             ];
         }
@@ -36,7 +38,7 @@ let MovieService = class MovieService {
             where: {
                 title: (0, typeorm_2.Like)(`%${title}%`),
             },
-            relations: ['director'],
+            relations: ['director', 'genres'],
         });
     }
     async findOne(id) {
@@ -44,7 +46,7 @@ let MovieService = class MovieService {
             where: {
                 id,
             },
-            relations: ['detail', 'director'],
+            relations: ['detail', 'director', 'genres'],
         });
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
@@ -60,14 +62,23 @@ let MovieService = class MovieService {
         if (!director) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 감독입니다!`);
         }
-        const movieDetail = await this.movieDetailRepository.save({
-            detail: createMovieDto.detail,
+        const genres = await this.genreRepository.find({
+            where: {
+                id: (0, typeorm_2.In)(createMovieDto.genreIds),
+            },
         });
+        if (genres.length !== createMovieDto.genreIds.length) {
+            throw new common_1.NotFoundException(`존재하지 않는 장르가 있습니다! 존재하는 ids -> ${genres
+                .map((genre) => genre.id)
+                .join(',')}`);
+        }
         const movie = await this.movieRepository.save({
             title: createMovieDto.title,
-            genre: createMovieDto.genre,
-            detail: movieDetail,
+            detail: {
+                detail: createMovieDto.detail,
+            },
             director: director,
+            genres,
         });
         return movie;
     }
@@ -81,7 +92,7 @@ let MovieService = class MovieService {
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
-        const { detail, directorId, ...movieRest } = updateMovieDto;
+        const { detail, directorId, genreIds, ...movieRest } = updateMovieDto;
         let newDirector;
         if (directorId) {
             const director = await this.directorRepository.findOne({
@@ -93,6 +104,20 @@ let MovieService = class MovieService {
                 throw new common_1.NotFoundException(`존재하지 않는 ID의 감독입니다!`);
             }
             newDirector = director;
+        }
+        let newGenres;
+        if (genreIds) {
+            const genres = await this.genreRepository.find({
+                where: {
+                    id: (0, typeorm_2.In)(genreIds),
+                },
+            });
+            if (genres.length !== updateMovieDto.genreIds.length) {
+                throw new common_1.NotFoundException(`존재하지 않는 장르가 있습니다! 존재하는 ids -> ${genres
+                    .map((genre) => genre.id)
+                    .join(',')}`);
+            }
+            newGenres = genres;
         }
         const movieUpdateFields = {
             ...movieRest,
@@ -112,7 +137,14 @@ let MovieService = class MovieService {
             },
             relations: ['detail', 'director'],
         });
-        return newMovie;
+        newMovie.genres = newGenres;
+        await this.movieRepository.save(newMovie);
+        return this.movieRepository.findOne({
+            where: {
+                id,
+            },
+            relations: ['detail', 'director', 'genres'],
+        });
     }
     async remove(id) {
         const movie = await this.movieRepository.findOne({
@@ -135,7 +167,9 @@ exports.MovieService = MovieService = __decorate([
     __param(0, (0, typeorm_1.InjectRepository)(movie_entity_1.Movie)),
     __param(1, (0, typeorm_1.InjectRepository)(movie_detail_entity_1.MovieDetail)),
     __param(2, (0, typeorm_1.InjectRepository)(director_entity_1.Director)),
+    __param(3, (0, typeorm_1.InjectRepository)(genre_entity_1.Genre)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository])
 ], MovieService);

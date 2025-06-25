@@ -16,18 +16,25 @@ class CreateMovieDto {
 exports.CreateMovieDto = CreateMovieDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMovieDto.prototype, "title", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], CreateMovieDto.prototype, "genre", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateMovieDto.prototype, "detail", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], CreateMovieDto.prototype, "directorId", void 0);
+__decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.ArrayNotEmpty)(),
+    (0, class_validator_1.IsNumber)({}, {
+        each: true,
+    }),
+    __metadata("design:type", Array)
+], CreateMovieDto.prototype, "genreIds", void 0);
 //# sourceMappingURL=create-movie.dto.js.map

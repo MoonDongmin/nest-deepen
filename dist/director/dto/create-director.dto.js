@@ -16,6 +16,7 @@ class CreateDirectorDto {
 exports.CreateDirectorDto = CreateDirectorDto;
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateDirectorDto.prototype, "name", void 0);
 __decorate([
@@ -25,6 +26,7 @@ __decorate([
 ], CreateDirectorDto.prototype, "dob", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateDirectorDto.prototype, "nationality", void 0);
 //# sourceMappingURL=create-director.dto.js.map

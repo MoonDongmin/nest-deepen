@@ -1,10 +1,11 @@
 import { BaseTable } from '../../common/entity/base-table.entity';
 import { MovieDetail } from './movie-detail.entity';
 import { Director } from '../../director/entity/director.entity';
+import { Genre } from '../../genre/entity/genre.entity';
 export declare class Movie extends BaseTable {
     id: number;
     title: string;
-    genre: string;
+    genres: Genre[];
     detail: MovieDetail;
     director: Director;
 }

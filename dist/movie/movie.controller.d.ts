@@ -8,11 +8,11 @@ export declare class MovieController {
     getMovie(id: string): Promise<import("./entity/movie.entity").Movie>;
     postMovie(body: CreateMovieDto): Promise<{
         title: string;
-        genre: string;
         detail: {
             detail: string;
-        } & import("./entity/movie-detail.entity").MovieDetail;
+        };
         director: import("../director/entity/director.entity").Director;
+        genres: import("../genre/entity/genre.entity").Genre[];
     } & import("./entity/movie.entity").Movie>;
     patchMovie(id: string, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: string): Promise<number>;
