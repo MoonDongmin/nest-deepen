@@ -28,13 +28,13 @@ let GenreController = class GenreController {
         return this.genreService.findAll();
     }
     findOne(id) {
-        return this.genreService.findOne(+id);
+        return this.genreService.findOne(id);
     }
     update(id, updateGenreDto) {
-        return this.genreService.update(+id, updateGenreDto);
+        return this.genreService.update(id, updateGenreDto);
     }
     remove(id) {
-        return this.genreService.remove(+id);
+        return this.genreService.remove(id);
     }
 };
 exports.GenreController = GenreController;
@@ -53,28 +53,29 @@ __decorate([
 ], GenreController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], GenreController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_genre_dto_1.UpdateGenreDto]),
+    __metadata("design:paramtypes", [Number, update_genre_dto_1.UpdateGenreDto]),
     __metadata("design:returntype", void 0)
 ], GenreController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], GenreController.prototype, "remove", null);
 exports.GenreController = GenreController = __decorate([
     (0, common_1.Controller)('genre'),
+    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [genre_service_1.GenreService])
 ], GenreController);
 //# sourceMappingURL=genre.controller.js.map
