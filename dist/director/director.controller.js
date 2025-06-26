@@ -25,7 +25,7 @@ let DirectorController = class DirectorController {
         return this.directorService.findAll();
     }
     findOne(id) {
-        return this.directorService.findOne(+d);
+        return this.directorService.findOne(id);
     }
     create(createDirectorDto) {
         return this.directorService.create(createDirectorDto);

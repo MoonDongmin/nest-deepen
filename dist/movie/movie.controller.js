@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const movie_service_1 = require("./movie.service");
 const create_movie_dto_1 = require("./dto/create-movie.dto");
 const update_movie_dto_1 = require("./dto/update-movie.dto");
+const movie_title_validation_pipe_1 = require("./pipe/movie-title-validation.pipe");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -40,7 +41,7 @@ let MovieController = class MovieController {
 exports.MovieController = MovieController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)('title')),
+    __param(0, (0, common_1.Query)('title', movie_title_validation_pipe_1.MovieTitleValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)

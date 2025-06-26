@@ -26,7 +26,7 @@ export class DirectorController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.directorService.findOne(+d);
+    return this.directorService.findOne(id);
   }
 
   @Post()
