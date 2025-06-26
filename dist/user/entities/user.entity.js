@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = exports.Role = void 0;
 const typeorm_1 = require("typeorm");
 const base_table_entity_1 = require("../../common/entity/base-table.entity");
+const class_transformer_1 = require("class-transformer");
 var Role;
 (function (Role) {
     Role[Role["admin"] = 0] = "admin";
@@ -33,6 +34,9 @@ __decorate([
 ], User.prototype, "email", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_transformer_1.Exclude)({
+        toPlainOnly: true,
+    }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
