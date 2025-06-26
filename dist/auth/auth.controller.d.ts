@@ -7,5 +7,9 @@ export declare class AuthController {
         refreshToken: string;
         accessToken: string;
     }>;
-    loginUserPassport(req: any): any;
+    loginUserPassport(req: any): Promise<{
+        refreshToken: string;
+        accessToken: string;
+    }>;
+    private(req: any): Promise<any>;
 }
