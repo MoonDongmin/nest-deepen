@@ -26,6 +26,8 @@ import { User } from './user/entities/user.entity';
         DB_PASSWORD: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
         HASH_ROUNDS: Joi.number().required(),
+        ACCESS_TOKEN_SECRET: Joi.string().required(),
+        REFRESH_TOKEN_SECRET: Joi.string().required(),
       }),
     }),
     // 비동기여야 하는 이유 -> ConfigModule에 설정된 값을 기반으로 설정해야 하기에
