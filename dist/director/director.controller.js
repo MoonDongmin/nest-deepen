@@ -25,16 +25,16 @@ let DirectorController = class DirectorController {
         return this.directorService.findAll();
     }
     findOne(id) {
-        return this.directorService.findOne(+id);
+        return this.directorService.findOne(id);
     }
     create(createDirectorDto) {
         return this.directorService.create(createDirectorDto);
     }
     update(id, updateDirectorDto) {
-        return this.directorService.update(+id, updateDirectorDto);
+        return this.directorService.update(id, updateDirectorDto);
     }
     remove(id) {
-        return this.directorService.remove(+id);
+        return this.directorService.remove(id);
     }
 };
 exports.DirectorController = DirectorController;
@@ -46,9 +46,9 @@ __decorate([
 ], DirectorController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], DirectorController.prototype, "findOne", null);
 __decorate([
@@ -60,21 +60,22 @@ __decorate([
 ], DirectorController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_director_dto_1.UpdateDirectorDto]),
+    __metadata("design:paramtypes", [Number, update_director_dto_1.UpdateDirectorDto]),
     __metadata("design:returntype", void 0)
 ], DirectorController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], DirectorController.prototype, "remove", null);
 exports.DirectorController = DirectorController = __decorate([
     (0, common_1.Controller)('director'),
+    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [director_service_1.DirectorService])
 ], DirectorController);
 //# sourceMappingURL=director.controller.js.map

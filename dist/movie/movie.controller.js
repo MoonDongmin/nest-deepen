@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const movie_service_1 = require("./movie.service");
 const create_movie_dto_1 = require("./dto/create-movie.dto");
 const update_movie_dto_1 = require("./dto/update-movie.dto");
+const movie_title_validation_pipe_1 = require("./pipe/movie-title-validation.pipe");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -25,31 +26,31 @@ let MovieController = class MovieController {
         return this.movieService.findAll(title);
     }
     getMovie(id) {
-        return this.movieService.findOne(+id);
+        return this.movieService.findOne(id);
     }
     postMovie(body) {
         return this.movieService.create(body);
     }
     patchMovie(id, body) {
-        return this.movieService.update(+id, body);
+        return this.movieService.update(id, body);
     }
     deleteMovie(id) {
-        return this.movieService.remove(+id);
+        return this.movieService.remove(id);
     }
 };
 exports.MovieController = MovieController;
 __decorate([
     (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)('title')),
+    __param(0, (0, common_1.Query)('title', movie_title_validation_pipe_1.MovieTitleValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovies", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovie", null);
 __decorate([
@@ -61,17 +62,17 @@ __decorate([
 ], MovieController.prototype, "postMovie", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_movie_dto_1.UpdateMovieDto]),
+    __metadata("design:paramtypes", [Number, update_movie_dto_1.UpdateMovieDto]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "patchMovie", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "deleteMovie", null);
 exports.MovieController = MovieController = __decorate([

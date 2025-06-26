@@ -5,8 +5,8 @@ export declare class DirectorController {
     private readonly directorService;
     constructor(directorService: DirectorService);
     findAll(): Promise<import("./entity/director.entity").Director[]>;
-    findOne(id: string): Promise<import("./entity/director.entity").Director>;
+    findOne(id: number): Promise<import("./entity/director.entity").Director>;
     create(createDirectorDto: CreateDirectorDto): Promise<CreateDirectorDto & import("./entity/director.entity").Director>;
-    update(id: string, updateDirectorDto: UpdateDirectorDto): Promise<import("./entity/director.entity").Director>;
-    remove(id: string): Promise<number>;
+    update(id: number, updateDirectorDto: UpdateDirectorDto): Promise<import("./entity/director.entity").Director>;
+    remove(id: number): Promise<number>;
 }
