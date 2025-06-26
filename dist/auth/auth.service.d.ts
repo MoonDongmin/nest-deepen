@@ -12,6 +12,7 @@ export declare class AuthService {
         password: string;
     };
     register(rawToken: string): Promise<User>;
+    authenticate(email: string, password: string): Promise<User>;
     login(rawToken: string): Promise<{
         refreshToken: string;
         accessToken: string;

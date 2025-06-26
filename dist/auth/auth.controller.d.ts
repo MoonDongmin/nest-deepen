@@ -7,4 +7,5 @@ export declare class AuthController {
         refreshToken: string;
         accessToken: string;
     }>;
+    loginUserPassport(req: any): any;
 }
