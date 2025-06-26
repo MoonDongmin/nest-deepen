@@ -18,6 +18,9 @@ const director_module_1 = require("./director/director.module");
 const director_entity_1 = require("./director/entity/director.entity");
 const genre_module_1 = require("./genre/genre.module");
 const genre_entity_1 = require("./genre/entity/genre.entity");
+const auth_module_1 = require("./auth/auth.module");
+const user_module_1 = require("./user/user.module");
+const user_entity_1 = require("./user/entities/user.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,7 +47,7 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get('DB_USERNAME'),
                     password: configService.get('DB_PASSWORD'),
                     database: configService.get('DB_DATABASE'),
-                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre],
+                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User],
                     synchronize: true,
                 }),
                 inject: [config_1.ConfigService],
@@ -52,6 +55,8 @@ exports.AppModule = AppModule = __decorate([
             movie_module_1.MovieModule,
             director_module_1.DirectorModule,
             genre_module_1.GenreModule,
+            auth_module_1.AuthModule,
+            user_module_1.UserModule,
         ],
     })
 ], AppModule);
