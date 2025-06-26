@@ -11,16 +11,9 @@ export declare class MovieService {
     private readonly directorRepository;
     private readonly genreRepository;
     constructor(movieRepository: Repository<Movie>, movieDetailRepository: Repository<MovieDetail>, directorRepository: Repository<Director>, genreRepository: Repository<Genre>);
-    findAll(title?: string): Promise<Movie[] | (number | Movie[])[]>;
+    findAll(title?: string): Promise<[Movie[], number]>;
     findOne(id: number): Promise<Movie>;
-    create(createMovieDto: CreateMovieDto): Promise<{
-        title: string;
-        detail: {
-            detail: string;
-        };
-        director: Director;
-        genres: Genre[];
-    } & Movie>;
+    create(createMovieDto: CreateMovieDto): Promise<Movie>;
     update(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie>;
     remove(id: number): Promise<number>;
 }
