@@ -11,19 +11,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseTable = void 0;
 const typeorm_1 = require("typeorm");
+const class_transformer_1 = require("class-transformer");
 class BaseTable {
 }
 exports.BaseTable = BaseTable;
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
+    (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Date)
 ], BaseTable.prototype, "createdAt", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)(),
+    (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Date)
 ], BaseTable.prototype, "updatedAt", void 0);
 __decorate([
     (0, typeorm_1.VersionColumn)(),
+    (0, class_transformer_1.Exclude)(),
     __metadata("design:type", Number)
 ], BaseTable.prototype, "version", void 0);
 //# sourceMappingURL=base-table.entity.js.map
