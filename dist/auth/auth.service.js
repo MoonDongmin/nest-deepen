@@ -20,6 +20,7 @@ const typeorm_2 = require("typeorm");
 const bcrypt = require("bcrypt");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
+const env_const_1 = require("../common/const/env.const");
 let AuthService = class AuthService {
     constructor(userRepository, configService, jwtService) {
         this.userRepository = userRepository;
@@ -55,20 +56,25 @@ let AuthService = class AuthService {
         if (bearer.toLowerCase() !== 'bearer') {
             throw new common_1.BadRequestException(`토큰 포맷이 잘못됐습니다!`);
         }
-        const payload = await this.jwtService.verifyAsync(token, {
-            secret: this.configService.get('REFRESH_TOKEN_SECRET'),
-        });
-        if (isRefreshToken) {
-            if (payload.type !== 'refresh') {
-                throw new common_1.BadRequestException(`Refresh 토튼을 입력해주세요!`);
+        try {
+            const payload = await this.jwtService.verifyAsync(token, {
+                secret: this.configService.get(env_const_1.envVariableKeys.refreshTokenSecret),
+            });
+            if (isRefreshToken) {
+                if (payload.type !== 'refresh') {
+                    throw new common_1.BadRequestException(`Refresh 토튼을 입력해주세요!`);
+                }
             }
-        }
-        else {
-            if (payload.type !== 'access') {
-                throw new common_1.BadRequestException(`Access 토튼을 입력해주세요!`);
+            else {
+                if (payload.type !== 'access') {
+                    throw new common_1.BadRequestException(`Access 토튼을 입력해주세요!`);
+                }
             }
+            return payload;
         }
-        return payload;
+        catch (e) {
+            throw new common_1.UnauthorizedException(`토큰이 만료됐습니다!`);
+        }
     }
     async register(rawToken) {
         const { email, password } = this.parseBasicToken(rawToken);
@@ -80,7 +86,7 @@ let AuthService = class AuthService {
         if (user) {
             throw new common_1.BadRequestException(`이미 가입한 이메일 입니다!`);
         }
-        const hash = await bcrypt.hash(password, this.configService.get('HASH_ROUNDS'));
+        const hash = await bcrypt.hash(password, this.configService.get(env_const_1.envVariableKeys.hashRounds));
         await this.userRepository.save({
             email,
             password: hash,
@@ -107,8 +113,8 @@ let AuthService = class AuthService {
         return user;
     }
     async issueToken(user, isRefreshToken) {
-        const refreshTokenSecret = this.configService.get('REFRESH_TOKEN_SECRET');
-        const accessTokenSecret = this.configService.get('ACCESS_TOKEN_SECRET');
+        const refreshTokenSecret = this.configService.get(env_const_1.envVariableKeys.refreshTokenSecret);
+        const accessTokenSecret = this.configService.get(env_const_1.envVariableKeys.accessTokenSecret);
         return this.jwtService.signAsync({
             sub: user.id,
             role: user.role,

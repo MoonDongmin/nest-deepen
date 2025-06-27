@@ -21,6 +21,7 @@ const genre_entity_1 = require("./genre/entity/genre.entity");
 const auth_module_1 = require("./auth/auth.module");
 const user_module_1 = require("./user/user.module");
 const user_entity_1 = require("./user/entities/user.entity");
+const env_const_1 = require("./common/const/env.const");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -44,12 +45,12 @@ exports.AppModule = AppModule = __decorate([
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
                 useFactory: (configService) => ({
-                    type: configService.get('DB_TYPE'),
-                    host: configService.get('DB_HOST'),
-                    port: configService.get('DB_PORT'),
-                    username: configService.get('DB_USERNAME'),
-                    password: configService.get('DB_PASSWORD'),
-                    database: configService.get('DB_DATABASE'),
+                    type: configService.get(env_const_1.envVariableKeys.dbType),
+                    host: configService.get(env_const_1.envVariableKeys.dbHost),
+                    port: configService.get(env_const_1.envVariableKeys.dbPort),
+                    username: configService.get(env_const_1.envVariableKeys.dbUsername),
+                    password: configService.get(env_const_1.envVariableKeys.dbPassword),
+                    database: configService.get(env_const_1.envVariableKeys.dbDatabase),
                     entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User],
                     synchronize: true,
                 }),
