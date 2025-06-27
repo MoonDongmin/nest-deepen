@@ -7,6 +7,9 @@ export declare class AuthController {
         refreshToken: string;
         accessToken: string;
     }>;
+    rotatedAccessToken(token: string): Promise<{
+        accessToken: string;
+    }>;
     loginUserPassport(req: any): Promise<{
         refreshToken: string;
         accessToken: string;

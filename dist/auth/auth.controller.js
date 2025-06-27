@@ -27,6 +27,12 @@ let AuthController = class AuthController {
     loginUser(token) {
         return this.authService.login(token);
     }
+    async rotatedAccessToken(token) {
+        const payload = await this.authService.parseBearerToken(token, true);
+        return {
+            accessToken: await this.authService.issueToken(payload, false),
+        };
+    }
     async loginUserPassport(req) {
         return {
             refreshToken: await this.authService.issueToken(req.user, true),
@@ -52,6 +58,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "loginUser", null);
+__decorate([
+    (0, common_1.Post)('token/access'),
+    __param(0, (0, common_1.Headers)('authorization')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "rotatedAccessToken", null);
 __decorate([
     (0, common_1.UseGuards)(local_strategy_1.LocalAuthGuard),
     (0, common_1.Post)('login/passport'),
