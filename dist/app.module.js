@@ -23,6 +23,8 @@ const user_module_1 = require("./user/user.module");
 const user_entity_1 = require("./user/entities/user.entity");
 const env_const_1 = require("./common/const/env.const");
 const bearer_token_middleware_1 = require("./auth/middleware/bearer-token.middleware");
+const core_1 = require("@nestjs/core");
+const auth_guard_1 = require("./auth/guard/auth.guard");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -74,6 +76,12 @@ exports.AppModule = AppModule = __decorate([
             genre_module_1.GenreModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
+        ],
+        providers: [
+            {
+                provide: core_1.APP_GUARD,
+                useClass: auth_guard_1.AuthGuard,
+            },
         ],
     })
 ], AppModule);
