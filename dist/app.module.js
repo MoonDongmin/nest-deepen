@@ -22,7 +22,20 @@ const auth_module_1 = require("./auth/auth.module");
 const user_module_1 = require("./user/user.module");
 const user_entity_1 = require("./user/entities/user.entity");
 const env_const_1 = require("./common/const/env.const");
+const bearer_token_middleware_1 = require("./auth/middleware/bearer-token.middleware");
 let AppModule = class AppModule {
+    configure(consumer) {
+        consumer
+            .apply(bearer_token_middleware_1.BearerTokenMiddleware)
+            .exclude({
+            path: 'auth/login',
+            method: common_1.RequestMethod.POST,
+        }, {
+            path: 'auth/register',
+            method: common_1.RequestMethod.POST,
+        })
+            .forRoutes('*');
+    }
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
