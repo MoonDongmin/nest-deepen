@@ -17,16 +17,16 @@ const common_1 = require("@nestjs/common");
 const movie_service_1 = require("./movie.service");
 const create_movie_dto_1 = require("./dto/create-movie.dto");
 const update_movie_dto_1 = require("./dto/update-movie.dto");
-const movie_title_validation_pipe_1 = require("./pipe/movie-title-validation.pipe");
 const public_decorator_1 = require("../auth/decorator/public.decorator");
 const rbac_decorator_1 = require("../auth/decorator/rbac.decorator");
 const user_entity_1 = require("../user/entities/user.entity");
+const get_movies_dto_1 = require("./dto/get-movies.dto");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
     }
-    getMovies(title) {
-        return this.movieService.findAll(title);
+    getMovies(dto) {
+        return this.movieService.findAll(dto);
     }
     getMovie(id) {
         return this.movieService.findOne(id);
@@ -45,9 +45,9 @@ exports.MovieController = MovieController;
 __decorate([
     (0, common_1.Get)(),
     (0, public_decorator_1.Public)(),
-    __param(0, (0, common_1.Query)('title', movie_title_validation_pipe_1.MovieTitleValidationPipe)),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [get_movies_dto_1.GetMoviesDto]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovies", null);
 __decorate([
