@@ -10,9 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetMoviesDto = void 0;
-const page_pagination_dto_1 = require("../../common/dto/page-pagination.dto");
 const class_validator_1 = require("class-validator");
-class GetMoviesDto extends page_pagination_dto_1.PagePaginationDto {
+const cursor_pagination_dto_1 = require("../../common/dto/cursor-pagination.dto");
+class GetMoviesDto extends cursor_pagination_dto_1.CursorPaginationDto {
 }
 exports.GetMoviesDto = GetMoviesDto;
 __decorate([

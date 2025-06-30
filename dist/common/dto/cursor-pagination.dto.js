@@ -9,23 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PaginationDto = void 0;
+exports.CursorPaginationDto = void 0;
 const class_validator_1 = require("class-validator");
-class PaginationDto {
+class CursorPaginationDto {
     constructor() {
-        this.page = 1;
+        this.order = 'DESC';
         this.take = 5;
     }
 }
-exports.PaginationDto = PaginationDto;
+exports.CursorPaginationDto = CursorPaginationDto;
 __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
-], PaginationDto.prototype, "page", void 0);
+], CursorPaginationDto.prototype, "id", void 0);
+__decorate([
+    (0, class_validator_1.IsIn)(['ASC', 'DESC']),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], CursorPaginationDto.prototype, "order", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Number)
-], PaginationDto.prototype, "take", void 0);
-//# sourceMappingURL=pagination.dto.js.map
+], CursorPaginationDto.prototype, "take", void 0);
+//# sourceMappingURL=cursor-pagination.dto.js.map

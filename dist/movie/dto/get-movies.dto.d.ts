@@ -1,4 +1,4 @@
-import { PagePaginationDto } from '../../common/dto/page-pagination.dto';
-export declare class GetMoviesDto extends PagePaginationDto {
+import { CursorPaginationDto } from '../../common/dto/cursor-pagination.dto';
+export declare class GetMoviesDto extends CursorPaginationDto {
     title?: string;
 }

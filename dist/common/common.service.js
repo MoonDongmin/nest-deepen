@@ -19,6 +19,15 @@ let CommonService = class CommonService {
         qb.take(take);
         qb.skip(skip);
     }
+    applyCursorPaginationParamsToQb(qb, dto) {
+        const { order, take, id } = dto;
+        if (id) {
+            const direction = order === 'ASC' ? '>' : '<';
+            qb.where(`${qb.alias}.id ${direction} :id`, { id });
+        }
+        qb.orderBy(`${qb.alias}.id`, order);
+        qb.take(take);
+    }
 };
 exports.CommonService = CommonService;
 exports.CommonService = CommonService = __decorate([
