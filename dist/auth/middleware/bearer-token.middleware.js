@@ -25,8 +25,8 @@ let BearerTokenMiddleware = class BearerTokenMiddleware {
             next();
             return;
         }
-        const token = this.validateBearerToke(authHeader);
         try {
+            const token = this.validateBearerToke(authHeader);
             const decodedPayload = this.jwtService.decode(token);
             if (decodedPayload.type !== 'refresh' &&
                 decodedPayload.type !== 'access') {
@@ -42,7 +42,10 @@ let BearerTokenMiddleware = class BearerTokenMiddleware {
             next();
         }
         catch (e) {
-            throw new common_1.UnauthorizedException(`토큰이 만료됐습니다!`);
+            if (e.name == 'TokenExpiredError') {
+                throw new common_1.UnauthorizedException(`토큰이 만료됐습니다.`);
+            }
+            next();
         }
     }
     validateBearerToke(rawToken) {

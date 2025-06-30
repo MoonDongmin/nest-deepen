@@ -21,7 +21,15 @@ let GenreService = class GenreService {
     constructor(genreRepository) {
         this.genreRepository = genreRepository;
     }
-    create(createGenreDto) {
+    async create(createGenreDto) {
+        const genre = await this.genreRepository.findOne({
+            where: {
+                name: createGenreDto.name,
+            },
+        });
+        if (genre) {
+            throw new common_1.NotFoundException(`이미 존재하는 장르입니다.`);
+        }
         return this.genreRepository.save(createGenreDto);
     }
     findAll() {

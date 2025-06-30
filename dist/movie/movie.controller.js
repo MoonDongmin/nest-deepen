@@ -18,6 +18,9 @@ const movie_service_1 = require("./movie.service");
 const create_movie_dto_1 = require("./dto/create-movie.dto");
 const update_movie_dto_1 = require("./dto/update-movie.dto");
 const movie_title_validation_pipe_1 = require("./pipe/movie-title-validation.pipe");
+const public_decorator_1 = require("../auth/decorator/public.decorator");
+const rbac_decorator_1 = require("../auth/decorator/rbac.decorator");
+const user_entity_1 = require("../user/entities/user.entity");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -41,6 +44,7 @@ let MovieController = class MovieController {
 exports.MovieController = MovieController;
 __decorate([
     (0, common_1.Get)(),
+    (0, public_decorator_1.Public)(),
     __param(0, (0, common_1.Query)('title', movie_title_validation_pipe_1.MovieTitleValidationPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -48,6 +52,7 @@ __decorate([
 ], MovieController.prototype, "getMovies", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, public_decorator_1.Public)(),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -55,6 +60,7 @@ __decorate([
 ], MovieController.prototype, "getMovie", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto]),
@@ -62,6 +68,7 @@ __decorate([
 ], MovieController.prototype, "postMovie", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -70,6 +77,7 @@ __decorate([
 ], MovieController.prototype, "patchMovie", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
