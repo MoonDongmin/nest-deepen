@@ -20,6 +20,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const path_1 = require("path");
 const process = require("node:process");
+const uuid_1 = require("uuid");
 let MovieModule = class MovieModule {
 };
 exports.MovieModule = MovieModule;
@@ -31,6 +32,14 @@ exports.MovieModule = MovieModule = __decorate([
             platform_express_1.MulterModule.register({
                 storage: (0, multer_1.diskStorage)({
                     destination: (0, path_1.join)(process.cwd(), 'public', 'movie'),
+                    filename: (req, file, cb) => {
+                        const split = file.originalname.split('.');
+                        let extension = 'mp4';
+                        if (split.length > 1) {
+                            extension = split[split.length - 1];
+                        }
+                        cb(null, `${(0, uuid_1.v4)()}_${Date.now()}.${extension}`);
+                    },
                 }),
             }),
         ],

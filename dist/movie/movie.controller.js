@@ -33,9 +33,9 @@ let MovieController = class MovieController {
     getMovie(id) {
         return this.movieService.findOne(id);
     }
-    postMovie(body, req, files) {
+    postMovie(body, req, movie) {
         console.log('+++++++++++++++++');
-        console.log(files);
+        console.log(movie);
         return this.movieService.create(body, req.queryRunner);
     }
     patchMovie(id, body) {
@@ -66,16 +66,7 @@ __decorate([
     (0, common_1.Post)(),
     (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
     (0, common_1.UseInterceptors)(transaction_interceptor_1.TransactionInterceptor),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([
-        {
-            name: 'movie',
-            maxCount: 1,
-        },
-        {
-            name: 'poster',
-            maxCount: 2,
-        },
-    ], {
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('movie', {
         limits: {
             fileSize: 20000000,
         },
@@ -88,7 +79,7 @@ __decorate([
     })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.UploadedFiles)()),
+    __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto, Object, Object]),
     __metadata("design:returntype", void 0)
