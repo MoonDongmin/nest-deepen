@@ -26,6 +26,7 @@ const bearer_token_middleware_1 = require("./auth/middleware/bearer-token.middle
 const core_1 = require("@nestjs/core");
 const auth_guard_1 = require("./auth/guard/auth.guard");
 const rbac_guard_1 = require("./auth/guard/rbac.guard");
+const response_time_interceptor_1 = require("./common/interceptor/response-time.interceptor");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -86,6 +87,10 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_GUARD,
                 useClass: rbac_guard_1.RbacGuard,
+            },
+            {
+                provide: core_1.APP_INTERCEPTOR,
+                useClass: response_time_interceptor_1.ResponseTimeInterceptor,
             },
         ],
     })
