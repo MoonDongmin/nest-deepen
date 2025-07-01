@@ -6,22 +6,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ResponseTimeInterceptor = void 0;
+exports.CacheInterceptor = void 0;
 const common_1 = require("@nestjs/common");
 const rxjs_1 = require("rxjs");
-let ResponseTimeInterceptor = class ResponseTimeInterceptor {
+let CacheInterceptor = class CacheInterceptor {
+    constructor() {
+        this.cache = new Map();
+    }
     intercept(context, next) {
-        const req = context.switchToHttp().getRequest();
-        const reqTime = Date.now();
-        return next.handle().pipe((0, rxjs_1.tap)(() => {
-            const respTime = Date.now();
-            const diff = respTime - reqTime;
-            console.log(`[${req.method} ${req.path}] ${diff}ms`);
-        }));
+        const request = context.switchToHttp().getRequest();
+        const key = `${request.method}-${request.path}`;
+        if (this.cache.has(key)) {
+            return (0, rxjs_1.of)(this.cache.get(key));
+        }
+        return next.handle().pipe((0, rxjs_1.tap)((response) => this.cache.set(key, response)));
     }
 };
-exports.ResponseTimeInterceptor = ResponseTimeInterceptor;
-exports.ResponseTimeInterceptor = ResponseTimeInterceptor = __decorate([
+exports.CacheInterceptor = CacheInterceptor;
+exports.CacheInterceptor = CacheInterceptor = __decorate([
     (0, common_1.Injectable)()
-], ResponseTimeInterceptor);
-//# sourceMappingURL=response-time.interceptor.js.map
+], CacheInterceptor);
+//# sourceMappingURL=cache.interceptor.js.map
