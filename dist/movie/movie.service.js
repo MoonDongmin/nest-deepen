@@ -20,15 +20,18 @@ const typeorm_2 = require("typeorm");
 const movie_detail_entity_1 = require("./entity/movie-detail.entity");
 const director_entity_1 = require("../director/entity/director.entity");
 const genre_entity_1 = require("../genre/entity/genre.entity");
+const common_service_1 = require("../common/common.service");
 let MovieService = class MovieService {
-    constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository, dataSource) {
+    constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository, dataSource, commonService) {
         this.movieRepository = movieRepository;
         this.movieDetailRepository = movieDetailRepository;
         this.directorRepository = directorRepository;
         this.genreRepository = genreRepository;
         this.dataSource = dataSource;
+        this.commonService = commonService;
     }
-    async findAll(title) {
+    async findAll(dto) {
+        const { title } = dto;
         const qb = await this.movieRepository
             .createQueryBuilder('movie')
             .leftJoinAndSelect('movie.director', 'director')
@@ -36,7 +39,13 @@ let MovieService = class MovieService {
         if (title) {
             qb.where('movie.title LIKE :title', { title: `%${title}%` });
         }
-        return await qb.getManyAndCount();
+        const { nextCursor } = await this.commonService.applyCursorPaginationParamsToQb(qb, dto);
+        const [data, count] = await qb.getManyAndCount();
+        return {
+            data,
+            nextCursor,
+            count,
+        };
     }
     async findOne(id) {
         const movie = await this.movieRepository
@@ -230,6 +239,7 @@ exports.MovieService = MovieService = __decorate([
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
-        typeorm_2.DataSource])
+        typeorm_2.DataSource,
+        common_service_1.CommonService])
 ], MovieService);
 //# sourceMappingURL=movie.service.js.map
