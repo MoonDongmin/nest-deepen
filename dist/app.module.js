@@ -27,6 +27,7 @@ const core_1 = require("@nestjs/core");
 const auth_guard_1 = require("./auth/guard/auth.guard");
 const rbac_guard_1 = require("./auth/guard/rbac.guard");
 const response_time_interceptor_1 = require("./common/interceptor/response-time.interceptor");
+const forbidden_filter_1 = require("./common/filter/forbidden.filter");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -91,6 +92,10 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_INTERCEPTOR,
                 useClass: response_time_interceptor_1.ResponseTimeInterceptor,
+            },
+            {
+                provide: core_1.APP_FILTER,
+                useClass: forbidden_filter_1.ForbiddenExceptionFilter,
             },
         ],
     })
