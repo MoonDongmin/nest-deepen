@@ -33,8 +33,9 @@ let MovieController = class MovieController {
     getMovie(id) {
         return this.movieService.findOne(id);
     }
-    postMovie(body, req, file) {
-        console.log(file);
+    postMovie(body, req, files) {
+        console.log("+++++++++++++++++");
+        console.log(files);
         return this.movieService.create(body, req.queryRunner);
     }
     patchMovie(id, body) {
@@ -65,12 +66,12 @@ __decorate([
     (0, common_1.Post)(),
     (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
     (0, common_1.UseInterceptors)(transaction_interceptor_1.TransactionInterceptor),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('movie')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('movies')),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
-    __param(2, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto, Object, Object]),
+    __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto, Object, Array]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "postMovie", null);
 __decorate([
