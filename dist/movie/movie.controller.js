@@ -21,6 +21,7 @@ const public_decorator_1 = require("../auth/decorator/public.decorator");
 const rbac_decorator_1 = require("../auth/decorator/rbac.decorator");
 const user_entity_1 = require("../user/entities/user.entity");
 const get_movies_dto_1 = require("./dto/get-movies.dto");
+const transaction_interceptor_1 = require("../common/interceptor/transaction.interceptor");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -31,8 +32,8 @@ let MovieController = class MovieController {
     getMovie(id) {
         return this.movieService.findOne(id);
     }
-    postMovie(body) {
-        return this.movieService.create(body);
+    postMovie(body, req) {
+        return this.movieService.create(body, req.queryRunner);
     }
     patchMovie(id, body) {
         return this.movieService.update(id, body);
@@ -61,9 +62,11 @@ __decorate([
 __decorate([
     (0, common_1.Post)(),
     (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
+    (0, common_1.UseInterceptors)(transaction_interceptor_1.TransactionInterceptor),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Request)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto]),
+    __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto, Object]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "postMovie", null);
 __decorate([

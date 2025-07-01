@@ -11,7 +11,7 @@ export declare class MovieController {
         count: number;
     }>;
     getMovie(id: number): Promise<import("./entity/movie.entity").Movie>;
-    postMovie(body: CreateMovieDto): Promise<import("./entity/movie.entity").Movie>;
+    postMovie(body: CreateMovieDto, req: any): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: number): Promise<number>;
 }
