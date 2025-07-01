@@ -11,7 +11,10 @@ export declare class MovieController {
         count: number;
     }>;
     getMovie(id: number): Promise<import("./entity/movie.entity").Movie>;
-    postMovie(body: CreateMovieDto, req: any, files: Express.Multer.File[]): Promise<import("./entity/movie.entity").Movie>;
+    postMovie(body: CreateMovieDto, req: any, files: {
+        movie?: Express.Multer.File[];
+        poster?: Express.Multer.File[];
+    }): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: number): Promise<number>;
 }
