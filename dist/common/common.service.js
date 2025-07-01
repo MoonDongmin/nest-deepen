@@ -19,7 +19,7 @@ let CommonService = class CommonService {
         qb.take(take);
         qb.skip(skip);
     }
-    applyCursorPaginationParamsToQb(qb, dto) {
+    async applyCursorPaginationParamsToQb(qb, dto) {
         const { cursor, take, order } = dto;
         if (cursor) {
         }
@@ -36,6 +36,28 @@ let CommonService = class CommonService {
             }
         }
         qb.take(take);
+        const results = await qb.getMany();
+        const nextCursor = this.generateNextCursor(results, order);
+        return {
+            qb,
+            nextCursor,
+        };
+    }
+    generateNextCursor(results, order) {
+        if (results.length === 0)
+            return null;
+        const lastItem = results[results.length - 1];
+        const values = {};
+        order.forEach((columnOrder) => {
+            const [column] = columnOrder.split('_');
+            values[column] = lastItem[column];
+        });
+        const cursorObj = {
+            values,
+            order,
+        };
+        const nextCursor = Buffer.from(JSON.stringify(cursorObj)).toString('base64');
+        return nextCursor;
     }
 };
 exports.CommonService = CommonService;

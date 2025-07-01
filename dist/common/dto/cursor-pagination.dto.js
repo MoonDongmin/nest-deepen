@@ -13,7 +13,7 @@ exports.CursorPaginationDto = void 0;
 const class_validator_1 = require("class-validator");
 class CursorPaginationDto {
     constructor() {
-        this.order = [];
+        this.order = ['id_DESC'];
         this.take = 5;
     }
 }

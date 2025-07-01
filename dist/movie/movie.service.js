@@ -39,8 +39,13 @@ let MovieService = class MovieService {
         if (title) {
             qb.where('movie.title LIKE :title', { title: `%${title}%` });
         }
-        this.commonService.applyCursorPaginationParamsToQb(qb, dto);
-        return await qb.getManyAndCount();
+        const { nextCursor } = await this.commonService.applyCursorPaginationParamsToQb(qb, dto);
+        const [data, count] = await qb.getManyAndCount();
+        return {
+            data,
+            nextCursor,
+            count,
+        };
     }
     async findOne(id) {
         const movie = await this.movieRepository

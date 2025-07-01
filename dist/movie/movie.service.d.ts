@@ -15,7 +15,11 @@ export declare class MovieService {
     private readonly dataSource;
     private readonly commonService;
     constructor(movieRepository: Repository<Movie>, movieDetailRepository: Repository<MovieDetail>, directorRepository: Repository<Director>, genreRepository: Repository<Genre>, dataSource: DataSource, commonService: CommonService);
-    findAll(dto: GetMoviesDto): Promise<[Movie[], number]>;
+    findAll(dto: GetMoviesDto): Promise<{
+        data: Movie[];
+        nextCursor: string;
+        count: number;
+    }>;
     findOne(id: number): Promise<Movie>;
     create(createMovieDto: CreateMovieDto): Promise<Movie>;
     update(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie>;

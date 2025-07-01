@@ -5,7 +5,11 @@ import { GetMoviesDto } from './dto/get-movies.dto';
 export declare class MovieController {
     private readonly movieService;
     constructor(movieService: MovieService);
-    getMovies(dto: GetMoviesDto): Promise<[import("./entity/movie.entity").Movie[], number]>;
+    getMovies(dto: GetMoviesDto): Promise<{
+        data: import("./entity/movie.entity").Movie[];
+        nextCursor: string;
+        count: number;
+    }>;
     getMovie(id: number): Promise<import("./entity/movie.entity").Movie>;
     postMovie(body: CreateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
