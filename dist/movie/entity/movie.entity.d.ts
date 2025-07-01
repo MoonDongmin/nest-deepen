@@ -6,6 +6,7 @@ export declare class Movie extends BaseTable {
     id: number;
     title: string;
     genres: Genre[];
+    likeCount: number;
     detail: MovieDetail;
     director: Director;
 }

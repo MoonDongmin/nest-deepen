@@ -13,7 +13,7 @@ exports.CursorPaginationDto = void 0;
 const class_validator_1 = require("class-validator");
 class CursorPaginationDto {
     constructor() {
-        this.order = 'DESC';
+        this.order = [];
         this.take = 5;
     }
 }
@@ -21,12 +21,15 @@ exports.CursorPaginationDto = CursorPaginationDto;
 __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Number)
-], CursorPaginationDto.prototype, "id", void 0);
-__decorate([
-    (0, class_validator_1.IsIn)(['ASC', 'DESC']),
-    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
+], CursorPaginationDto.prototype, "cursor", void 0);
+__decorate([
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({
+        each: true,
+    }),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Array)
 ], CursorPaginationDto.prototype, "order", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),

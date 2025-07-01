@@ -20,12 +20,21 @@ let CommonService = class CommonService {
         qb.skip(skip);
     }
     applyCursorPaginationParamsToQb(qb, dto) {
-        const { order, take, id } = dto;
-        if (id) {
-            const direction = order === 'ASC' ? '>' : '<';
-            qb.where(`${qb.alias}.id ${direction} :id`, { id });
+        const { cursor, take, order } = dto;
+        if (cursor) {
         }
-        qb.orderBy(`${qb.alias}.id`, order);
+        for (let i = 0; i < order.length; i++) {
+            const [column, direction] = order[i].split('_');
+            if (direction !== 'ASC' && direction !== 'DESC') {
+                throw new common_1.BadRequestException(`Order는 ASC 또는 DESC으로 입력해주세요!`);
+            }
+            if (i === 0) {
+                qb.orderBy(`${qb.alias}.${column}`, direction);
+            }
+            else {
+                qb.addOrderBy(`${qb.alias}.${column}`, direction);
+            }
+        }
         qb.take(take);
     }
 };

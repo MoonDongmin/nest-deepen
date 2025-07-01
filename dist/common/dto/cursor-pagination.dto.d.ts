@@ -1,5 +1,5 @@
 export declare class CursorPaginationDto {
-    id: number;
-    order: 'ASC' | 'DESC';
+    cursor?: string;
+    order: string[];
     take: number;
 }
