@@ -19,7 +19,7 @@ class CursorPaginationDto {
 }
 exports.CursorPaginationDto = CursorPaginationDto;
 __decorate([
-    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CursorPaginationDto.prototype, "cursor", void 0);
