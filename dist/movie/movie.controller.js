@@ -75,7 +75,17 @@ __decorate([
             name: 'poster',
             maxCount: 2,
         },
-    ])),
+    ], {
+        limits: {
+            fileSize: 20000000,
+        },
+        fileFilter(req, file, callback) {
+            if (file.mimetype !== 'video/mp4') {
+                return callback(new common_1.BadRequestException(`MP4 타이만 업로드 가능합니다!`), false);
+            }
+            return callback(null, true);
+        },
+    })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Request)()),
     __param(2, (0, common_1.UploadedFiles)()),
