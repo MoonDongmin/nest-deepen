@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateMovieDto = void 0;
 const class_validator_1 = require("class-validator");
+const class_transformer_1 = require("class-transformer");
 class CreateMovieDto {
 }
 exports.CreateMovieDto = CreateMovieDto;
@@ -35,6 +36,7 @@ __decorate([
     (0, class_validator_1.IsNumber)({}, {
         each: true,
     }),
+    (0, class_transformer_1.Type)(() => Number),
     __metadata("design:type", Array)
 ], CreateMovieDto.prototype, "genreIds", void 0);
 //# sourceMappingURL=create-movie.dto.js.map
