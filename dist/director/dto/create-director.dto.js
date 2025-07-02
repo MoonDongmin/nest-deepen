@@ -22,7 +22,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsDateString)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", String)
 ], CreateDirectorDto.prototype, "dob", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),

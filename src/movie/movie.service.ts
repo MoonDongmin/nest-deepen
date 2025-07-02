@@ -9,6 +9,8 @@ import { Director } from '../director/entity/director.entity';
 import { Genre } from '../genre/entity/genre.entity';
 import { GetMoviesDto } from './dto/get-movies.dto';
 import { CommonService } from '../common/common.service';
+import { join } from 'path';
+import { rename } from 'fs/promises';
 
 @Injectable()
 export class MovieService {
@@ -101,6 +103,14 @@ export class MovieService {
 
     const movieDetailId = movieDetail.identifiers[0].id;
 
+    const movieFolder = join('public', 'movie');
+    const tempFolder = join('public', 'temp');
+
+    await rename(
+      join(process.cwd(), tempFolder, createMovieDto.movieFileName),
+      join(process.cwd(), movieFolder, createMovieDto.movieFileName),
+    );
+
     const movie = await qr.manager
       .createQueryBuilder()
       .insert()
@@ -111,6 +121,7 @@ export class MovieService {
           id: movieDetailId,
         },
         director,
+        movieFilePath: join(movieFolder, createMovieDto.movieFileName),
       })
       .execute();
 

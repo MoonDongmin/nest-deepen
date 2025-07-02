@@ -25,6 +25,9 @@ import { RbacGuard } from './auth/guard/rbac.guard';
 import { ResponseTimeInterceptor } from './common/interceptor/response-time.interceptor';
 import { ForbiddenExceptionFilter } from './common/filter/forbidden.filter';
 import { QueryFailedExceptionFilter } from './common/filter/query-failed.filter';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as process from 'node:process';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -58,16 +61,10 @@ import { QueryFailedExceptionFilter } from './common/filter/query-failed.filter'
       }),
       inject: [ConfigService],
     }),
-    // TypeOrmModule.forRoot({
-    //   type: process.env.DB_TYPE as 'postgres',
-    //   host: process.env.DB_HOST,
-    //   port: parseInt(process.env.DB_PORT),
-    //   username: process.env.DB_USERNAME,
-    //   password: process.env.DB_PASSWORD,
-    //   database: process.env.DB_DATABASE,
-    //   entity: [],
-    //   synchronize: true,
-    // }),
+    ServeStaticModule.forRoot({
+      rootPath: join(process.cwd(), 'public'),
+      serveRoot: '/public/',
+    }),
     MovieModule,
     DirectorModule,
     GenreModule,

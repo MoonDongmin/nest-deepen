@@ -3,4 +3,5 @@ export declare class CreateMovieDto {
     detail: string;
     directorId: number;
     genreIds: number[];
+    movieFileName: string;
 }
