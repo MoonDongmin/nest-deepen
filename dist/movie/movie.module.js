@@ -16,11 +16,6 @@ const movie_detail_entity_1 = require("./entity/movie-detail.entity");
 const director_entity_1 = require("../director/entity/director.entity");
 const genre_entity_1 = require("../genre/entity/genre.entity");
 const common_module_1 = require("../common/common.module");
-const platform_express_1 = require("@nestjs/platform-express");
-const multer_1 = require("multer");
-const path_1 = require("path");
-const process = require("node:process");
-const uuid_1 = require("uuid");
 let MovieModule = class MovieModule {
 };
 exports.MovieModule = MovieModule;
@@ -29,19 +24,6 @@ exports.MovieModule = MovieModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forFeature([movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre]),
             common_module_1.CommonModule,
-            platform_express_1.MulterModule.register({
-                storage: (0, multer_1.diskStorage)({
-                    destination: (0, path_1.join)(process.cwd(), 'public', 'movie'),
-                    filename: (req, file, cb) => {
-                        const split = file.originalname.split('.');
-                        let extension = 'mp4';
-                        if (split.length > 1) {
-                            extension = split[split.length - 1];
-                        }
-                        cb(null, `${(0, uuid_1.v4)()}_${Date.now()}.${extension}`);
-                    },
-                }),
-            }),
         ],
         controllers: [movie_controller_1.MovieController],
         providers: [movie_service_1.MovieService],

@@ -17,22 +17,22 @@ import { v4 } from 'uuid';
   imports: [
     TypeOrmModule.forFeature([Movie, MovieDetail, Director, Genre]),
     CommonModule,
-    MulterModule.register({
-      // 어디다가 파일을 저장할지
-      storage: diskStorage({
-        destination: join(process.cwd(), 'public', 'movie'),
-        filename: (req, file, cb) => {
-          const split = file.originalname.split('.');
-
-          let extension = 'mp4';
-
-          if (split.length > 1) {
-            extension = split[split.length - 1];
-          }
-          cb(null, `${v4()}_${Date.now()}.${extension}`);
-        },
-      }),
-    }),
+    // MulterModule.register({
+    //   // 어디다가 파일을 저장할지
+    //   storage: diskStorage({
+    //     destination: join(process.cwd(), 'public', 'movie'),
+    //     filename: (req, file, cb) => {
+    //       const split = file.originalname.split('.');
+    //
+    //       let extension = 'mp4';
+    //
+    //       if (split.length > 1) {
+    //         extension = split[split.length - 1];
+    //       }
+    //       cb(null, `${v4()}_${Date.now()}.${extension}`);
+    //     },
+    //   }),
+    // }),
   ],
   controllers: [MovieController],
   providers: [MovieService],
