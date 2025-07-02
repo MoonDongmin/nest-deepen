@@ -77,4 +77,19 @@ export class MovieController {
   deleteMovie(@Param('id', ParseIntPipe) id: number) {
     return this.movieService.remove(id);
   }
+
+  /**
+   * [Like] [Dislike]
+   *
+   * 아무것도 누르지 않은 상태
+   * Like & Dislike 모두 버튼 꺼져있음
+   *
+   * Like 버튼 누르면 불 켜짐
+   * Like 버튼 다시 누르면 불 꺼짐
+   *
+   * Dislike 버튼 누르면 불 켜짐
+   * Dislike 버튼 다시 누르면 불 꺼짐
+   *
+   * Like 버튼 누름 -> Like 버튼 불 켜짐 -> Dislike 버튼 누름 -> Like 버튼 불 꺼지고 Dislike 불 켜짐
+   */
 }

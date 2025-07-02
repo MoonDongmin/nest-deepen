@@ -14,6 +14,7 @@ const typeorm_1 = require("typeorm");
 const base_table_entity_1 = require("../../common/entity/base-table.entity");
 const class_transformer_1 = require("class-transformer");
 const movie_entity_1 = require("../../movie/entity/movie.entity");
+const movie_user_like_entity_1 = require("../../movie/entity/movie-user-like.entity");
 var Role;
 (function (Role) {
     Role[Role["admin"] = 0] = "admin";
@@ -51,6 +52,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => movie_entity_1.Movie, (movie) => movie.creator),
     __metadata("design:type", Array)
 ], User.prototype, "createdMovies", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => movie_user_like_entity_1.MovieUserLike, (mul) => mul.user),
+    __metadata("design:type", Array)
+], User.prototype, "likedMovies", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

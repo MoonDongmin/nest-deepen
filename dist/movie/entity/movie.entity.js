@@ -17,6 +17,7 @@ const director_entity_1 = require("../../director/entity/director.entity");
 const genre_entity_1 = require("../../genre/entity/genre.entity");
 const class_transformer_1 = require("class-transformer");
 const user_entity_1 = require("../../user/entities/user.entity");
+const movie_user_like_entity_1 = require("./movie-user-like.entity");
 let Movie = class Movie extends base_table_entity_1.BaseTable {
 };
 exports.Movie = Movie;
@@ -65,6 +66,10 @@ __decorate([
     }),
     __metadata("design:type", director_entity_1.Director)
 ], Movie.prototype, "director", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => movie_user_like_entity_1.MovieUserLike, (mul) => mul.movie),
+    __metadata("design:type", Array)
+], Movie.prototype, "likedUsers", void 0);
 exports.Movie = Movie = __decorate([
     (0, typeorm_1.Entity)()
 ], Movie);
