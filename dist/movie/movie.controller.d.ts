@@ -2,6 +2,7 @@ import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { GetMoviesDto } from './dto/get-movies.dto';
+import { QueryRunner as QR } from 'typeorm';
 export declare class MovieController {
     private readonly movieService;
     constructor(movieService: MovieService);
@@ -11,7 +12,7 @@ export declare class MovieController {
         count: number;
     }>;
     getMovie(id: number): Promise<import("./entity/movie.entity").Movie>;
-    postMovie(body: CreateMovieDto, req: any): Promise<import("./entity/movie.entity").Movie>;
+    postMovie(body: CreateMovieDto, queryRunner: QR, userId: number): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: number): Promise<number>;
 }
