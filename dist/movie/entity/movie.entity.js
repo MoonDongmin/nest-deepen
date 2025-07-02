@@ -16,6 +16,7 @@ const movie_detail_entity_1 = require("./movie-detail.entity");
 const director_entity_1 = require("../../director/entity/director.entity");
 const genre_entity_1 = require("../../genre/entity/genre.entity");
 const class_transformer_1 = require("class-transformer");
+const user_entity_1 = require("../../user/entities/user.entity");
 let Movie = class Movie extends base_table_entity_1.BaseTable {
 };
 exports.Movie = Movie;
@@ -23,6 +24,10 @@ __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Movie.prototype, "id", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.createdMovies),
+    __metadata("design:type", user_entity_1.User)
+], Movie.prototype, "creator", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         unique: true,

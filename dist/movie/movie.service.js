@@ -55,6 +55,7 @@ let MovieService = class MovieService {
             .leftJoinAndSelect('movie.director', 'director')
             .leftJoinAndSelect('movie.genres', 'genres')
             .leftJoinAndSelect('movie.detail', 'detail')
+            .leftJoinAndSelect('movie.creator', 'creator')
             .where('movie.id = :id', { id })
             .getOne();
         if (!movie) {
@@ -62,7 +63,7 @@ let MovieService = class MovieService {
         }
         return movie;
     }
-    async create(createMovieDto, qr) {
+    async create(createMovieDto, userId, qr) {
         const director = await qr.manager.findOne(director_entity_1.Director, {
             where: {
                 id: createMovieDto.directorId,
@@ -92,7 +93,6 @@ let MovieService = class MovieService {
         const movieDetailId = movieDetail.identifiers[0].id;
         const movieFolder = (0, path_1.join)('public', 'movie');
         const tempFolder = (0, path_1.join)('public', 'temp');
-        await (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
         const movie = await qr.manager
             .createQueryBuilder()
             .insert()
@@ -103,6 +103,9 @@ let MovieService = class MovieService {
                 id: movieDetailId,
             },
             director,
+            creator: {
+                id: userId,
+            },
             movieFilePath: (0, path_1.join)(movieFolder, createMovieDto.movieFileName),
         })
             .execute();
@@ -112,6 +115,7 @@ let MovieService = class MovieService {
             .relation(movie_entity_1.Movie, 'genres')
             .of(movieId)
             .add(genres.map((genre) => genre.id));
+        await (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
         return await qr.manager.findOne(movie_entity_1.Movie, {
             where: {
                 id: movieId,
