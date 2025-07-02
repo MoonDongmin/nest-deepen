@@ -34,9 +34,7 @@ let MovieController = class MovieController {
         return this.movieService.findOne(id);
     }
     postMovie(body, req, movie) {
-        console.log('+++++++++++++++++');
-        console.log(movie);
-        return this.movieService.create(body, req.queryRunner);
+        return this.movieService.create(body, movie.filename, req.queryRunner);
     }
     patchMovie(id, body) {
         return this.movieService.update(id, body);

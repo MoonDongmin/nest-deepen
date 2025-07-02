@@ -1,5 +1,5 @@
 export declare class CreateDirectorDto {
     name: string;
-    dob: Date;
+    dob: string;
     nationality: string;
 }

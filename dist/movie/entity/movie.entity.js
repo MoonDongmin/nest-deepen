@@ -48,6 +48,10 @@ __decorate([
     __metadata("design:type", movie_detail_entity_1.MovieDetail)
 ], Movie.prototype, "detail", void 0);
 __decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Movie.prototype, "movieFilePath", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => director_entity_1.Director, (director) => director.id, {
         cascade: true,
         nullable: false,
