@@ -15,6 +15,7 @@ const base_table_entity_1 = require("../../common/entity/base-table.entity");
 const movie_detail_entity_1 = require("./movie-detail.entity");
 const director_entity_1 = require("../../director/entity/director.entity");
 const genre_entity_1 = require("../../genre/entity/genre.entity");
+const class_transformer_1 = require("class-transformer");
 let Movie = class Movie extends base_table_entity_1.BaseTable {
 };
 exports.Movie = Movie;
@@ -49,6 +50,7 @@ __decorate([
 ], Movie.prototype, "detail", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
+    (0, class_transformer_1.Transform)(({ value }) => `http://localthost:3000/${value}`),
     __metadata("design:type", String)
 ], Movie.prototype, "movieFilePath", void 0);
 __decorate([

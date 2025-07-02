@@ -22,6 +22,7 @@ const director_entity_1 = require("../director/entity/director.entity");
 const genre_entity_1 = require("../genre/entity/genre.entity");
 const common_service_1 = require("../common/common.service");
 const path_1 = require("path");
+const promises_1 = require("fs/promises");
 let MovieService = class MovieService {
     constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository, dataSource, commonService) {
         this.movieRepository = movieRepository;
@@ -61,7 +62,7 @@ let MovieService = class MovieService {
         }
         return movie;
     }
-    async create(createMovieDto, movieFileName, qr) {
+    async create(createMovieDto, qr) {
         const director = await qr.manager.findOne(director_entity_1.Director, {
             where: {
                 id: createMovieDto.directorId,
@@ -90,6 +91,8 @@ let MovieService = class MovieService {
             .execute();
         const movieDetailId = movieDetail.identifiers[0].id;
         const movieFolder = (0, path_1.join)('public', 'movie');
+        const tempFolder = (0, path_1.join)('public', 'temp');
+        await (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
         const movie = await qr.manager
             .createQueryBuilder()
             .insert()
@@ -100,7 +103,7 @@ let MovieService = class MovieService {
                 id: movieDetailId,
             },
             director,
-            movieFilePath: (0, path_1.join)(movieFolder, movieFileName),
+            movieFilePath: (0, path_1.join)(movieFolder, createMovieDto.movieFileName),
         })
             .execute();
         const movieId = movie.identifiers[0].id;

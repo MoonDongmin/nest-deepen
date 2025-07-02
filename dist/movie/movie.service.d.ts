@@ -21,7 +21,7 @@ export declare class MovieService {
         count: number;
     }>;
     findOne(id: number): Promise<Movie>;
-    create(createMovieDto: CreateMovieDto, movieFileName: string, qr: QueryRunner): Promise<Movie>;
+    create(createMovieDto: CreateMovieDto, qr: QueryRunner): Promise<Movie>;
     update(id: number, updateMovieDto: UpdateMovieDto): Promise<Movie>;
     remove(id: number): Promise<number>;
 }
