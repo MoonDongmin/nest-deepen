@@ -29,6 +29,9 @@ const rbac_guard_1 = require("./auth/guard/rbac.guard");
 const response_time_interceptor_1 = require("./common/interceptor/response-time.interceptor");
 const forbidden_filter_1 = require("./common/filter/forbidden.filter");
 const query_failed_filter_1 = require("./common/filter/query-failed.filter");
+const serve_static_1 = require("@nestjs/serve-static");
+const process = require("node:process");
+const path_1 = require("path");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -74,6 +77,10 @@ exports.AppModule = AppModule = __decorate([
                     synchronize: true,
                 }),
                 inject: [config_1.ConfigService],
+            }),
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(process.cwd(), 'public'),
+                serveRoot: '/public/',
             }),
             movie_module_1.MovieModule,
             director_module_1.DirectorModule,
