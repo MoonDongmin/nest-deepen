@@ -8,6 +8,10 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
         logger: ['verbose'],
     });
+    app.enableVersioning({
+        type: common_1.VersioningType.MEDIA_TYPE,
+        key: 'v=',
+    });
     app.useLogger(app.get(nest_winston_1.WINSTON_MODULE_NEST_PROVIDER));
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,

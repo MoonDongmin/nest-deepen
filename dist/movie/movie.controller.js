@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MovieController = void 0;
+exports.MovieController = exports.MovieControllerV2 = void 0;
 const common_1 = require("@nestjs/common");
 const movie_service_1 = require("./movie.service");
 const create_movie_dto_1 = require("./dto/create-movie.dto");
@@ -26,6 +26,24 @@ const user_id_decorator_1 = require("../user/decorator/user-id.decorator");
 const query_runner_decorator_1 = require("../common/decorator/query-runner.decorator");
 const cache_manager_1 = require("@nestjs/cache-manager");
 const throttle_decorator_1 = require("../common/decorator/throttle.decorator");
+let MovieControllerV2 = class MovieControllerV2 {
+    get() {
+        return [];
+    }
+};
+exports.MovieControllerV2 = MovieControllerV2;
+__decorate([
+    (0, common_1.Get)(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MovieControllerV2.prototype, "get", null);
+exports.MovieControllerV2 = MovieControllerV2 = __decorate([
+    (0, common_1.Controller)({
+        path: 'movie',
+        version: '2',
+    })
+], MovieControllerV2);
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -131,7 +149,10 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "createMovieDislike", null);
 exports.MovieController = MovieController = __decorate([
-    (0, common_1.Controller)('movie'),
+    (0, common_1.Controller)({
+        path: 'movie',
+        version: common_1.VERSION_NEUTRAL,
+    }),
     (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [movie_service_1.MovieService])
 ], MovieController);
