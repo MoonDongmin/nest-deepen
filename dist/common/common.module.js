@@ -14,6 +14,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
 const path_1 = require("path");
 const uuid_1 = require("uuid");
+const tasks_service_1 = require("./tasks.service");
 let CommonModule = class CommonModule {
 };
 exports.CommonModule = CommonModule;
@@ -35,7 +36,7 @@ exports.CommonModule = CommonModule = __decorate([
             }),
         ],
         controllers: [common_controller_1.CommonController],
-        providers: [common_service_1.CommonService],
+        providers: [common_service_1.CommonService, tasks_service_1.TasksService],
         exports: [common_service_1.CommonService],
     })
 ], CommonModule);
