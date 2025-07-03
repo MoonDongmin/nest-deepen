@@ -8,7 +8,6 @@ import {
   Delete,
   Query,
   UseInterceptors,
-  Request,
   ClassSerializerInterceptor,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -23,6 +22,11 @@ import { TransactionInterceptor } from '../common/interceptor/transaction.interc
 import { UserId } from '../user/decorator/user-id.decorator';
 import { QueryRunner } from '../common/decorator/query-runner.decorator';
 import { QueryRunner as QR } from 'typeorm';
+import {
+  CacheInterceptor as CI,
+  CacheKey,
+  CacheTTL,
+} from '@nestjs/cache-manager';
 
 @Controller('movie')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -36,7 +40,11 @@ export class MovieController {
   }
 
   @Get('recent')
+  @UseInterceptors(CI)
+  @CacheKey('getMoviesRecent')
+  @CacheTTL(1000)
   getMoviesRecent() {
+    console.log('getMoviesResent 실행');
     return this.movieService.findRecent();
   }
 

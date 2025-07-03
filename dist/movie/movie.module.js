@@ -35,7 +35,7 @@ exports.MovieModule = MovieModule = __decorate([
             ]),
             common_module_1.CommonModule,
             cache_manager_1.CacheModule.register({
-                ttl: 3000,
+                ttl: 0,
             }),
         ],
         controllers: [movie_controller_1.MovieController],

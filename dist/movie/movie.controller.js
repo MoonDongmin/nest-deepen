@@ -24,6 +24,7 @@ const get_movies_dto_1 = require("./dto/get-movies.dto");
 const transaction_interceptor_1 = require("../common/interceptor/transaction.interceptor");
 const user_id_decorator_1 = require("../user/decorator/user-id.decorator");
 const query_runner_decorator_1 = require("../common/decorator/query-runner.decorator");
+const cache_manager_1 = require("@nestjs/cache-manager");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -32,6 +33,7 @@ let MovieController = class MovieController {
         return this.movieService.findAll(dto, userId);
     }
     getMoviesRecent() {
+        console.log('getMoviesResent 실행');
         return this.movieService.findRecent();
     }
     getMovie(id) {
@@ -65,6 +67,9 @@ __decorate([
 ], MovieController.prototype, "getMovies", null);
 __decorate([
     (0, common_1.Get)('recent'),
+    (0, common_1.UseInterceptors)(cache_manager_1.CacheInterceptor),
+    (0, cache_manager_1.CacheKey)('getMoviesRecent'),
+    (0, cache_manager_1.CacheTTL)(1000),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
