@@ -35,6 +35,8 @@ const movie_user_like_entity_1 = require("./movie/entity/movie-user-like.entity"
 const cache_manager_1 = require("@nestjs/cache-manager");
 const throttle_interceptor_1 = require("./common/interceptor/throttle.interceptor");
 const schedule_1 = require("@nestjs/schedule");
+const nest_winston_1 = require("nest-winston");
+const winston = require("winston");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -90,6 +92,21 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
             }),
             schedule_1.ScheduleModule.forRoot(),
+            nest_winston_1.WinstonModule.forRoot({
+                level: 'debug',
+                transports: [
+                    new winston.transports.Console({
+                        format: winston.format.combine(winston.format.colorize({
+                            all: true,
+                        }), winston.format.timestamp(), winston.format.printf((info) => `${info.timestamp} [${info.context}] ${info.level} ${info.message}`)),
+                    }),
+                    new winston.transports.File({
+                        dirname: (0, path_1.join)(process.cwd(), 'logs'),
+                        filename: 'logs.log',
+                        format: winston.format.combine(winston.format.timestamp(), winston.format.printf((info) => `${info.timestamp} [${info.context}] ${info.level} ${info.message}`)),
+                    }),
+                ],
+            }),
             movie_module_1.MovieModule,
             director_module_1.DirectorModule,
             genre_module_1.GenreModule,

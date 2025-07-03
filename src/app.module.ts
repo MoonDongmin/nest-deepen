@@ -3,42 +3,37 @@ import {
   Module,
   NestModule,
   RequestMethod,
-}                                     from '@nestjs/common';
-import { MovieModule }                from './movie/movie.module';
-import { TypeOrmModule }              from '@nestjs/typeorm';
-import {
-  ConfigModule,
-  ConfigService,
-}                                     from '@nestjs/config';
-import * as Joi                       from 'joi';
-import { Movie }                      from './movie/entity/movie.entity';
-import { MovieDetail }                from './movie/entity/movie-detail.entity';
-import { DirectorModule }             from './director/director.module';
-import { Director }                   from './director/entity/director.entity';
-import { GenreModule }                from './genre/genre.module';
-import { Genre }                      from './genre/entity/genre.entity';
-import { AuthModule }                 from './auth/auth.module';
-import { UserModule }                 from './user/user.module';
-import { User }                       from './user/entities/user.entity';
-import { envVariableKeys }            from './common/const/env.const';
-import { BearerTokenMiddleware }      from './auth/middleware/bearer-token.middleware';
-import {
-  APP_FILTER,
-  APP_GUARD,
-  APP_INTERCEPTOR,
-}                                     from '@nestjs/core';
-import { AuthGuard }                  from './auth/guard/auth.guard';
-import { RbacGuard }                  from './auth/guard/rbac.guard';
-import { ResponseTimeInterceptor }    from './common/interceptor/response-time.interceptor';
-import { ForbiddenExceptionFilter }   from './common/filter/forbidden.filter';
+} from '@nestjs/common';
+import { MovieModule } from './movie/movie.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import * as Joi from 'joi';
+import { Movie } from './movie/entity/movie.entity';
+import { MovieDetail } from './movie/entity/movie-detail.entity';
+import { DirectorModule } from './director/director.module';
+import { Director } from './director/entity/director.entity';
+import { GenreModule } from './genre/genre.module';
+import { Genre } from './genre/entity/genre.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { User } from './user/entities/user.entity';
+import { envVariableKeys } from './common/const/env.const';
+import { BearerTokenMiddleware } from './auth/middleware/bearer-token.middleware';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthGuard } from './auth/guard/auth.guard';
+import { RbacGuard } from './auth/guard/rbac.guard';
+import { ResponseTimeInterceptor } from './common/interceptor/response-time.interceptor';
+import { ForbiddenExceptionFilter } from './common/filter/forbidden.filter';
 import { QueryFailedExceptionFilter } from './common/filter/query-failed.filter';
-import { ServeStaticModule }          from '@nestjs/serve-static';
-import * as process                   from 'node:process';
-import { join }                       from 'path';
-import { MovieUserLike }              from './movie/entity/movie-user-like.entity';
-import { CacheModule }                from '@nestjs/cache-manager';
-import { ThrottleInterceptor }        from './common/interceptor/throttle.interceptor';
-import { ScheduleModule }             from '@nestjs/schedule';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as process from 'node:process';
+import { join } from 'path';
+import { MovieUserLike } from './movie/entity/movie-user-like.entity';
+import { CacheModule } from '@nestjs/cache-manager';
+import { ThrottleInterceptor } from './common/interceptor/throttle.interceptor';
+import { ScheduleModule } from '@nestjs/schedule';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
@@ -81,6 +76,37 @@ import { ScheduleModule }             from '@nestjs/schedule';
       isGlobal: true,
     }),
     ScheduleModule.forRoot(),
+    WinstonModule.forRoot({
+      level: 'debug', // 최소 레벨
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.colorize({
+              all: true,
+            }),
+            winston.format.timestamp(),
+            winston.format.printf(
+              (info) =>
+                `${info.timestamp} [${info.context}] ${info.level} ${info.message}`,
+            ),
+          ),
+        }),
+        new winston.transports.File({
+          dirname: join(process.cwd(), 'logs'),
+          filename: 'logs.log',
+          format: winston.format.combine(
+            // winston.format.colorize({
+            //   all: true,
+            // }),
+            winston.format.timestamp(),
+            winston.format.printf(
+              (info) =>
+                `${info.timestamp} [${info.context}] ${info.level} ${info.message}`,
+            ),
+          ),
+        }),
+      ],
+    }),
     MovieModule,
     DirectorModule,
     GenreModule,

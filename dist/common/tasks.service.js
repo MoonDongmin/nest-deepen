@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var TasksService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
@@ -21,13 +22,20 @@ const process = require("node:process");
 const typeorm_1 = require("@nestjs/typeorm");
 const movie_entity_1 = require("../movie/entity/movie.entity");
 const typeorm_2 = require("typeorm");
-let TasksService = class TasksService {
-    constructor(movieRepository, schedulerRegistry) {
+const nest_winston_1 = require("nest-winston");
+let TasksService = TasksService_1 = class TasksService {
+    constructor(movieRepository, schedulerRegistry, logger) {
         this.movieRepository = movieRepository;
         this.schedulerRegistry = schedulerRegistry;
+        this.logger = logger;
     }
     logEverySecond() {
-        console.log('1초마다 실행!!');
+        this.logger.fatal('FATAL 레벨 로그', null, TasksService_1.name);
+        this.logger.error('ERROR 레벨 로그', null, TasksService_1.name);
+        this.logger.warn('WARN 레벨 로그', TasksService_1.name);
+        this.logger.log('LOG 로그', TasksService_1.name);
+        this.logger.debug('DEBUG 레벨 로그', TasksService_1.name);
+        this.logger.verbose('VERBOSE 레벨 로그', TasksService_1.name);
     }
     async eraseOrphanFiles() {
         const files = await (0, promises_1.readdir)((0, path_1.join)(process.cwd(), 'public', 'temp'));
@@ -52,24 +60,31 @@ let TasksService = class TasksService {
     async calculateMovieLikeCounts() {
         console.log('run');
         await this.movieRepository.query(`
-        UPDATE movie m
-        SET "likeCount" = (SELECT count(*)
-                           FROM movie_user_like mul
-                           WHERE m.id = mul."movieId"
-                             AND mul."isLike" = true)`);
+          UPDATE movie m
+          SET "likeCount" = (SELECT count(*)
+                             FROM movie_user_like mul
+                             WHERE m.id = mul."movieId"
+                               AND mul."isLike" = true)`);
         await this.movieRepository.query(`
-        UPDATE movie m
-        SET "dislikeCount" = (SELECT count(*)
-                              FROM movie_user_like mul
-                              WHERE m.id = mul."movieId"
-                                AND mul."isLike" = false)`);
+          UPDATE movie m
+          SET "dislikeCount" = (SELECT count(*)
+                                FROM movie_user_like mul
+                                WHERE m.id = mul."movieId"
+                                  AND mul."isLike" = false)`);
     }
 };
 exports.TasksService = TasksService;
-exports.TasksService = TasksService = __decorate([
+__decorate([
+    (0, schedule_1.Cron)('* * * * * *'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], TasksService.prototype, "logEverySecond", null);
+exports.TasksService = TasksService = TasksService_1 = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movie_entity_1.Movie)),
+    __param(2, (0, common_1.Inject)(nest_winston_1.WINSTON_MODULE_NEST_PROVIDER)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        schedule_1.SchedulerRegistry])
+        schedule_1.SchedulerRegistry, Object])
 ], TasksService);
 //# sourceMappingURL=tasks.service.js.map
