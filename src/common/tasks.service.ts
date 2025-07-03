@@ -6,9 +6,12 @@ import * as process from 'node:process';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from '../movie/entity/movie.entity';
 import { Repository } from 'typeorm';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class TasksService {
+  private readonly logger = new Logger(TasksService.name);
+
   constructor(
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
@@ -16,9 +19,15 @@ export class TasksService {
   ) {}
 
   // 초 분 시 일 월 요일
-  // @Cron('* * * * * *')
+  @Cron('* * * * * *')
   logEverySecond() {
-    console.log('1초마다 실행!!');
+    // 밑으로 갈 수록 로그 레벨이 낮아짐
+    this.logger.fatal('FATAL 레벨 로그'); // 지금 당장 해결해야 할 문제
+    this.logger.error('ERROR 레벨 로그'); // 실제로 오류가 났을 때
+    this.logger.warn('WARN 레벨 로그'); // 일어나면 안되는 상황이 맞긴한데 프로그램 실행이 문제에 되지는 않음
+    this.logger.log('LOG 로그'); // 정보성 로그(INFO 레벨과 같음)
+    this.logger.debug('DEBUG 레벨 로그'); // 프로덕션 환경아 아닌 개발 환경에서 중요한 내용
+    this.logger.verbose('VERBOSE 레벨 로그'); // 진짜 중요하지 않은 내용들
   }
 
   // @Cron('* * * * * *')
@@ -57,20 +66,20 @@ export class TasksService {
     console.log('run');
     await this.movieRepository.query(
       `
-        UPDATE movie m
-        SET "likeCount" = (SELECT count(*)
-                           FROM movie_user_like mul
-                           WHERE m.id = mul."movieId"
-                             AND mul."isLike" = true)`,
+          UPDATE movie m
+          SET "likeCount" = (SELECT count(*)
+                             FROM movie_user_like mul
+                             WHERE m.id = mul."movieId"
+                               AND mul."isLike" = true)`,
     );
 
     await this.movieRepository.query(
       `
-        UPDATE movie m
-        SET "dislikeCount" = (SELECT count(*)
-                              FROM movie_user_like mul
-                              WHERE m.id = mul."movieId"
-                                AND mul."isLike" = false)`,
+          UPDATE movie m
+          SET "dislikeCount" = (SELECT count(*)
+                                FROM movie_user_like mul
+                                WHERE m.id = mul."movieId"
+                                  AND mul."isLike" = false)`,
     );
   }
 
