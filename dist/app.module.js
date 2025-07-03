@@ -34,6 +34,7 @@ const path_1 = require("path");
 const movie_user_like_entity_1 = require("./movie/entity/movie-user-like.entity");
 const cache_manager_1 = require("@nestjs/cache-manager");
 const throttle_interceptor_1 = require("./common/interceptor/throttle.interceptor");
+const schedule_1 = require("@nestjs/schedule");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -88,6 +89,7 @@ exports.AppModule = AppModule = __decorate([
                 ttl: 0,
                 isGlobal: true,
             }),
+            schedule_1.ScheduleModule.forRoot(),
             movie_module_1.MovieModule,
             director_module_1.DirectorModule,
             genre_module_1.GenreModule,

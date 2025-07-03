@@ -47,6 +47,12 @@ __decorate([
     __metadata("design:type", Number)
 ], Movie.prototype, "likeCount", void 0);
 __decorate([
+    (0, typeorm_1.Column)({
+        default: 0,
+    }),
+    __metadata("design:type", Number)
+], Movie.prototype, "dislikeCount", void 0);
+__decorate([
     (0, typeorm_1.OneToOne)(() => movie_detail_entity_1.MovieDetail, (movieDetail) => movieDetail, {
         cascade: true,
         nullable: false,

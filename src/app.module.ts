@@ -3,34 +3,42 @@ import {
   Module,
   NestModule,
   RequestMethod,
-} from '@nestjs/common';
-import { MovieModule } from './movie/movie.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as Joi from 'joi';
-import { Movie } from './movie/entity/movie.entity';
-import { MovieDetail } from './movie/entity/movie-detail.entity';
-import { DirectorModule } from './director/director.module';
-import { Director } from './director/entity/director.entity';
-import { GenreModule } from './genre/genre.module';
-import { Genre } from './genre/entity/genre.entity';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { User } from './user/entities/user.entity';
-import { envVariableKeys } from './common/const/env.const';
-import { BearerTokenMiddleware } from './auth/middleware/bearer-token.middleware';
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { AuthGuard } from './auth/guard/auth.guard';
-import { RbacGuard } from './auth/guard/rbac.guard';
-import { ResponseTimeInterceptor } from './common/interceptor/response-time.interceptor';
-import { ForbiddenExceptionFilter } from './common/filter/forbidden.filter';
+}                                     from '@nestjs/common';
+import { MovieModule }                from './movie/movie.module';
+import { TypeOrmModule }              from '@nestjs/typeorm';
+import {
+  ConfigModule,
+  ConfigService,
+}                                     from '@nestjs/config';
+import * as Joi                       from 'joi';
+import { Movie }                      from './movie/entity/movie.entity';
+import { MovieDetail }                from './movie/entity/movie-detail.entity';
+import { DirectorModule }             from './director/director.module';
+import { Director }                   from './director/entity/director.entity';
+import { GenreModule }                from './genre/genre.module';
+import { Genre }                      from './genre/entity/genre.entity';
+import { AuthModule }                 from './auth/auth.module';
+import { UserModule }                 from './user/user.module';
+import { User }                       from './user/entities/user.entity';
+import { envVariableKeys }            from './common/const/env.const';
+import { BearerTokenMiddleware }      from './auth/middleware/bearer-token.middleware';
+import {
+  APP_FILTER,
+  APP_GUARD,
+  APP_INTERCEPTOR,
+}                                     from '@nestjs/core';
+import { AuthGuard }                  from './auth/guard/auth.guard';
+import { RbacGuard }                  from './auth/guard/rbac.guard';
+import { ResponseTimeInterceptor }    from './common/interceptor/response-time.interceptor';
+import { ForbiddenExceptionFilter }   from './common/filter/forbidden.filter';
 import { QueryFailedExceptionFilter } from './common/filter/query-failed.filter';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import * as process from 'node:process';
-import { join } from 'path';
-import { MovieUserLike } from './movie/entity/movie-user-like.entity';
-import { CacheModule } from '@nestjs/cache-manager';
-import { ThrottleInterceptor }                    from './common/interceptor/throttle.interceptor';
+import { ServeStaticModule }          from '@nestjs/serve-static';
+import * as process                   from 'node:process';
+import { join }                       from 'path';
+import { MovieUserLike }              from './movie/entity/movie-user-like.entity';
+import { CacheModule }                from '@nestjs/cache-manager';
+import { ThrottleInterceptor }        from './common/interceptor/throttle.interceptor';
+import { ScheduleModule }             from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -72,6 +80,7 @@ import { ThrottleInterceptor }                    from './common/interceptor/thr
       ttl: 0,
       isGlobal: true,
     }),
+    ScheduleModule.forRoot(),
     MovieModule,
     DirectorModule,
     GenreModule,
