@@ -28,8 +28,8 @@ let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
     }
-    getMovies(dto) {
-        return this.movieService.findAll(dto);
+    getMovies(dto, userId) {
+        return this.movieService.findAll(dto, userId);
     }
     getMovie(id) {
         return this.movieService.findOne(id);
@@ -55,8 +55,9 @@ __decorate([
     (0, common_1.Get)(),
     (0, public_decorator_1.Public)(),
     __param(0, (0, common_1.Query)()),
+    __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_movies_dto_1.GetMoviesDto]),
+    __metadata("design:paramtypes", [get_movies_dto_1.GetMoviesDto, Number]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovies", null);
 __decorate([

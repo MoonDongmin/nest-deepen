@@ -6,7 +6,7 @@ import { QueryRunner as QR } from 'typeorm';
 export declare class MovieController {
     private readonly movieService;
     constructor(movieService: MovieService);
-    getMovies(dto: GetMoviesDto): Promise<{
+    getMovies(dto: GetMoviesDto, userId?: number): Promise<{
         data: import("./entity/movie.entity").Movie[];
         nextCursor: string;
         count: number;
