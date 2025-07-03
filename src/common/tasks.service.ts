@@ -24,16 +24,16 @@ export class TasksService {
   ) {}
 
   // 초 분 시 일 월 요일
-  @Cron('* * * * * *')
-  logEverySecond() {
-    // 밑으로 갈 수록 로그 레벨이 낮아짐
-    this.logger.fatal('FATAL 레벨 로그', null, TasksService.name); // 지금 당장 해결해야 할 문제
-    this.logger.error('ERROR 레벨 로그', null, TasksService.name); // 실제로 오류가 났을 때
-    this.logger.warn('WARN 레벨 로그', TasksService.name); // 일어나면 안되는 상황이 맞긴한데 프로그램 실행이 문제에 되지는 않음
-    this.logger.log('LOG 로그', TasksService.name); // 정보성 로그(INFO 레벨과 같음)
-    this.logger.debug('DEBUG 레벨 로그', TasksService.name); // 프로덕션 환경아 아닌 개발 환경에서 중요한 내용
-    this.logger.verbose('VERBOSE 레벨 로그', TasksService.name); // 진짜 중요하지 않은 내용들
-  }
+  // @Cron('* * * * * *')
+  // logEverySecond() {
+  //   // 밑으로 갈 수록 로그 레벨이 낮아짐
+  //   this.logger.fatal('FATAL 레벨 로그', null, TasksService.name); // 지금 당장 해결해야 할 문제
+  //   this.logger.error('ERROR 레벨 로그', null, TasksService.name); // 실제로 오류가 났을 때
+  //   this.logger.warn('WARN 레벨 로그', TasksService.name); // 일어나면 안되는 상황이 맞긴한데 프로그램 실행이 문제에 되지는 않음
+  //   this.logger.log('LOG 로그', TasksService.name); // 정보성 로그(INFO 레벨과 같음)
+  //   this.logger.debug('DEBUG 레벨 로그', TasksService.name); // 프로덕션 환경아 아닌 개발 환경에서 중요한 내용
+  //   this.logger.verbose('VERBOSE 레벨 로그', TasksService.name); // 진짜 중요하지 않은 내용들
+  // }
 
   // @Cron('* * * * * *')
   async eraseOrphanFiles() {

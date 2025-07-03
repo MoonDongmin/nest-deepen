@@ -7,7 +7,6 @@ export declare class TasksService {
     private readonly schedulerRegistry;
     private readonly logger;
     constructor(movieRepository: Repository<Movie>, schedulerRegistry: SchedulerRegistry, logger: LoggerService);
-    logEverySecond(): void;
     eraseOrphanFiles(): Promise<void>;
     calculateMovieLikeCounts(): Promise<void>;
 }

@@ -3,6 +3,9 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { GetMoviesDto } from './dto/get-movies.dto';
 import { QueryRunner as QR } from 'typeorm';
+export declare class MovieControllerV2 {
+    get(): any[];
+}
 export declare class MovieController {
     private readonly movieService;
     constructor(movieService: MovieService);
