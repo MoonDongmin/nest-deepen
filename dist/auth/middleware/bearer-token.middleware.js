@@ -30,19 +30,22 @@ let BearerTokenMiddleware = class BearerTokenMiddleware {
             next();
             return;
         }
+        const token = this.validateBearerToke(authHeader);
+        const blockToken = await this.cacheManger.get(`BLOCK_TOKEN_${token}`);
+        if (blockToken) {
+            throw new common_1.UnauthorizedException(`차단된 토큰입니다.`);
+        }
+        const tokenKey = `TOKEN_${token}`;
+        const cachedPayload = await this.cacheManger.get(tokenKey);
+        if (cachedPayload) {
+            req.user = cachedPayload;
+            return next();
+        }
+        const decodedPayload = this.jwtService.decode(token);
+        if (decodedPayload.type !== 'refresh' && decodedPayload.type !== 'access') {
+            throw new common_1.UnauthorizedException(`잘못된 토큰입니다!`);
+        }
         try {
-            const token = this.validateBearerToke(authHeader);
-            const tokenKey = `TOKEN_${token}`;
-            const cachedPayload = await this.cacheManger.get(tokenKey);
-            if (cachedPayload) {
-                req.user = cachedPayload;
-                return next();
-            }
-            const decodedPayload = this.jwtService.decode(token);
-            if (decodedPayload.type !== 'refresh' &&
-                decodedPayload.type !== 'access') {
-                throw new common_1.UnauthorizedException(`잘못된 토큰입니다!`);
-            }
             const secretKey = decodedPayload.type === 'refresh'
                 ? env_const_1.envVariableKeys.refreshTokenSecret
                 : env_const_1.envVariableKeys.accessTokenSecret;

@@ -7,6 +7,7 @@ export declare class AuthController {
         refreshToken: string;
         accessToken: string;
     }>;
+    blockToken(token: string): Promise<boolean>;
     rotatedAccessToken(req: any): Promise<{
         accessToken: string;
     }>;

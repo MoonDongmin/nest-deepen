@@ -28,6 +28,9 @@ let AuthController = class AuthController {
     loginUser(token) {
         return this.authService.login(token);
     }
+    blockToken(token) {
+        return this.authService.tokenBlock(token);
+    }
     async rotatedAccessToken(req) {
         return {
             accessToken: await this.authService.issueToken(req.user, false),
@@ -60,6 +63,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "loginUser", null);
+__decorate([
+    (0, common_1.Post)('token/block'),
+    __param(0, (0, common_1.Body)('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "blockToken", null);
 __decorate([
     (0, common_1.Post)('token/access'),
     __param(0, (0, common_1.Request)()),
