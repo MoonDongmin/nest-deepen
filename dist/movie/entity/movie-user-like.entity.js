@@ -32,6 +32,10 @@ __decorate([
     (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.likedMovies),
     __metadata("design:type", user_entity_1.User)
 ], MovieUserLike.prototype, "user", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Boolean)
+], MovieUserLike.prototype, "isLike", void 0);
 exports.MovieUserLike = MovieUserLike = __decorate([
     (0, typeorm_1.Entity)()
 ], MovieUserLike);

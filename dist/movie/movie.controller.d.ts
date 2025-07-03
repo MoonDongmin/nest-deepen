@@ -15,4 +15,10 @@ export declare class MovieController {
     postMovie(body: CreateMovieDto, queryRunner: QR, userId: number): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: number): Promise<number>;
+    createMovieLike(movieId: number, userId: number): Promise<{
+        isLike: boolean;
+    }>;
+    createMovieDislike(movieId: number, userId: number): Promise<{
+        isLike: boolean;
+    }>;
 }

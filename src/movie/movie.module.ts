@@ -12,10 +12,19 @@ import { diskStorage } from 'multer';
 import { join } from 'path';
 import * as process from 'node:process';
 import { v4 } from 'uuid';
+import { User } from '../user/entities/user.entity';
+import { MovieUserLike } from './entity/movie-user-like.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Movie, MovieDetail, Director, Genre]),
+    TypeOrmModule.forFeature([
+      Movie,
+      MovieDetail,
+      Director,
+      Genre,
+      User,
+      MovieUserLike,
+    ]),
     CommonModule,
     // MulterModule.register({
     //   // 어디다가 파일을 저장할지
