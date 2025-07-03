@@ -34,7 +34,7 @@ exports.MovieModule = MovieModule = __decorate([
             ]),
             common_module_1.CommonModule,
         ],
-        controllers: [movie_controller_1.MovieController, movie_controller_1.MovieControllerV2],
+        controllers: [movie_controller_1.MovieControllerV2, movie_controller_1.MovieController],
         providers: [movie_service_1.MovieService],
     })
 ], MovieModule);

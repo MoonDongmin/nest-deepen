@@ -1,16 +1,16 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  ClassSerializerInterceptor,
+  Controller,
   Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
   Query,
   UseInterceptors,
-  ClassSerializerInterceptor,
-  ParseIntPipe,
-  Version,
+  VERSION_NEUTRAL,
 } from '@nestjs/common';
 import { MovieService } from './movie.service';
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -43,7 +43,7 @@ export class MovieControllerV2 {
 
 @Controller({
   path: 'movie',
-  version: ['1', '3'],
+  version: VERSION_NEUTRAL,
 })
 @UseInterceptors(ClassSerializerInterceptor)
 export class MovieController {

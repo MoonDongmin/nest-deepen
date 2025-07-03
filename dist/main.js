@@ -9,7 +9,8 @@ async function bootstrap() {
         logger: ['verbose'],
     });
     app.enableVersioning({
-        type: common_1.VersioningType.URI,
+        type: common_1.VersioningType.MEDIA_TYPE,
+        key: 'v=',
     });
     app.useLogger(app.get(nest_winston_1.WINSTON_MODULE_NEST_PROVIDER));
     app.useGlobalPipes(new common_1.ValidationPipe({

@@ -151,7 +151,7 @@ __decorate([
 exports.MovieController = MovieController = __decorate([
     (0, common_1.Controller)({
         path: 'movie',
-        version: ['1', '3'],
+        version: common_1.VERSION_NEUTRAL,
     }),
     (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [movie_service_1.MovieService])
