@@ -15,6 +15,8 @@ const multer_1 = require("multer");
 const path_1 = require("path");
 const uuid_1 = require("uuid");
 const tasks_service_1 = require("./tasks.service");
+const typeorm_1 = require("@nestjs/typeorm");
+const movie_entity_1 = require("../movie/entity/movie.entity");
 let CommonModule = class CommonModule {
 };
 exports.CommonModule = CommonModule;
@@ -34,6 +36,7 @@ exports.CommonModule = CommonModule = __decorate([
                     },
                 }),
             }),
+            typeorm_1.TypeOrmModule.forFeature([movie_entity_1.Movie]),
         ],
         controllers: [common_controller_1.CommonController],
         providers: [common_service_1.CommonService, tasks_service_1.TasksService],

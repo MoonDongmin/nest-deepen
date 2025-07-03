@@ -10,6 +10,7 @@ export declare class Movie extends BaseTable {
     title: string;
     genres: Genre[];
     likeCount: number;
+    dislikeCount: number;
     detail: MovieDetail;
     movieFilePath: string;
     director: Director;
