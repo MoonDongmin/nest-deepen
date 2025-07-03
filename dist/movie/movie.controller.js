@@ -25,6 +25,7 @@ const transaction_interceptor_1 = require("../common/interceptor/transaction.int
 const user_id_decorator_1 = require("../user/decorator/user-id.decorator");
 const query_runner_decorator_1 = require("../common/decorator/query-runner.decorator");
 const cache_manager_1 = require("@nestjs/cache-manager");
+const throttle_decorator_1 = require("../common/decorator/throttle.decorator");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -58,6 +59,10 @@ exports.MovieController = MovieController;
 __decorate([
     (0, common_1.Get)(),
     (0, public_decorator_1.Public)(),
+    (0, throttle_decorator_1.Throttle)({
+        count: 5,
+        unit: 'minute',
+    }),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
