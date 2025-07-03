@@ -33,7 +33,6 @@ let MovieController = class MovieController {
         return this.movieService.findAll(dto, userId);
     }
     getMoviesRecent() {
-        console.log('getMoviesResent 실행');
         return this.movieService.findRecent();
     }
     getMovie(id) {

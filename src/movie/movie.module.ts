@@ -27,9 +27,6 @@ import { CacheModule } from '@nestjs/cache-manager';
       MovieUserLike,
     ]),
     CommonModule,
-    CacheModule.register({
-      ttl: 0,
-    }),
     // MulterModule.register({
     //   // 어디다가 파일을 저장할지
     //   storage: diskStorage({

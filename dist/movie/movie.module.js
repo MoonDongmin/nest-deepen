@@ -18,7 +18,6 @@ const genre_entity_1 = require("../genre/entity/genre.entity");
 const common_module_1 = require("../common/common.module");
 const user_entity_1 = require("../user/entities/user.entity");
 const movie_user_like_entity_1 = require("./entity/movie-user-like.entity");
-const cache_manager_1 = require("@nestjs/cache-manager");
 let MovieModule = class MovieModule {
 };
 exports.MovieModule = MovieModule;
@@ -34,9 +33,6 @@ exports.MovieModule = MovieModule = __decorate([
                 movie_user_like_entity_1.MovieUserLike,
             ]),
             common_module_1.CommonModule,
-            cache_manager_1.CacheModule.register({
-                ttl: 0,
-            }),
         ],
         controllers: [movie_controller_1.MovieController],
         providers: [movie_service_1.MovieService],

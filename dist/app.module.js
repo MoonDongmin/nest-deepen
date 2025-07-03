@@ -33,6 +33,7 @@ const serve_static_1 = require("@nestjs/serve-static");
 const process = require("node:process");
 const path_1 = require("path");
 const movie_user_like_entity_1 = require("./movie/entity/movie-user-like.entity");
+const cache_manager_1 = require("@nestjs/cache-manager");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -82,6 +83,10 @@ exports.AppModule = AppModule = __decorate([
             serve_static_1.ServeStaticModule.forRoot({
                 rootPath: (0, path_1.join)(process.cwd(), 'public'),
                 serveRoot: '/public/',
+            }),
+            cache_manager_1.CacheModule.register({
+                ttl: 0,
+                isGlobal: true,
             }),
             movie_module_1.MovieModule,
             director_module_1.DirectorModule,
