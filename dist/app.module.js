@@ -32,6 +32,7 @@ const query_failed_filter_1 = require("./common/filter/query-failed.filter");
 const serve_static_1 = require("@nestjs/serve-static");
 const process = require("node:process");
 const path_1 = require("path");
+const movie_user_like_entity_1 = require("./movie/entity/movie-user-like.entity");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -73,7 +74,7 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get(env_const_1.envVariableKeys.dbUsername),
                     password: configService.get(env_const_1.envVariableKeys.dbPassword),
                     database: configService.get(env_const_1.envVariableKeys.dbDatabase),
-                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User],
+                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User, movie_user_like_entity_1.MovieUserLike],
                     synchronize: true,
                 }),
                 inject: [config_1.ConfigService],

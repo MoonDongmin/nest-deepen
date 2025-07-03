@@ -16,13 +16,22 @@ const movie_detail_entity_1 = require("./entity/movie-detail.entity");
 const director_entity_1 = require("../director/entity/director.entity");
 const genre_entity_1 = require("../genre/entity/genre.entity");
 const common_module_1 = require("../common/common.module");
+const user_entity_1 = require("../user/entities/user.entity");
+const movie_user_like_entity_1 = require("./entity/movie-user-like.entity");
 let MovieModule = class MovieModule {
 };
 exports.MovieModule = MovieModule;
 exports.MovieModule = MovieModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre]),
+            typeorm_1.TypeOrmModule.forFeature([
+                movie_entity_1.Movie,
+                movie_detail_entity_1.MovieDetail,
+                director_entity_1.Director,
+                genre_entity_1.Genre,
+                user_entity_1.User,
+                movie_user_like_entity_1.MovieUserLike,
+            ]),
             common_module_1.CommonModule,
         ],
         controllers: [movie_controller_1.MovieController],

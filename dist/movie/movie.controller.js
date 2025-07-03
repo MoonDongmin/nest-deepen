@@ -28,8 +28,8 @@ let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
     }
-    getMovies(dto) {
-        return this.movieService.findAll(dto);
+    getMovies(dto, userId) {
+        return this.movieService.findAll(dto, userId);
     }
     getMovie(id) {
         return this.movieService.findOne(id);
@@ -43,14 +43,21 @@ let MovieController = class MovieController {
     deleteMovie(id) {
         return this.movieService.remove(id);
     }
+    createMovieLike(movieId, userId) {
+        return this.movieService.toggleMovieLike(movieId, userId, true);
+    }
+    createMovieDislike(movieId, userId) {
+        return this.movieService.toggleMovieLike(movieId, userId, false);
+    }
 };
 exports.MovieController = MovieController;
 __decorate([
     (0, common_1.Get)(),
     (0, public_decorator_1.Public)(),
     __param(0, (0, common_1.Query)()),
+    __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [get_movies_dto_1.GetMoviesDto]),
+    __metadata("design:paramtypes", [get_movies_dto_1.GetMoviesDto, Number]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovies", null);
 __decorate([
@@ -89,6 +96,22 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "deleteMovie", null);
+__decorate([
+    (0, common_1.Post)(':id/like'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, user_id_decorator_1.UserId)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:returntype", void 0)
+], MovieController.prototype, "createMovieLike", null);
+__decorate([
+    (0, common_1.Post)(':id/dislike'),
+    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, user_id_decorator_1.UserId)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:returntype", void 0)
+], MovieController.prototype, "createMovieDislike", null);
 exports.MovieController = MovieController = __decorate([
     (0, common_1.Controller)('movie'),
     (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),

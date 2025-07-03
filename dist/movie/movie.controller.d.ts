@@ -6,7 +6,7 @@ import { QueryRunner as QR } from 'typeorm';
 export declare class MovieController {
     private readonly movieService;
     constructor(movieService: MovieService);
-    getMovies(dto: GetMoviesDto): Promise<{
+    getMovies(dto: GetMoviesDto, userId?: number): Promise<{
         data: import("./entity/movie.entity").Movie[];
         nextCursor: string;
         count: number;
@@ -15,4 +15,10 @@ export declare class MovieController {
     postMovie(body: CreateMovieDto, queryRunner: QR, userId: number): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: number): Promise<number>;
+    createMovieLike(movieId: number, userId: number): Promise<{
+        isLike: boolean;
+    }>;
+    createMovieDislike(movieId: number, userId: number): Promise<{
+        isLike: boolean;
+    }>;
 }
