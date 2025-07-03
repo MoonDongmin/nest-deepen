@@ -22,8 +22,9 @@ const typeorm_1 = require("@nestjs/typeorm");
 const movie_entity_1 = require("../movie/entity/movie.entity");
 const typeorm_2 = require("typeorm");
 let TasksService = class TasksService {
-    constructor(movieRepository) {
+    constructor(movieRepository, schedulerRegistry) {
         this.movieRepository = movieRepository;
+        this.schedulerRegistry = schedulerRegistry;
     }
     logEverySecond() {
         console.log('1초마다 실행!!');
@@ -65,15 +66,10 @@ let TasksService = class TasksService {
     }
 };
 exports.TasksService = TasksService;
-__decorate([
-    (0, schedule_1.Cron)('0 * * * * *'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TasksService.prototype, "calculateMovieLikeCounts", null);
 exports.TasksService = TasksService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movie_entity_1.Movie)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        schedule_1.SchedulerRegistry])
 ], TasksService);
 //# sourceMappingURL=tasks.service.js.map
