@@ -14,6 +14,7 @@ import * as process from 'node:process';
 import { v4 } from 'uuid';
 import { User } from '../user/entities/user.entity';
 import { MovieUserLike } from './entity/movie-user-like.entity';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -26,6 +27,9 @@ import { MovieUserLike } from './entity/movie-user-like.entity';
       MovieUserLike,
     ]),
     CommonModule,
+    CacheModule.register({
+      ttl: 3000,
+    }),
     // MulterModule.register({
     //   // 어디다가 파일을 저장할지
     //   storage: diskStorage({

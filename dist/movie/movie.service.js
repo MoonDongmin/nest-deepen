@@ -25,8 +25,9 @@ const path_1 = require("path");
 const promises_1 = require("fs/promises");
 const user_entity_1 = require("../user/entities/user.entity");
 const movie_user_like_entity_1 = require("./entity/movie-user-like.entity");
+const cache_manager_1 = require("@nestjs/cache-manager");
 let MovieService = class MovieService {
-    constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository, userRepository, movieUserLikeRepository, dataSource, commonService) {
+    constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository, userRepository, movieUserLikeRepository, dataSource, commonService, cacheManager) {
         this.movieRepository = movieRepository;
         this.movieDetailRepository = movieDetailRepository;
         this.directorRepository = directorRepository;
@@ -35,6 +36,22 @@ let MovieService = class MovieService {
         this.movieUserLikeRepository = movieUserLikeRepository;
         this.dataSource = dataSource;
         this.commonService = commonService;
+        this.cacheManager = cacheManager;
+    }
+    async findRecent() {
+        const cacheData = await this.cacheManager.get('MOVIE_RECENT');
+        if (cacheData) {
+            console.log('cache가져옴@');
+            return cacheData;
+        }
+        const data = await this.movieRepository.find({
+            order: {
+                createdAt: 'DESC',
+            },
+            take: 10,
+        });
+        await this.cacheManager.set('MOVIE_RECENT', data);
+        return data;
     }
     async findAll(dto, userId) {
         const { title } = dto;
@@ -49,13 +66,15 @@ let MovieService = class MovieService {
         let [data, count] = await qb.getManyAndCount();
         if (userId) {
             const movieIds = data.map((movie) => movie.id);
-            const likedMovies = await this.movieUserLikeRepository
-                .createQueryBuilder('mul')
-                .leftJoinAndSelect('mul.user', 'user')
-                .leftJoinAndSelect('mul.movie', 'movie')
-                .where('movie.id IN(:...movieIds)', { movieIds })
-                .andWhere('user.id = :userId', { userId })
-                .getMany();
+            const likedMovies = movieIds.length < 1
+                ? []
+                : await this.movieUserLikeRepository
+                    .createQueryBuilder('mul')
+                    .leftJoinAndSelect('mul.user', 'user')
+                    .leftJoinAndSelect('mul.movie', 'movie')
+                    .where('movie.id IN(:...movieIds)', { movieIds })
+                    .andWhere('user.id = :userId', { userId })
+                    .getMany();
             const likedMovieMap = likedMovies.reduce((acc, next) => ({
                 ...acc,
                 [next.movie.id]: next.isLike,
@@ -312,6 +331,7 @@ exports.MovieService = MovieService = __decorate([
     __param(3, (0, typeorm_1.InjectRepository)(genre_entity_1.Genre)),
     __param(4, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
     __param(5, (0, typeorm_1.InjectRepository)(movie_user_like_entity_1.MovieUserLike)),
+    __param(8, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
@@ -319,6 +339,7 @@ exports.MovieService = MovieService = __decorate([
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.DataSource,
-        common_service_1.CommonService])
+        common_service_1.CommonService,
+        cache_manager_1.Cache])
 ], MovieService);
 //# sourceMappingURL=movie.service.js.map

@@ -31,6 +31,9 @@ let MovieController = class MovieController {
     getMovies(dto, userId) {
         return this.movieService.findAll(dto, userId);
     }
+    getMoviesRecent() {
+        return this.movieService.findRecent();
+    }
     getMovie(id) {
         return this.movieService.findOne(id);
     }
@@ -60,6 +63,12 @@ __decorate([
     __metadata("design:paramtypes", [get_movies_dto_1.GetMoviesDto, Number]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovies", null);
+__decorate([
+    (0, common_1.Get)('recent'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], MovieController.prototype, "getMoviesRecent", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, public_decorator_1.Public)(),
