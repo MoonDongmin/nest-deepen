@@ -1,11 +1,12 @@
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Movie } from '../movie/entity/movie.entity';
 import { Repository } from 'typeorm';
+import { DefaultLogger } from './logger/default.logger';
 export declare class TasksService {
     private readonly movieRepository;
     private readonly schedulerRegistry;
     private readonly logger;
-    constructor(movieRepository: Repository<Movie>, schedulerRegistry: SchedulerRegistry);
+    constructor(movieRepository: Repository<Movie>, schedulerRegistry: SchedulerRegistry, logger: DefaultLogger);
     logEverySecond(): void;
     eraseOrphanFiles(): Promise<void>;
     calculateMovieLikeCounts(): Promise<void>;

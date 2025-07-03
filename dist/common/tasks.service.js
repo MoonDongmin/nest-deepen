@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var TasksService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TasksService = void 0;
 const common_1 = require("@nestjs/common");
@@ -22,12 +21,12 @@ const process = require("node:process");
 const typeorm_1 = require("@nestjs/typeorm");
 const movie_entity_1 = require("../movie/entity/movie.entity");
 const typeorm_2 = require("typeorm");
-const common_2 = require("@nestjs/common");
-let TasksService = TasksService_1 = class TasksService {
-    constructor(movieRepository, schedulerRegistry) {
+const default_logger_1 = require("./logger/default.logger");
+let TasksService = class TasksService {
+    constructor(movieRepository, schedulerRegistry, logger) {
         this.movieRepository = movieRepository;
         this.schedulerRegistry = schedulerRegistry;
-        this.logger = new common_2.Logger(TasksService_1.name);
+        this.logger = logger;
     }
     logEverySecond() {
         this.logger.fatal('FATAL 레벨 로그');
@@ -80,10 +79,11 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], TasksService.prototype, "logEverySecond", null);
-exports.TasksService = TasksService = TasksService_1 = __decorate([
+exports.TasksService = TasksService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(movie_entity_1.Movie)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        schedule_1.SchedulerRegistry])
+        schedule_1.SchedulerRegistry,
+        default_logger_1.DefaultLogger])
 ], TasksService);
 //# sourceMappingURL=tasks.service.js.map
