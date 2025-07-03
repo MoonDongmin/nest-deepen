@@ -2,11 +2,14 @@ import { Role, User } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { Cache } from '@nestjs/cache-manager';
 export declare class AuthService {
     private readonly userRepository;
     private readonly configService;
     private readonly jwtService;
-    constructor(userRepository: Repository<User>, configService: ConfigService, jwtService: JwtService);
+    private readonly cacheManger;
+    constructor(userRepository: Repository<User>, configService: ConfigService, jwtService: JwtService, cacheManger: Cache);
+    tokenBlock(token: string): Promise<boolean>;
     parseBasicToken(rawToken: string): {
         email: string;
         password: string;

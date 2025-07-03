@@ -27,12 +27,13 @@ const core_1 = require("@nestjs/core");
 const auth_guard_1 = require("./auth/guard/auth.guard");
 const rbac_guard_1 = require("./auth/guard/rbac.guard");
 const response_time_interceptor_1 = require("./common/interceptor/response-time.interceptor");
-const forbidden_filter_1 = require("./common/filter/forbidden.filter");
 const query_failed_filter_1 = require("./common/filter/query-failed.filter");
 const serve_static_1 = require("@nestjs/serve-static");
 const process = require("node:process");
 const path_1 = require("path");
 const movie_user_like_entity_1 = require("./movie/entity/movie-user-like.entity");
+const cache_manager_1 = require("@nestjs/cache-manager");
+const throttle_interceptor_1 = require("./common/interceptor/throttle.interceptor");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -83,6 +84,10 @@ exports.AppModule = AppModule = __decorate([
                 rootPath: (0, path_1.join)(process.cwd(), 'public'),
                 serveRoot: '/public/',
             }),
+            cache_manager_1.CacheModule.register({
+                ttl: 0,
+                isGlobal: true,
+            }),
             movie_module_1.MovieModule,
             director_module_1.DirectorModule,
             genre_module_1.GenreModule,
@@ -104,11 +109,11 @@ exports.AppModule = AppModule = __decorate([
             },
             {
                 provide: core_1.APP_FILTER,
-                useClass: forbidden_filter_1.ForbiddenExceptionFilter,
+                useClass: query_failed_filter_1.QueryFailedExceptionFilter,
             },
             {
-                provide: core_1.APP_FILTER,
-                useClass: query_failed_filter_1.QueryFailedExceptionFilter,
+                provide: core_1.APP_INTERCEPTOR,
+                useClass: throttle_interceptor_1.ThrottleInterceptor,
             },
         ],
     })

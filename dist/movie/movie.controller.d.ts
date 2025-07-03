@@ -11,6 +11,7 @@ export declare class MovieController {
         nextCursor: string;
         count: number;
     }>;
+    getMoviesRecent(): Promise<unknown>;
     getMovie(id: number): Promise<import("./entity/movie.entity").Movie>;
     postMovie(body: CreateMovieDto, queryRunner: QR, userId: number): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;

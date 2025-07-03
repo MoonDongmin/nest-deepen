@@ -21,11 +21,21 @@ const bcrypt = require("bcrypt");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
 const env_const_1 = require("../common/const/env.const");
+const cache_manager_1 = require("@nestjs/cache-manager");
 let AuthService = class AuthService {
-    constructor(userRepository, configService, jwtService) {
+    constructor(userRepository, configService, jwtService, cacheManger) {
         this.userRepository = userRepository;
         this.configService = configService;
         this.jwtService = jwtService;
+        this.cacheManger = cacheManger;
+    }
+    async tokenBlock(token) {
+        const payload = this.jwtService.decode(token);
+        const expiryDate = +new Date(payload['exp'] * 1000);
+        const now = +Date.now();
+        const differenceInSeconds = (expiryDate - now) / 1000;
+        await this.cacheManger.set(`BLOCK_TOKEN_${token}`, payload, Math.max(differenceInSeconds * 1000, 1));
+        return true;
     }
     parseBasicToken(rawToken) {
         const basicSplit = rawToken.split(' ');
@@ -139,8 +149,10 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
+    __param(3, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         config_1.ConfigService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        cache_manager_1.Cache])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

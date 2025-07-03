@@ -21,7 +21,9 @@ __decorate([
         name: 'movieId',
         type: 'int8',
     }),
-    (0, typeorm_1.ManyToOne)(() => movie_entity_1.Movie, (movie) => movie.likedUsers),
+    (0, typeorm_1.ManyToOne)(() => movie_entity_1.Movie, (movie) => movie.likedUsers, {
+        onDelete: 'CASCADE',
+    }),
     __metadata("design:type", movie_entity_1.Movie)
 ], MovieUserLike.prototype, "movie", void 0);
 __decorate([
@@ -29,7 +31,9 @@ __decorate([
         name: 'userId',
         type: 'int8',
     }),
-    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.likedMovies),
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User, (user) => user.likedMovies, {
+        onDelete: 'CASCADE',
+    }),
     __metadata("design:type", user_entity_1.User)
 ], MovieUserLike.prototype, "user", void 0);
 __decorate([

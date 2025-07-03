@@ -14,6 +14,7 @@ import * as process from 'node:process';
 import { v4 } from 'uuid';
 import { User } from '../user/entities/user.entity';
 import { MovieUserLike } from './entity/movie-user-like.entity';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
