@@ -10,14 +10,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetMoviesDto = void 0;
+const openapi = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const cursor_pagination_dto_1 = require("../../common/dto/cursor-pagination.dto");
+const swagger_1 = require("@nestjs/swagger");
 class GetMoviesDto extends cursor_pagination_dto_1.CursorPaginationDto {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { title: { required: false, type: () => String } };
+    }
 }
 exports.GetMoviesDto = GetMoviesDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
+    (0, swagger_1.ApiProperty)({
+        description: '영화의 제목',
+        example: '프로메테우스',
+    }),
     __metadata("design:type", String)
 ], GetMoviesDto.prototype, "title", void 0);
 //# sourceMappingURL=get-movies.dto.js.map

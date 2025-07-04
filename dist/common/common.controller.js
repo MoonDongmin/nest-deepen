@@ -13,8 +13,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommonController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const swagger_1 = require("@nestjs/swagger");
 let CommonController = class CommonController {
     createVideo(movie) {
         return {
@@ -36,12 +38,14 @@ __decorate([
             return callback(null, true);
         },
     })),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], CommonController.prototype, "createVideo", null);
 exports.CommonController = CommonController = __decorate([
-    (0, common_1.Controller)('common')
+    (0, common_1.Controller)('common'),
+    (0, swagger_1.ApiBearerAuth)()
 ], CommonController);
 //# sourceMappingURL=common.controller.js.map

@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Movie = void 0;
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const base_table_entity_1 = require("../../common/entity/base-table.entity");
 const movie_detail_entity_1 = require("./movie-detail.entity");
@@ -19,6 +20,9 @@ const class_transformer_1 = require("class-transformer");
 const user_entity_1 = require("../../user/entities/user.entity");
 const movie_user_like_entity_1 = require("./movie-user-like.entity");
 let Movie = class Movie extends base_table_entity_1.BaseTable {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, creator: { required: true, type: () => require("../../user/entities/user.entity").User }, title: { required: true, type: () => String }, genres: { required: true, type: () => [require("../../genre/entity/genre.entity").Genre] }, likeCount: { required: true, type: () => Number }, dislikeCount: { required: true, type: () => Number }, detail: { required: true, type: () => require("./movie-detail.entity").MovieDetail }, movieFilePath: { required: true, type: () => String }, director: { required: true, type: () => require("../../director/entity/director.entity").Director }, likedUsers: { required: true, type: () => [require("./movie-user-like.entity").MovieUserLike] } };
+    }
 };
 exports.Movie = Movie;
 __decorate([
