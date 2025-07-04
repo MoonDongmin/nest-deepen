@@ -29,7 +29,7 @@ import {
   CacheTTL,
 } from '@nestjs/cache-manager';
 import { Throttle } from '../common/decorator/throttle.decorator';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('movie')
 @ApiBearerAuth()
@@ -42,6 +42,13 @@ export class MovieController {
   @Throttle({
     count: 5,
     unit: 'minute',
+  })
+  @ApiOperation({
+    description: '[Movie]를 Pagination하는 API',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '성공적으로 Pagination API 실행',
   })
   // @Version('5')
   getMovies(@Query() dto: GetMoviesDto, @UserId() userId?: number) {

@@ -65,6 +65,13 @@ __decorate([
         count: 5,
         unit: 'minute',
     }),
+    (0, swagger_1.ApiOperation)({
+        description: '[Movie]를 Pagination하는 API',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: '성공적으로 Pagination API 실행',
+    }),
     openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, user_id_decorator_1.UserId)()),
