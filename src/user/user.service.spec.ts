@@ -12,7 +12,7 @@ const mockUserRepository = {
 };
 
 describe('UserService', () => {
-  let service: UserService;
+  let userService: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -25,10 +25,29 @@ describe('UserService', () => {
       ],
     }).compile();
 
-    service = module.get<UserService>(UserService);
+    // 만든 testing 모듈에서 UserService 모듈을 들고 온 것
+    userService = module.get<UserService>(UserService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(userService).toBeDefined();
+  });
+
+  describe('findAll', () => {
+    it('should return all users', async () => {
+      const users = [
+        {
+          id: 1,
+          email: 'dongmin@test.com',
+        },
+      ];
+
+      mockUserRepository.find.mockResolvedValue(users);
+
+      const result = await userService.findAll();
+
+      expect(result).toEqual(users);
+      expect(mockUserRepository.find).toHaveBeenCalled();
+    });
   });
 });
