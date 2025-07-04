@@ -13,11 +13,14 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const local_strategy_1 = require("./strategy/local.strategy");
 const jwt_strategy_1 = require("./strategy/jwt.strategy");
 const public_decorator_1 = require("./decorator/public.decorator");
+const swagger_1 = require("@nestjs/swagger");
+const authorization_decorator_1 = require("../common/decorator/authorization.decorator");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
@@ -50,21 +53,25 @@ exports.AuthController = AuthController;
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Post)('register'),
-    __param(0, (0, common_1.Headers)('authorization')),
+    openapi.ApiResponse({ status: 201, type: require("../user/entities/user.entity").User }),
+    __param(0, (0, authorization_decorator_1.Authorization)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "registerUser", null);
 __decorate([
     (0, public_decorator_1.Public)(),
+    (0, swagger_1.ApiBasicAuth)(),
     (0, common_1.Post)('login'),
-    __param(0, (0, common_1.Headers)('authorization')),
+    openapi.ApiResponse({ status: 201 }),
+    __param(0, (0, authorization_decorator_1.Authorization)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "loginUser", null);
 __decorate([
     (0, common_1.Post)('token/block'),
+    openapi.ApiResponse({ status: 201, type: Boolean }),
     __param(0, (0, common_1.Body)('token')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -72,6 +79,7 @@ __decorate([
 ], AuthController.prototype, "blockToken", null);
 __decorate([
     (0, common_1.Post)('token/access'),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -80,6 +88,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(local_strategy_1.LocalAuthGuard),
     (0, common_1.Post)('login/passport'),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -88,6 +97,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_strategy_1.JwtAuthGuard),
     (0, common_1.Get)('private'),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -95,6 +105,7 @@ __decorate([
 ], AuthController.prototype, "private", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
+    (0, swagger_1.ApiBearerAuth)(),
     __metadata("design:paramtypes", [auth_service_1.AuthService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

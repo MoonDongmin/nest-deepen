@@ -10,10 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Director = void 0;
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const base_table_entity_1 = require("../../common/entity/base-table.entity");
 const movie_entity_1 = require("../../movie/entity/movie.entity");
 let Director = class Director extends base_table_entity_1.BaseTable {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, name: { required: true, type: () => String }, dob: { required: true, type: () => Date }, nationality: { required: true, type: () => String }, movies: { required: true, type: () => [require("../../movie/entity/movie.entity").Movie] } };
+    }
 };
 exports.Director = Director;
 __decorate([

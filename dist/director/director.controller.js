@@ -13,10 +13,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DirectorController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const director_service_1 = require("./director.service");
 const create_director_dto_1 = require("./dto/create-director.dto");
 const update_director_dto_1 = require("./dto/update-director.dto");
+const swagger_1 = require("@nestjs/swagger");
 let DirectorController = class DirectorController {
     constructor(directorService) {
         this.directorService = directorService;
@@ -40,12 +42,14 @@ let DirectorController = class DirectorController {
 exports.DirectorController = DirectorController;
 __decorate([
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200, type: [require("./entity/director.entity").Director] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], DirectorController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    openapi.ApiResponse({ status: 200, type: require("./entity/director.entity").Director }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -53,6 +57,7 @@ __decorate([
 ], DirectorController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_director_dto_1.CreateDirectorDto]),
@@ -60,6 +65,7 @@ __decorate([
 ], DirectorController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(':id'),
+    openapi.ApiResponse({ status: 200, type: require("./entity/director.entity").Director }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -68,6 +74,7 @@ __decorate([
 ], DirectorController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
+    openapi.ApiResponse({ status: 200, type: Number }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -75,6 +82,7 @@ __decorate([
 ], DirectorController.prototype, "remove", null);
 exports.DirectorController = DirectorController = __decorate([
     (0, common_1.Controller)('director'),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [director_service_1.DirectorService])
 ], DirectorController);

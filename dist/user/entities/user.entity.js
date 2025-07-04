@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = exports.Role = void 0;
+const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const base_table_entity_1 = require("../../common/entity/base-table.entity");
 const class_transformer_1 = require("class-transformer");
@@ -22,6 +23,9 @@ var Role;
     Role[Role["user"] = 2] = "user";
 })(Role || (exports.Role = Role = {}));
 let User = class User extends base_table_entity_1.BaseTable {
+    static _OPENAPI_METADATA_FACTORY() {
+        return { id: { required: true, type: () => Number }, email: { required: true, type: () => String }, password: { required: true, type: () => String }, role: { required: true, enum: require("./user.entity").Role }, createdMovies: { required: true, type: () => [require("../../movie/entity/movie.entity").Movie] }, likedMovies: { required: true, type: () => [require("../../movie/entity/movie-user-like.entity").MovieUserLike] } };
+    }
 };
 exports.User = User;
 __decorate([

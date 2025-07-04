@@ -13,9 +13,15 @@ async function bootstrap() {
         .setTitle('넷플릭스')
         .setDescription('코드팩토리 NestJS 강의!')
         .setVersion('1.0')
+        .addBasicAuth()
+        .addBearerAuth()
         .build();
     const document = swagger_1.SwaggerModule.createDocument(app, config);
-    swagger_1.SwaggerModule.setup('doc', app, document);
+    swagger_1.SwaggerModule.setup('doc', app, document, {
+        swaggerOptions: {
+            persistAuthorization: true,
+        },
+    });
     app.useLogger(app.get(nest_winston_1.WINSTON_MODULE_NEST_PROVIDER));
     app.useGlobalPipes(new common_1.ValidationPipe({
         whitelist: true,

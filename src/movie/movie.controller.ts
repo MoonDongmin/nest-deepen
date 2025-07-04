@@ -29,8 +29,10 @@ import {
   CacheTTL,
 } from '@nestjs/cache-manager';
 import { Throttle } from '../common/decorator/throttle.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('movie')
+@ApiBearerAuth()
 @UseInterceptors(ClassSerializerInterceptor)
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
