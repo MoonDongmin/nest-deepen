@@ -30,21 +30,7 @@ import {
 } from '@nestjs/cache-manager';
 import { Throttle } from '../common/decorator/throttle.decorator';
 
-@Controller({
-  path: 'movie',
-  version: '2',
-})
-export class MovieControllerV2 {
-  @Get()
-  get() {
-    return [];
-  }
-}
-
-@Controller({
-  path: 'movie',
-  version: VERSION_NEUTRAL,
-})
+@Controller('movie')
 @UseInterceptors(ClassSerializerInterceptor)
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
