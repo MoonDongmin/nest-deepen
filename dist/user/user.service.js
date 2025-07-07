@@ -17,12 +17,34 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./entities/user.entity");
 const typeorm_2 = require("typeorm");
+const bcrypt = require("bcrypt");
+const env_const_1 = require("../common/const/env.const");
+const config_1 = require("@nestjs/config");
 let UserService = class UserService {
-    constructor(userRepository) {
+    constructor(userRepository, configService) {
         this.userRepository = userRepository;
+        this.configService = configService;
     }
-    create(createUserDto) {
-        return this.userRepository.save(createUserDto);
+    async create(createUserDto) {
+        const { email, password } = createUserDto;
+        const user = await this.userRepository.findOne({
+            where: {
+                email,
+            },
+        });
+        if (user) {
+            throw new common_1.BadRequestException(`이미 가입한 이메일 입니다!`);
+        }
+        const hash = await bcrypt.hash(password, this.configService.get(env_const_1.envVariableKeys.hashRounds));
+        await this.userRepository.save({
+            email,
+            password: hash,
+        });
+        return this.userRepository.findOne({
+            where: {
+                email,
+            },
+        });
     }
     findAll() {
         return this.userRepository.find();
@@ -54,14 +76,24 @@ let UserService = class UserService {
             },
         });
     }
-    remove(id) {
-        return this.userRepository.delete(id);
+    async remove(id) {
+        const user = await this.userRepository.findOne({
+            where: {
+                id,
+            },
+        });
+        if (!user) {
+            throw new common_1.NotFoundException(`존재하지 않는 사용자입니다!`);
+        }
+        await this.userRepository.delete(id);
+        return id;
     }
 };
 exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        config_1.ConfigService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

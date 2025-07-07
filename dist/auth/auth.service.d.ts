@@ -3,12 +3,14 @@ import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Cache } from '@nestjs/cache-manager';
+import { UserService } from '../user/user.service';
 export declare class AuthService {
     private readonly userRepository;
+    private readonly userService;
     private readonly configService;
     private readonly jwtService;
     private readonly cacheManger;
-    constructor(userRepository: Repository<User>, configService: ConfigService, jwtService: JwtService, cacheManger: Cache);
+    constructor(userRepository: Repository<User>, userService: UserService, configService: ConfigService, jwtService: JwtService, cacheManger: Cache);
     tokenBlock(token: string): Promise<boolean>;
     parseBasicToken(rawToken: string): {
         email: string;
