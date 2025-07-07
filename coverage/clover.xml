@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1751874738524" clover="3.2.0">
-  <project timestamp="1751874738524" name="All files">
-    <metrics statements="55" coveredstatements="34" conditionals="4" coveredconditionals="4" methods="13" coveredmethods="6" elements="72" coveredelements="44" complexity="0" loc="55" ncloc="55" packages="2" files="3" classes="3"/>
+<coverage generated="1751875778232" clover="3.2.0">
+  <project timestamp="1751875778232" name="All files">
+    <metrics statements="55" coveredstatements="51" conditionals="4" coveredconditionals="4" methods="13" coveredmethods="12" elements="72" coveredelements="67" complexity="0" loc="55" ncloc="55" packages="2" files="3" classes="3"/>
     <package name="user">
-      <metrics statements="51" coveredstatements="34" conditionals="4" coveredconditionals="4" methods="12" coveredmethods="6"/>
+      <metrics statements="51" coveredstatements="51" conditionals="4" coveredconditionals="4" methods="12" coveredmethods="12"/>
       <file name="user.controller.ts" path="/Users/moon/Developments/nest/nest-deepen/netflix/src/user/user.controller.ts">
-        <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="1" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="14" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="26" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-        <line num="36" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="49" count="0" type="stmt"/>
+        <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="6" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="48" count="1" type="stmt"/>
+        <line num="49" count="1" type="stmt"/>
       </file>
       <file name="user.service.ts" path="/Users/moon/Developments/nest/nest-deepen/netflix/src/user/user.service.ts">
         <metrics statements="34" coveredstatements="34" conditionals="4" coveredconditionals="4" methods="6" coveredmethods="6"/>
-        <line num="1" count="1" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="13" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
         <line num="19" count="10" type="stmt"/>
         <line num="20" count="10" type="stmt"/>
         <line num="24" count="2" type="stmt"/>
