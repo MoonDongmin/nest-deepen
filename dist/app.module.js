@@ -57,8 +57,9 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
+                envFilePath: process.env.NODE_ENV === 'test' ? 'test.env' : '.env',
                 validationSchema: Joi.object({
-                    ENV: Joi.string().valid('dev', 'prod').required(),
+                    ENV: Joi.string().valid('test', 'dev', 'prod').required(),
                     DB_TYPE: Joi.string().valid('postgres').required(),
                     DB_HOST: Joi.string().required(),
                     DB_PORT: Joi.number().required(),
@@ -80,6 +81,9 @@ exports.AppModule = AppModule = __decorate([
                     database: configService.get(env_const_1.envVariableKeys.dbDatabase),
                     entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User, movie_user_like_entity_1.MovieUserLike],
                     synchronize: true,
+                    ssl: {
+                        rejectUnauthorized: false,
+                    },
                 }),
                 inject: [config_1.ConfigService],
             }),

@@ -61,6 +61,7 @@ let UserService = class UserService {
         return user;
     }
     async update(id, updateUserDto) {
+        const { password } = updateUserDto;
         const user = await this.userRepository.findOne({
             where: {
                 id,
@@ -69,7 +70,11 @@ let UserService = class UserService {
         if (!user) {
             throw new common_1.NotFoundException(`존재하지 않는 사용자입니다!`);
         }
-        await this.userRepository.update({ id }, updateUserDto);
+        const hash = await bcrypt.hash(password, this.configService.get(env_const_1.envVariableKeys.hashRounds));
+        await this.userRepository.update({ id }, {
+            ...updateUserDto,
+            password: hash,
+        });
         return this.userRepository.findOne({
             where: {
                 id,

@@ -52,12 +52,24 @@ let MovieService = class MovieService {
         await this.cacheManager.set('MOVIE_RECENT', data);
         return data;
     }
-    async findAll(dto, userId) {
-        const { title } = dto;
-        const qb = await this.movieRepository
+    async getMovies() {
+        return this.movieRepository
             .createQueryBuilder('movie')
             .leftJoinAndSelect('movie.director', 'director')
             .leftJoinAndSelect('movie.genres', 'genres');
+    }
+    async getLikedMovies(movieIds, userId) {
+        return this.movieUserLikeRepository
+            .createQueryBuilder('mul')
+            .leftJoinAndSelect('mul.user', 'user')
+            .leftJoinAndSelect('mul.movie', 'movie')
+            .where('movie.id IN(:...movieIds)', { movieIds })
+            .andWhere('user.id = :userId', { userId })
+            .getMany();
+    }
+    async findAll(dto, userId) {
+        const { title } = dto;
+        const qb = await this.getMovies();
         if (title) {
             qb.where('movie.title LIKE :title', { title: `%${title}%` });
         }
@@ -65,15 +77,7 @@ let MovieService = class MovieService {
         let [data, count] = await qb.getManyAndCount();
         if (userId) {
             const movieIds = data.map((movie) => movie.id);
-            const likedMovies = movieIds.length < 1
-                ? []
-                : await this.movieUserLikeRepository
-                    .createQueryBuilder('mul')
-                    .leftJoinAndSelect('mul.user', 'user')
-                    .leftJoinAndSelect('mul.movie', 'movie')
-                    .where('movie.id IN(:...movieIds)', { movieIds })
-                    .andWhere('user.id = :userId', { userId })
-                    .getMany();
+            const likedMovies = movieIds.length < 1 ? [] : await this.getLikedMovies(movieIds, userId);
             const likedMovieMap = likedMovies.reduce((acc, next) => ({
                 ...acc,
                 [next.movie.id]: next.isLike,
@@ -89,8 +93,8 @@ let MovieService = class MovieService {
             count,
         };
     }
-    async findOne(id) {
-        const movie = await this.movieRepository
+    async findMovieDetail(id) {
+        return this.movieRepository
             .createQueryBuilder('movie')
             .leftJoinAndSelect('movie.director', 'director')
             .leftJoinAndSelect('movie.genres', 'genres')
@@ -98,10 +102,51 @@ let MovieService = class MovieService {
             .leftJoinAndSelect('movie.creator', 'creator')
             .where('movie.id = :id', { id })
             .getOne();
+    }
+    async findOne(id) {
+        const movie = await this.findMovieDetail(id);
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
         return movie;
+    }
+    async createMovieDetail(qr, createMovieDto) {
+        return qr.manager
+            .createQueryBuilder()
+            .insert()
+            .into(movie_detail_entity_1.MovieDetail)
+            .values({
+            detail: createMovieDto.detail,
+        })
+            .execute();
+    }
+    async createMovie(qr, createMovieDto, director, movieDetailId, userId, movieFolder) {
+        return qr.manager
+            .createQueryBuilder()
+            .insert()
+            .into(movie_entity_1.Movie)
+            .values({
+            title: createMovieDto.title,
+            detail: {
+                id: movieDetailId,
+            },
+            director,
+            creator: {
+                id: userId,
+            },
+            movieFilePath: (0, path_1.join)(movieFolder, createMovieDto.movieFileName),
+        })
+            .execute();
+    }
+    async createMovieGenreRelation(qr, movieId, genres) {
+        return qr.manager
+            .createQueryBuilder()
+            .relation(movie_entity_1.Movie, 'genres')
+            .of(movieId)
+            .add(genres.map((genre) => genre.id));
+    }
+    async renameMovieFile(tempFolder, movieFolder, createMovieDto) {
+        return (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
     }
     async create(createMovieDto, userId, qr) {
         const director = await qr.manager.findOne(director_entity_1.Director, {
@@ -122,46 +167,45 @@ let MovieService = class MovieService {
                 .map((genre) => genre.id)
                 .join(',')}`);
         }
-        const movieDetail = await qr.manager
-            .createQueryBuilder()
-            .insert()
-            .into(movie_detail_entity_1.MovieDetail)
-            .values({
-            detail: createMovieDto.detail,
-        })
-            .execute();
+        const movieDetail = await this.createMovieDetail(qr, createMovieDto);
         const movieDetailId = movieDetail.identifiers[0].id;
         const movieFolder = (0, path_1.join)('public', 'movie');
         const tempFolder = (0, path_1.join)('public', 'temp');
-        const movie = await qr.manager
-            .createQueryBuilder()
-            .insert()
-            .into(movie_entity_1.Movie)
-            .values({
-            title: createMovieDto.title,
-            detail: {
-                id: movieDetailId,
-            },
-            director,
-            creator: {
-                id: userId,
-            },
-            movieFilePath: (0, path_1.join)(movieFolder, createMovieDto.movieFileName),
-        })
-            .execute();
+        const movie = await this.createMovie(qr, createMovieDto, director, movieDetailId, userId, movieFolder);
         const movieId = movie.identifiers[0].id;
-        await qr.manager
-            .createQueryBuilder()
-            .relation(movie_entity_1.Movie, 'genres')
-            .of(movieId)
-            .add(genres.map((genre) => genre.id));
-        await (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
+        await this.createMovieGenreRelation(qr, movieId, genres);
+        await this.renameMovieFile(tempFolder, movieFolder, createMovieDto);
         return await qr.manager.findOne(movie_entity_1.Movie, {
             where: {
                 id: movieId,
             },
             relations: ['detail', 'director', 'genres'],
         });
+    }
+    async updateMovie(qr, movieUpdateFields, id) {
+        return qr.manager
+            .createQueryBuilder()
+            .update(movie_entity_1.Movie)
+            .set(movieUpdateFields)
+            .where('id = :id', { id })
+            .execute();
+    }
+    async updateMovieDetail(qr, detail, movie) {
+        return qr.manager
+            .createQueryBuilder()
+            .update(movie_detail_entity_1.MovieDetail)
+            .set({
+            detail,
+        })
+            .where('id = :id', { id: movie.detail.id })
+            .execute();
+    }
+    async updateMovieGenreRelation(qr, id, newGenres, movie) {
+        return qr.manager
+            .createQueryBuilder()
+            .relation(movie_entity_1.Movie, 'genres')
+            .of(id)
+            .addAndRemove(newGenres.map((genre) => genre.id), movie.genres.map((genre) => genre.id));
     }
     async update(id, updateMovieDto) {
         const qr = this.dataSource.createQueryRunner();
@@ -208,28 +252,12 @@ let MovieService = class MovieService {
                 ...movieRest,
                 ...(newDirector && { director: newDirector }),
             };
-            await qr.manager
-                .createQueryBuilder()
-                .update(movie_entity_1.Movie)
-                .set(movieUpdateFields)
-                .where('id = :id', { id })
-                .execute();
+            await this.updateMovie(qr, movieUpdateFields, id);
             if (detail) {
-                await qr.manager
-                    .createQueryBuilder()
-                    .update(movie_detail_entity_1.MovieDetail)
-                    .set({
-                    detail,
-                })
-                    .where('id = :id', { id: movie.detail.id })
-                    .execute();
+                await this.updateMovieDetail(qr, detail, movie);
             }
             if (newGenres) {
-                await qr.manager
-                    .createQueryBuilder()
-                    .relation(movie_entity_1.Movie, 'genres')
-                    .of(id)
-                    .addAndRemove(newGenres.map((genre) => genre.id), movie.genres.map((genre) => genre.id));
+                await this.updateMovieGenreRelation(qr, id, newGenres, movie);
             }
             await qr.commitTransaction();
             return this.movieRepository.findOne({
@@ -241,10 +269,18 @@ let MovieService = class MovieService {
         }
         catch (e) {
             await qr.rollbackTransaction();
+            throw e;
         }
         finally {
             await qr.release();
         }
+    }
+    async deleteMovie(id) {
+        return this.movieRepository
+            .createQueryBuilder()
+            .delete()
+            .where('id = :id', { id })
+            .execute();
     }
     async remove(id) {
         const movie = await this.movieRepository.findOne({
@@ -256,13 +292,18 @@ let MovieService = class MovieService {
         if (!movie) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
-        await this.movieRepository
-            .createQueryBuilder()
-            .delete()
-            .where('id = :id', { id })
-            .execute();
+        await this.deleteMovie(id);
         await this.movieDetailRepository.delete(movie.detail.id);
         return id;
+    }
+    async getLikeRecord(movieId, userId) {
+        return this.movieUserLikeRepository
+            .createQueryBuilder('mul')
+            .leftJoinAndSelect('mul.movie', 'movie')
+            .leftJoinAndSelect('mul.user', 'user')
+            .where('movie.id = :movieId', { movieId })
+            .andWhere('user.id = :userId', { userId })
+            .getOne();
     }
     async toggleMovieLike(movieId, userId, isLike) {
         const movie = await this.movieRepository.findOne({
@@ -281,13 +322,7 @@ let MovieService = class MovieService {
         if (!user) {
             throw new common_1.UnauthorizedException(`사용자 정보가 없습니다!!!`);
         }
-        const likeRecord = await this.movieUserLikeRepository
-            .createQueryBuilder('mul')
-            .leftJoinAndSelect('mul.movie', 'movie')
-            .leftJoinAndSelect('mul.user', 'user')
-            .where('movie.id = :movieId', { movieId })
-            .andWhere('user.id = :userId', { userId })
-            .getOne();
+        const likeRecord = await this.getLikeRecord(movieId, userId);
         if (likeRecord) {
             if (isLike === likeRecord.isLike) {
                 await this.movieUserLikeRepository.delete({
@@ -309,13 +344,7 @@ let MovieService = class MovieService {
                 isLike,
             });
         }
-        const result = await this.movieUserLikeRepository
-            .createQueryBuilder('mul')
-            .leftJoinAndSelect('mul.movie', 'movie')
-            .leftJoinAndSelect('mul.user', 'user')
-            .where('movie.id = :movieId', { movieId })
-            .andWhere('user.id = :userId', { userId })
-            .getOne();
+        const result = await this.getLikeRecord(movieId, userId);
         return {
             isLike: result && result.isLike,
         };

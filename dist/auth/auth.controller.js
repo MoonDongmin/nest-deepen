@@ -17,7 +17,6 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const auth_service_1 = require("./auth.service");
 const local_strategy_1 = require("./strategy/local.strategy");
-const jwt_strategy_1 = require("./strategy/jwt.strategy");
 const public_decorator_1 = require("./decorator/public.decorator");
 const swagger_1 = require("@nestjs/swagger");
 const authorization_decorator_1 = require("../common/decorator/authorization.decorator");
@@ -44,9 +43,6 @@ let AuthController = class AuthController {
             refreshToken: await this.authService.issueToken(req.user, true),
             accessToken: await this.authService.issueToken(req.user, false),
         };
-    }
-    async private(req) {
-        return req.user;
     }
 };
 exports.AuthController = AuthController;
@@ -94,15 +90,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "loginUserPassport", null);
-__decorate([
-    (0, common_1.UseGuards)(jwt_strategy_1.JwtAuthGuard),
-    (0, common_1.Get)('private'),
-    openapi.ApiResponse({ status: 200, type: Object }),
-    __param(0, (0, common_1.Request)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "private", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     (0, swagger_1.ApiBearerAuth)(),
