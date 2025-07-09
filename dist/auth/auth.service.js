@@ -22,9 +22,11 @@ const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
 const env_const_1 = require("../common/const/env.const");
 const cache_manager_1 = require("@nestjs/cache-manager");
+const user_service_1 = require("../user/user.service");
 let AuthService = class AuthService {
-    constructor(userRepository, configService, jwtService, cacheManger) {
+    constructor(userRepository, userService, configService, jwtService, cacheManger) {
         this.userRepository = userRepository;
+        this.userService = userService;
         this.configService = configService;
         this.jwtService = jwtService;
         this.cacheManger = cacheManger;
@@ -90,23 +92,9 @@ let AuthService = class AuthService {
     }
     async register(rawToken) {
         const { email, password } = this.parseBasicToken(rawToken);
-        const user = await this.userRepository.findOne({
-            where: {
-                email,
-            },
-        });
-        if (user) {
-            throw new common_1.BadRequestException(`이미 가입한 이메일 입니다!`);
-        }
-        const hash = await bcrypt.hash(password, this.configService.get(env_const_1.envVariableKeys.hashRounds));
-        await this.userRepository.save({
+        return this.userService.create({
             email,
-            password: hash,
-        });
-        return this.userRepository.findOne({
-            where: {
-                email,
-            },
+            password,
         });
     }
     async authenticate(email, password) {
@@ -149,8 +137,9 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __param(3, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
+    __param(4, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        user_service_1.UserService,
         config_1.ConfigService,
         jwt_1.JwtService,
         cache_manager_1.Cache])
