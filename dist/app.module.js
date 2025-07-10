@@ -80,10 +80,14 @@ exports.AppModule = AppModule = __decorate([
                     password: configService.get(env_const_1.envVariableKeys.dbPassword),
                     database: configService.get(env_const_1.envVariableKeys.dbDatabase),
                     entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User, movie_user_like_entity_1.MovieUserLike],
-                    synchronize: true,
-                    ssl: {
-                        rejectUnauthorized: false,
-                    },
+                    synchronize: configService.get(env_const_1.envVariableKeys.env) === 'prod'
+                        ? false
+                        : true,
+                    ...(configService.get(env_const_1.envVariableKeys.env) === 'prod' && {
+                        ssl: {
+                            rejectUnauthorized: false,
+                        },
+                    }),
                 }),
                 inject: [config_1.ConfigService],
             }),
