@@ -25,10 +25,33 @@ let CommonService = class CommonService {
         });
         this.s3 = new AWS.S3();
     }
+    async saveMovieToPermanentStorage(fileName) {
+        try {
+            const bucketName = this.configService.get(env_const_1.envVariableKeys.bucketName);
+            await this.s3
+                .copyObject({
+                Bucket: bucketName,
+                CopySource: `${bucketName}/public/temp/${fileName}`,
+                Key: `public/movie/${fileName}`,
+                ACL: 'public-read',
+            })
+                .promise();
+            await this.s3
+                .deleteObject({
+                Bucket: bucketName,
+                Key: `public/temp/${fileName}`,
+            })
+                .promise();
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.InternalServerErrorException(`S3 에러!`);
+        }
+    }
     async createPresignedUrl(expiresIn = 300) {
         const params = {
             Bucket: this.configService.get(env_const_1.envVariableKeys.bucketName),
-            Key: `temp/${(0, uuid_1.v4)()}.mp4`,
+            Key: `public/temp/${(0, uuid_1.v4)()}.mp4`,
             Expires: expiresIn,
             ACL: 'public-read',
         };

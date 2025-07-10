@@ -26,11 +26,39 @@ export class CommonService {
     this.s3 = new AWS.S3();
   }
 
+  async saveMovieToPermanentStorage(fileName: string) {
+    try {
+      const bucketName = this.configService.get<string>(
+        envVariableKeys.bucketName,
+      );
+      // 저장된 파일을 복사함 public/movie에
+      await this.s3
+        .copyObject({
+          Bucket: bucketName,
+          CopySource: `${bucketName}/public/temp/${fileName}`,
+          Key: `public/movie/${fileName}`,
+          ACL: 'public-read',
+        })
+        .promise();
+
+      // 그리고 이전 temp 폴더에 저장한 파일 삭제함
+      await this.s3
+        .deleteObject({
+          Bucket: bucketName,
+          Key: `public/temp/${fileName}`,
+        })
+        .promise();
+    } catch (e) {
+      console.log(e);
+      throw new InternalServerErrorException(`S3 에러!`);
+    }
+  }
+
   async createPresignedUrl(expiresIn = 300) {
     // $버킷이름/movie/video.mp4 이 위치로 파일이 업로드가 됨
     const params = {
       Bucket: this.configService.get<string>(envVariableKeys.bucketName),
-      Key: `temp/${Uuid()}.mp4`,
+      Key: `public/temp/${Uuid()}.mp4`,
       Expires: expiresIn,
       ACL: 'public-read', // 아무나 읽게 하겠다
     };

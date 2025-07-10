@@ -6,6 +6,7 @@ export declare class CommonService {
     private readonly configService;
     private s3;
     constructor(configService: ConfigService);
+    saveMovieToPermanentStorage(fileName: string): Promise<void>;
     createPresignedUrl(expiresIn?: number): Promise<string>;
     applyPagePaginationParamsToQb<T>(qb: SelectQueryBuilder<T>, dto: PagePaginationDto): void;
     applyCursorPaginationParamsToQb<T>(qb: SelectQueryBuilder<T>, dto: CursorPaginationDto): Promise<{
