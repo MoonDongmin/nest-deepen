@@ -6,24 +6,26 @@ import {
 import { SelectQueryBuilder } from 'typeorm';
 import { PagePaginationDto } from './dto/page-pagination.dto';
 import { CursorPaginationDto } from './dto/cursor-pagination.dto';
-import * as AWS from 'aws-sdk';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { ObjectCannedACL, PutObjectCommand, S3 } from '@aws-sdk/client-s3';
 import { v4 as Uuid } from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { envVariableKeys } from './const/env.const';
 
 @Injectable()
 export class CommonService {
-  private s3: AWS.S3;
+  private s3: S3;
 
   constructor(private readonly configService: ConfigService) {
-    AWS.config.update({
-      accessKeyId: configService.get<string>(envVariableKeys.awsAccessKeyId),
-      secretAccessKey: configService.get<string>(
-        envVariableKeys.awsSecretAccessKey,
-      ),
+    this.s3 = new S3({
+      credentials: {
+        accessKeyId: configService.get<string>(envVariableKeys.awsAccessKeyId),
+        secretAccessKey: configService.get<string>(
+          envVariableKeys.awsSecretAccessKey,
+        ),
+      },
       region: configService.get<string>(envVariableKeys.awsRegion),
     });
-    this.s3 = new AWS.S3();
   }
 
   async saveMovieToPermanentStorage(fileName: string) {
@@ -32,22 +34,18 @@ export class CommonService {
         envVariableKeys.bucketName,
       );
       // 저장된 파일을 복사함 public/movie에
-      await this.s3
-        .copyObject({
-          Bucket: bucketName,
-          CopySource: `${bucketName}/public/temp/${fileName}`,
-          Key: `public/movie/${fileName}`,
-          ACL: 'public-read',
-        })
-        .promise();
+      await this.s3.copyObject({
+        Bucket: bucketName,
+        CopySource: `${bucketName}/public/temp/${fileName}`,
+        Key: `public/movie/${fileName}`,
+        ACL: 'public-read',
+      });
 
       // 그리고 이전 temp 폴더에 저장한 파일 삭제함
-      await this.s3
-        .deleteObject({
-          Bucket: bucketName,
-          Key: `public/temp/${fileName}`,
-        })
-        .promise();
+      await this.s3.deleteObject({
+        Bucket: bucketName,
+        Key: `public/temp/${fileName}`,
+      });
     } catch (e) {
       console.log(e);
       throw new InternalServerErrorException(`S3 에러!`);
@@ -59,12 +57,13 @@ export class CommonService {
     const params = {
       Bucket: this.configService.get<string>(envVariableKeys.bucketName),
       Key: `public/temp/${Uuid()}.mp4`,
-      Expires: expiresIn,
-      ACL: 'public-read', // 아무나 읽게 하겠다
+      ACL: ObjectCannedACL.public_read, // 아무나 읽게 하겠다
     };
 
     try {
-      const url = await this.s3.getSignedUrlPromise('putObject', params);
+      const url = await getSignedUrl(this.s3, new PutObjectCommand(params), {
+        expiresIn,
+      });
 
       return url;
     } catch (e) {

@@ -87,11 +87,6 @@ exports.AppModule = AppModule = __decorate([
                     synchronize: configService.get(env_const_1.envVariableKeys.env) === 'prod'
                         ? false
                         : true,
-                    ...(configService.get(env_const_1.envVariableKeys.env) === 'prod' && {
-                        ssl: {
-                            rejectUnauthorized: false,
-                        },
-                    }),
                 }),
                 inject: [config_1.ConfigService],
             }),

@@ -72,11 +72,11 @@ import * as winston from 'winston';
           configService.get<string>(envVariableKeys.env) === 'prod'
             ? false
             : true,
-        ...(configService.get<string>(envVariableKeys.env) === 'prod' && {
-          ssl: {
-            rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
-          },
-        }),
+        // ...(configService.get<string>(envVariableKeys.env) === 'prod' && {
+        // ssl: {
+        //   rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
+        // },
+        // }),
       }),
       inject: [ConfigService],
     }),
