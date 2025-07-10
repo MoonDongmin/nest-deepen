@@ -66,7 +66,7 @@ import * as winston from 'winston';
         entities: [Movie, MovieDetail, Director, Genre, User, MovieUserLike],
         synchronize: true,
         ssl: {
-          rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬
+          rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
         },
       }),
       inject: [ConfigService],
