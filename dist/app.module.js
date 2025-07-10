@@ -69,6 +69,10 @@ exports.AppModule = AppModule = __decorate([
                     HASH_ROUNDS: Joi.number().required(),
                     ACCESS_TOKEN_SECRET: Joi.string().required(),
                     REFRESH_TOKEN_SECRET: Joi.string().required(),
+                    AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+                    AWS_ACCESS_KEY_ID: Joi.string().required(),
+                    AWS_REGION: Joi.string().required(),
+                    BUCKET_NAME: Joi.string().required(),
                 }),
             }),
             typeorm_1.TypeOrmModule.forRootAsync({

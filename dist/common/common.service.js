@@ -11,8 +11,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CommonService = void 0;
 const common_1 = require("@nestjs/common");
+const AWS = require("aws-sdk");
+const uuid_1 = require("uuid");
+const config_1 = require("@nestjs/config");
+const env_const_1 = require("./const/env.const");
 let CommonService = class CommonService {
-    constructor() { }
+    constructor(configService) {
+        this.configService = configService;
+        AWS.config.update({
+            accessKeyId: configService.get(env_const_1.envVariableKeys.awsAccessKeyId),
+            secretAccessKey: configService.get(env_const_1.envVariableKeys.awsSecretAccessKey),
+            region: configService.get(env_const_1.envVariableKeys.awsRegion),
+        });
+        this.s3 = new AWS.S3();
+    }
+    async createPresignedUrl(expiresIn = 300) {
+        const params = {
+            Bucket: this.configService.get(env_const_1.envVariableKeys.bucketName),
+            Key: `temp/${(0, uuid_1.v4)()}.mp4`,
+            Expires: expiresIn,
+            ACL: 'public-read',
+        };
+        try {
+            const url = await this.s3.getSignedUrlPromise('putObject', params);
+            return url;
+        }
+        catch (e) {
+            console.log(e);
+            throw new common_1.InternalServerErrorException(`S3 Presigned URL 생성 실패`);
+        }
+    }
     applyPagePaginationParamsToQb(qb, dto) {
         const { page, take } = dto;
         const skip = (page - 1) * take;
@@ -74,6 +102,6 @@ let CommonService = class CommonService {
 exports.CommonService = CommonService;
 exports.CommonService = CommonService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [config_1.ConfigService])
 ], CommonService);
 //# sourceMappingURL=common.service.js.map

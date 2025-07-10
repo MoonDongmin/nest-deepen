@@ -17,10 +17,19 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
+const common_service_1 = require("./common.service");
 let CommonController = class CommonController {
+    constructor(commonService) {
+        this.commonService = commonService;
+    }
     createVideo(movie) {
         return {
             fileName: movie.filename,
+        };
+    }
+    async createPresignedUrl() {
+        return {
+            url: await this.commonService.createPresignedUrl(),
         };
     }
 };
@@ -44,8 +53,16 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], CommonController.prototype, "createVideo", null);
+__decorate([
+    (0, common_1.Post)('presigned-url'),
+    openapi.ApiResponse({ status: 201 }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], CommonController.prototype, "createPresignedUrl", null);
 exports.CommonController = CommonController = __decorate([
     (0, common_1.Controller)('common'),
-    (0, swagger_1.ApiBearerAuth)()
+    (0, swagger_1.ApiBearerAuth)(),
+    __metadata("design:paramtypes", [common_service_1.CommonService])
 ], CommonController);
 //# sourceMappingURL=common.controller.js.map
