@@ -16,6 +16,8 @@ const base_table_entity_1 = require("../../common/entity/base-table.entity");
 const class_transformer_1 = require("class-transformer");
 const movie_entity_1 = require("../../movie/entity/movie.entity");
 const movie_user_like_entity_1 = require("../../movie/entity/movie-user-like.entity");
+const chat_entity_1 = require("../../chat/entity/chat.entity");
+const chat_room_entity_1 = require("../../chat/entity/chat-room.entity");
 var Role;
 (function (Role) {
     Role[Role["admin"] = 0] = "admin";
@@ -24,7 +26,7 @@ var Role;
 })(Role || (exports.Role = Role = {}));
 let User = class User extends base_table_entity_1.BaseTable {
     static _OPENAPI_METADATA_FACTORY() {
-        return { id: { required: true, type: () => Number }, email: { required: true, type: () => String }, password: { required: true, type: () => String }, role: { required: true, enum: require("./user.entity").Role }, createdMovies: { required: true, type: () => [require("../../movie/entity/movie.entity").Movie] }, likedMovies: { required: true, type: () => [require("../../movie/entity/movie-user-like.entity").MovieUserLike] } };
+        return { id: { required: true, type: () => Number }, email: { required: true, type: () => String }, password: { required: true, type: () => String }, role: { required: true, enum: require("./user.entity").Role }, createdMovies: { required: true, type: () => [require("../../movie/entity/movie.entity").Movie] }, likedMovies: { required: true, type: () => [require("../../movie/entity/movie-user-like.entity").MovieUserLike] }, chats: { required: true, type: () => [require("../../chat/entity/chat.entity").Chat] }, chatRooms: { required: true, type: () => [require("../../chat/entity/chat-room.entity").ChatRoom] } };
     }
 };
 exports.User = User;
@@ -60,6 +62,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => movie_user_like_entity_1.MovieUserLike, (mul) => mul.user),
     __metadata("design:type", Array)
 ], User.prototype, "likedMovies", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => chat_entity_1.Chat, (chat) => chat.author),
+    __metadata("design:type", Array)
+], User.prototype, "chats", void 0);
+__decorate([
+    (0, typeorm_1.ManyToMany)(() => chat_room_entity_1.ChatRoom, (chatRoom) => chatRoom.users),
+    __metadata("design:type", Array)
+], User.prototype, "chatRooms", void 0);
 exports.User = User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

@@ -5,8 +5,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Role, User } from '../user/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Role, User }       from '../user/entity/user.entity';
+import { Repository }       from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -159,7 +159,7 @@ export class AuthService {
       },
       {
         secret: isRefreshToken ? refreshTokenSecret : accessTokenSecret,
-        expiresIn: isRefreshToken ? '24h' : 300,
+        expiresIn: isRefreshToken ? '24h' : '1h',
       },
     );
   }

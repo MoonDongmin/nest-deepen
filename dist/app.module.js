@@ -20,7 +20,7 @@ const genre_module_1 = require("./genre/genre.module");
 const genre_entity_1 = require("./genre/entity/genre.entity");
 const auth_module_1 = require("./auth/auth.module");
 const user_module_1 = require("./user/user.module");
-const user_entity_1 = require("./user/entities/user.entity");
+const user_entity_1 = require("./user/entity/user.entity");
 const env_const_1 = require("./common/const/env.const");
 const bearer_token_middleware_1 = require("./auth/middleware/bearer-token.middleware");
 const core_1 = require("@nestjs/core");
@@ -36,7 +36,10 @@ const cache_manager_1 = require("@nestjs/cache-manager");
 const throttle_interceptor_1 = require("./common/interceptor/throttle.interceptor");
 const schedule_1 = require("@nestjs/schedule");
 const nest_winston_1 = require("nest-winston");
+const chat_module_1 = require("./chat/chat.module");
 const winston = require("winston");
+const chat_entity_1 = require("./chat/entity/chat.entity");
+const chat_room_entity_1 = require("./chat/entity/chat-room.entity");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -79,11 +82,17 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get(env_const_1.envVariableKeys.dbUsername),
                     password: configService.get(env_const_1.envVariableKeys.dbPassword),
                     database: configService.get(env_const_1.envVariableKeys.dbDatabase),
-                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User, movie_user_like_entity_1.MovieUserLike],
+                    entities: [
+                        movie_entity_1.Movie,
+                        movie_detail_entity_1.MovieDetail,
+                        director_entity_1.Director,
+                        genre_entity_1.Genre,
+                        user_entity_1.User,
+                        movie_user_like_entity_1.MovieUserLike,
+                        chat_entity_1.Chat,
+                        chat_room_entity_1.ChatRoom,
+                    ],
                     synchronize: true,
-                    ssl: {
-                        rejectUnauthorized: false,
-                    },
                 }),
                 inject: [config_1.ConfigService],
             }),
@@ -116,6 +125,7 @@ exports.AppModule = AppModule = __decorate([
             genre_module_1.GenreModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
+            chat_module_1.ChatModule,
         ],
         providers: [
             {

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RbacGuard = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
-const user_entity_1 = require("../../user/entities/user.entity");
+const user_entity_1 = require("../../user/entity/user.entity");
 const rbac_decorator_1 = require("../decorator/rbac.decorator");
 let RbacGuard = class RbacGuard {
     constructor(reflector) {

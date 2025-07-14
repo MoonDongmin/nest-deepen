@@ -7,7 +7,7 @@ import { Director } from '../director/entity/director.entity';
 import { Genre } from '../genre/entity/genre.entity';
 import { GetMoviesDto } from './dto/get-movies.dto';
 import { CommonService } from '../common/common.service';
-import { User } from '../user/entities/user.entity';
+import { User } from '../user/entity/user.entity';
 import { MovieUserLike } from './entity/movie-user-like.entity';
 import { Cache } from '@nestjs/cache-manager';
 export declare class MovieService {
