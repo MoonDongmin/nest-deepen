@@ -20,6 +20,7 @@ const auth_service_1 = require("../auth/auth.service");
 const common_1 = require("@nestjs/common");
 const ws_transaction_interceptor_1 = require("../common/interceptor/ws-transaction.interceptor");
 const ws_query_runner_decorator_1 = require("../common/decorator/ws-query-runner.decorator");
+const create_chat_dto_1 = require("./dto/create-chat.dto");
 let ChatGateway = class ChatGateway {
     constructor(chatService, authService) {
         this.chatService = chatService;
@@ -49,7 +50,10 @@ let ChatGateway = class ChatGateway {
             client.disconnect();
         }
     }
-    async handleMessage(body, client, qr) { }
+    async handleMessage(body, client, qr) {
+        const payload = client.data.user;
+        await this.chatService.createMessage(payload, body, qr);
+    }
 };
 exports.ChatGateway = ChatGateway;
 __decorate([
@@ -59,7 +63,8 @@ __decorate([
     __param(1, (0, websockets_1.ConnectedSocket)()),
     __param(2, (0, ws_query_runner_decorator_1.WsQueryRunner)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, socket_io_1.Socket, Object]),
+    __metadata("design:paramtypes", [create_chat_dto_1.CreateChatDto,
+        socket_io_1.Socket, Object]),
     __metadata("design:returntype", Promise)
 ], ChatGateway.prototype, "handleMessage", null);
 exports.ChatGateway = ChatGateway = __decorate([

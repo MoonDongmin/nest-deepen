@@ -13,6 +13,7 @@ import { UseInterceptors } from '@nestjs/common';
 import { WsTransactionInterceptor } from '../common/interceptor/ws-transaction.interceptor';
 import { WsQueryRunner } from '../common/decorator/ws-query-runner.decorator';
 import { QueryRunner } from 'typeorm';
+import { CreateChatDto } from './dto/create-chat.dto';
 
 // controller의 역할을 함
 @WebSocketGateway()
@@ -51,10 +52,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('sendMessage')
   @UseInterceptors(WsTransactionInterceptor)
   async handleMessage(
-    @MessageBody() body: { message: string },
+    @MessageBody() body: CreateChatDto,
     @ConnectedSocket() client: Socket,
     @WsQueryRunner() qr: QueryRunner,
-  ) {}
+  ) {
+    const payload = client.data.user;
+    await this.chatService.createMessage(payload, body, qr);
+  }
 
   // @SubscribeMessage('receiveMessage')
   // async receiveMessage(

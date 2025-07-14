@@ -121,7 +121,7 @@ let AuthService = class AuthService {
             type: isRefreshToken ? 'refresh' : 'access',
         }, {
             secret: isRefreshToken ? refreshTokenSecret : accessTokenSecret,
-            expiresIn: isRefreshToken ? '24h' : 300,
+            expiresIn: isRefreshToken ? '24h' : '1h',
         });
     }
     async login(rawToken) {
