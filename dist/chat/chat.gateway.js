@@ -16,9 +16,30 @@ exports.ChatGateway = void 0;
 const websockets_1 = require("@nestjs/websockets");
 const chat_service_1 = require("./chat.service");
 const socket_io_1 = require("socket.io");
+const auth_service_1 = require("../auth/auth.service");
 let ChatGateway = class ChatGateway {
-    constructor(chatService) {
+    constructor(chatService, authService) {
         this.chatService = chatService;
+        this.authService = authService;
+    }
+    handleDisconnect(client) {
+        return;
+    }
+    async handleConnection(client) {
+        try {
+            const rawToken = client.handshake.headers.authorization;
+            const payload = await this.authService.parseBearerToken(rawToken, false);
+            if (payload) {
+                client.data.user = payload;
+            }
+            else {
+                client.disconnect();
+            }
+        }
+        catch (e) {
+            console.log(e);
+            client.disconnect();
+        }
     }
     async receiveMessage(data, client) {
         console.log('receiveMessage');
@@ -59,6 +80,7 @@ __decorate([
 ], ChatGateway.prototype, "sendMessage", null);
 exports.ChatGateway = ChatGateway = __decorate([
     (0, websockets_1.WebSocketGateway)(),
-    __metadata("design:paramtypes", [chat_service_1.ChatService])
+    __metadata("design:paramtypes", [chat_service_1.ChatService,
+        auth_service_1.AuthService])
 ], ChatGateway);
 //# sourceMappingURL=chat.gateway.js.map
