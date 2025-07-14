@@ -16,7 +16,7 @@ const movie_detail_entity_1 = require("./entity/movie-detail.entity");
 const director_entity_1 = require("../director/entity/director.entity");
 const genre_entity_1 = require("../genre/entity/genre.entity");
 const common_module_1 = require("../common/common.module");
-const user_entity_1 = require("../user/entities/user.entity");
+const user_entity_1 = require("../user/entity/user.entity");
 const movie_user_like_entity_1 = require("./entity/movie-user-like.entity");
 let MovieModule = class MovieModule {
 };

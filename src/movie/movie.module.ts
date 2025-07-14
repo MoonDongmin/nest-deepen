@@ -11,8 +11,8 @@ import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
 import * as process from 'node:process';
-import { v4 } from 'uuid';
-import { User } from '../user/entities/user.entity';
+import { v4 }            from 'uuid';
+import { User }          from '../user/entity/user.entity';
 import { MovieUserLike } from './entity/movie-user-like.entity';
 import { CacheModule } from '@nestjs/cache-manager';
 
