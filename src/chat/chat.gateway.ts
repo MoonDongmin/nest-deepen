@@ -19,7 +19,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {}
 
   handleDisconnect(client: any) {
-    return;
+    const user = client.data.user;
+    if (user) {
+      this.chatService.removeClient(user.sub);
+    }
   }
 
   // onConnection과 같음 (연결을 검증함. 사용자 검증로직을 넣어야 함)
@@ -30,6 +33,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       const payload = await this.authService.parseBearerToken(rawToken, false);
       if (payload) {
         client.data.user = payload;
+        this.chatService.registerClient(payload.sub, client);
+        this.chatService.joinUserRooms(payload, client);
       } else {
         client.disconnect();
       }
@@ -39,32 +44,32 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-  @SubscribeMessage('receiveMessage')
-  async receiveMessage(
-    @MessageBody() data: { message: string }, // 받기로 한 타입
-    @ConnectedSocket() client: Socket, // 연결된 사람의 정보
-  ) {
-    console.log('receiveMessage');
-    console.log(data);
-    console.log(client);
-  }
+  // @SubscribeMessage('receiveMessage')
+  // async receiveMessage(
+  //   @MessageBody() data: { message: string }, // 받기로 한 타입
+  //   @ConnectedSocket() client: Socket, // 연결된 사람의 정보
+  // ) {
+  //   console.log('receiveMessage');
+  //   console.log(data);
+  //   console.log(client);
+  // }
 
-  @SubscribeMessage('sendMessage')
-  async sendMessage(
-    @MessageBody() data: { message: string },
-    @ConnectedSocket() client: Socket,
-  ) {
-    client.emit('sendMessage', {
-      ...data,
-      from: 'server',
-    });
-    client.emit('sendMessage', {
-      ...data,
-      from: 'server',
-    });
-    client.emit('sendMessage', {
-      ...data,
-      from: 'server',
-    });
-  }
+  // @SubscribeMessage('sendMessage')
+  // async sendMessage(
+  //   @MessageBody() data: { message: string },
+  //   @ConnectedSocket() client: Socket,
+  // ) {
+  //   client.emit('sendMessage', {
+  //     ...data,
+  //     from: 'server',
+  //   });
+  //   client.emit('sendMessage', {
+  //     ...data,
+  //     from: 'server',
+  //   });
+  //   client.emit('sendMessage', {
+  //     ...data,
+  //     from: 'server',
+  //   });
+  // }
 }

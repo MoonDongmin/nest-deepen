@@ -8,10 +8,4 @@ export declare class ChatGateway implements OnGatewayConnection, OnGatewayDiscon
     constructor(chatService: ChatService, authService: AuthService);
     handleDisconnect(client: any): void;
     handleConnection(client: Socket): Promise<void>;
-    receiveMessage(data: {
-        message: string;
-    }, client: Socket): Promise<void>;
-    sendMessage(data: {
-        message: string;
-    }, client: Socket): Promise<void>;
 }
