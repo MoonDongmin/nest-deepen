@@ -36,6 +36,7 @@ const cache_manager_1 = require("@nestjs/cache-manager");
 const throttle_interceptor_1 = require("./common/interceptor/throttle.interceptor");
 const schedule_1 = require("@nestjs/schedule");
 const nest_winston_1 = require("nest-winston");
+const chat_module_1 = require("./chat/chat.module");
 const winston = require("winston");
 let AppModule = class AppModule {
     configure(consumer) {
@@ -81,9 +82,6 @@ exports.AppModule = AppModule = __decorate([
                     database: configService.get(env_const_1.envVariableKeys.dbDatabase),
                     entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User, movie_user_like_entity_1.MovieUserLike],
                     synchronize: true,
-                    ssl: {
-                        rejectUnauthorized: false,
-                    },
                 }),
                 inject: [config_1.ConfigService],
             }),
@@ -116,6 +114,7 @@ exports.AppModule = AppModule = __decorate([
             genre_module_1.GenreModule,
             auth_module_1.AuthModule,
             user_module_1.UserModule,
+            chat_module_1.ChatModule,
         ],
         providers: [
             {

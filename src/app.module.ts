@@ -33,6 +33,7 @@ import { CacheModule } from '@nestjs/cache-manager';
 import { ThrottleInterceptor } from './common/interceptor/throttle.interceptor';
 import { ScheduleModule } from '@nestjs/schedule';
 import { WinstonModule } from 'nest-winston';
+import { ChatModule } from './chat/chat.module';
 import * as winston from 'winston';
 
 @Module({
@@ -65,9 +66,9 @@ import * as winston from 'winston';
         database: configService.get<string>(envVariableKeys.dbDatabase),
         entities: [Movie, MovieDetail, Director, Genre, User, MovieUserLike],
         synchronize: true,
-        ssl: {
-          rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
-        },
+        // ssl: {
+        //   rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
+        // },
       }),
       inject: [ConfigService],
     }),
@@ -116,6 +117,7 @@ import * as winston from 'winston';
     GenreModule,
     AuthModule,
     UserModule,
+    ChatModule,
   ],
   providers: [
     {
