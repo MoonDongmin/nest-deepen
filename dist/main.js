@@ -5,6 +5,11 @@ const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const nest_winston_1 = require("nest-winston");
 const swagger_1 = require("@nestjs/swagger");
+const ffmpeg = require("@ffmpeg-installer/ffmpeg");
+const ffmpegFluent = require("fluent-ffmpeg");
+const ffprobe = require("ffprobe-static");
+ffmpegFluent.setFfmpegPath(ffmpeg.path);
+ffmpegFluent.setFfprobePath(ffprobe.path);
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
         logger: ['verbose'],
