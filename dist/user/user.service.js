@@ -67,15 +67,21 @@ let UserService = class UserService {
         if (!user) {
             throw new common_1.NotFoundException(`존재하지 않는 사용자입니다!`);
         }
-        const hash = await bcrypt.hash(password, this.configService.get(env_const_1.envVariableKeys.hashRounds));
+        let input = {
+            ...updateUserDto,
+        };
+        if (password) {
+            const hash = await bcrypt.hash(password, this.configService.get(env_const_1.envVariableKeys.hashRounds));
+            input = {
+                ...input,
+                password: hash,
+            };
+        }
         await this.prisma.user.update({
             where: {
                 id,
             },
-            data: {
-                ...updateUserDto,
-                password: hash,
-            },
+            data: input,
         });
         return this.prisma.user.findUnique({
             where: {
