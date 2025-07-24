@@ -38,7 +38,14 @@ let MovieController = class MovieController {
     getMoviesRecent() {
         return this.movieService.findRecent();
     }
-    getMovie(id) {
+    getMovie(id, request) {
+        const session = request.session;
+        const movieCount = session.movieCount ?? {};
+        request.session.movieCount = {
+            ...movieCount,
+            [id]: movieCount[id] ? movieCount[id] + 1 : 1,
+        };
+        console.log(session);
         return this.movieService.findOne(id);
     }
     postMovie(body, queryRunner, userId) {
@@ -94,8 +101,9 @@ __decorate([
     (0, public_decorator_1.Public)(),
     openapi.ApiResponse({ status: 200, type: require("./entity/movie.entity").Movie }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovie", null);
 __decorate([

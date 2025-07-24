@@ -8,6 +8,7 @@ const swagger_1 = require("@nestjs/swagger");
 const ffmpeg = require("@ffmpeg-installer/ffmpeg");
 const ffmpegFluent = require("fluent-ffmpeg");
 const ffprobe = require("ffprobe-static");
+const session = require("express-session");
 ffmpegFluent.setFfmpegPath(ffmpeg.path);
 ffmpegFluent.setFfprobePath(ffprobe.path);
 async function bootstrap() {
@@ -34,6 +35,9 @@ async function bootstrap() {
         transformOptions: {
             enableImplicitConversion: true,
         },
+    }));
+    app.use(session({
+        secret: 'secret',
     }));
     await app.listen(process.env.PORT || 3000);
 }
