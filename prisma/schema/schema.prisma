@@ -9,7 +9,7 @@ generator client {
 }
 
 enum Role {
-  amidn
+  admin
   paidUser
   user
 }
