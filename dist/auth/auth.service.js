@@ -100,6 +100,11 @@ let AuthService = class AuthService {
             where: {
                 email,
             },
+            select: {
+                id: true,
+                password: true,
+                role: true,
+            },
         });
         if (!user) {
             throw new common_1.BadRequestException(`잘못된 로그인 정보입니다.`);

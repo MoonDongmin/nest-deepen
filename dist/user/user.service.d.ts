@@ -8,27 +8,27 @@ export declare class UserService {
     private readonly prisma;
     constructor(configService: ConfigService, prisma: PrismaService);
     create(createUserDto: CreateUserDto): Promise<{
+        id: number;
         email: string;
         password: string;
-        id: number;
         role: import("@prisma/client").$Enums.Role;
     }>;
     findAll(): Prisma.PrismaPromise<{
+        id: number;
         email: string;
         password: string;
-        id: number;
         role: import("@prisma/client").$Enums.Role;
     }[]>;
     findOne(id: number): Promise<{
+        id: number;
         email: string;
         password: string;
-        id: number;
         role: import("@prisma/client").$Enums.Role;
     }>;
     update(id: number, updateUserDto: UpdateUserDto): Promise<{
+        id: number;
         email: string;
         password: string;
-        id: number;
         role: import("@prisma/client").$Enums.Role;
     }>;
     remove(id: number): Promise<number>;

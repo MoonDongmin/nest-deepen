@@ -12,12 +12,13 @@ const genre_service_1 = require("./genre.service");
 const genre_controller_1 = require("./genre.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const genre_entity_1 = require("./entity/genre.entity");
+const common_module_1 = require("../common/common.module");
 let GenreModule = class GenreModule {
 };
 exports.GenreModule = GenreModule;
 exports.GenreModule = GenreModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([genre_entity_1.Genre])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([genre_entity_1.Genre]), common_module_1.CommonModule],
         controllers: [genre_controller_1.GenreController],
         providers: [genre_service_1.GenreService],
     })
