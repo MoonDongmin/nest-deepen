@@ -40,6 +40,7 @@ const chat_module_1 = require("./chat/chat.module");
 const winston = require("winston");
 const chat_entity_1 = require("./chat/entity/chat.entity");
 const chat_room_entity_1 = require("./chat/entity/chat-room.entity");
+const worker_module_1 = require("./worker/worker.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -126,6 +127,7 @@ exports.AppModule = AppModule = __decorate([
             auth_module_1.AuthModule,
             user_module_1.UserModule,
             chat_module_1.ChatModule,
+            config_1.ConditionalModule.registerWhen(worker_module_1.WorkerModule, (env) => env['TYPE'] === 'worker'),
         ],
         providers: [
             {
