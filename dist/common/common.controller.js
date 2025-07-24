@@ -27,6 +27,13 @@ let CommonController = class CommonController {
         await this.thumbnailQueue.add('thumbnail', {
             videoId: movie.filename,
             videoPath: movie.path,
+        }, {
+            priority: 1,
+            delay: 100,
+            attempts: 3,
+            lifo: true,
+            removeOnComplete: true,
+            removeOnFail: true,
         });
         return {
             fileName: movie.filename,
