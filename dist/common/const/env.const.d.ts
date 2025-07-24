@@ -9,4 +9,8 @@ export declare const envVariableKeys: {
     hashRounds: string;
     accessTokenSecret: string;
     refreshTokenSecret: string;
+    awsSecretAccessKey: string;
+    awsAccessKeyId: string;
+    awsRegion: string;
+    bucketName: string;
 };

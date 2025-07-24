@@ -7,12 +7,14 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { CommonService } from './common.service';
 import { Queue } from 'bullmq';
 import { InjectQueue } from '@nestjs/bullmq';
 
 @Controller('common')
 @ApiBearerAuth()
 export class CommonController {
+  constructor(private readonly commonService: CommonService) {}
   constructor(
     @InjectQueue('thumbnail-generation')
     private readonly thumbnailQueue: Queue,
@@ -54,6 +56,13 @@ export class CommonController {
 
     return {
       fileName: movie.filename,
+    };
+  }
+
+  @Post('presigned-url')
+  async createPresignedUrl() {
+    return {
+      url: await this.commonService.createPresignedUrl(),
     };
   }
 }

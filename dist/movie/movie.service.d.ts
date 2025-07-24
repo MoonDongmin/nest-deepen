@@ -10,6 +10,7 @@ import { CommonService } from '../common/common.service';
 import { User } from '../user/entity/user.entity';
 import { MovieUserLike } from './entity/movie-user-like.entity';
 import { Cache } from '@nestjs/cache-manager';
+import { ConfigService } from '@nestjs/config';
 export declare class MovieService {
     private readonly movieRepository;
     private readonly movieDetailRepository;
@@ -20,7 +21,8 @@ export declare class MovieService {
     private readonly dataSource;
     private readonly commonService;
     private readonly cacheManager;
-    constructor(movieRepository: Repository<Movie>, movieDetailRepository: Repository<MovieDetail>, directorRepository: Repository<Director>, genreRepository: Repository<Genre>, userRepository: Repository<User>, movieUserLikeRepository: Repository<MovieUserLike>, dataSource: DataSource, commonService: CommonService, cacheManager: Cache);
+    private readonly configService;
+    constructor(movieRepository: Repository<Movie>, movieDetailRepository: Repository<MovieDetail>, directorRepository: Repository<Director>, genreRepository: Repository<Genre>, userRepository: Repository<User>, movieUserLikeRepository: Repository<MovieUserLike>, dataSource: DataSource, commonService: CommonService, cacheManager: Cache, configService: ConfigService);
     findRecent(): Promise<unknown>;
     getMovies(): Promise<import("typeorm").SelectQueryBuilder<Movie>>;
     getLikedMovies(movieIds: number[], userId: number): Promise<MovieUserLike[]>;

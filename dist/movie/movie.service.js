@@ -26,8 +26,10 @@ const promises_1 = require("fs/promises");
 const user_entity_1 = require("../user/entity/user.entity");
 const movie_user_like_entity_1 = require("./entity/movie-user-like.entity");
 const cache_manager_1 = require("@nestjs/cache-manager");
+const config_1 = require("@nestjs/config");
+const env_const_1 = require("../common/const/env.const");
 let MovieService = class MovieService {
-    constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository, userRepository, movieUserLikeRepository, dataSource, commonService, cacheManager) {
+    constructor(movieRepository, movieDetailRepository, directorRepository, genreRepository, userRepository, movieUserLikeRepository, dataSource, commonService, cacheManager, configService) {
         this.movieRepository = movieRepository;
         this.movieDetailRepository = movieDetailRepository;
         this.directorRepository = directorRepository;
@@ -37,6 +39,7 @@ let MovieService = class MovieService {
         this.dataSource = dataSource;
         this.commonService = commonService;
         this.cacheManager = cacheManager;
+        this.configService = configService;
     }
     async findRecent() {
         const cacheData = await this.cacheManager.get('MOVIE_RECENT');
@@ -146,7 +149,12 @@ let MovieService = class MovieService {
             .add(genres.map((genre) => genre.id));
     }
     async renameMovieFile(tempFolder, movieFolder, createMovieDto) {
-        return (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
+        if (this.configService.get(env_const_1.envVariableKeys.env) !== 'prod') {
+            return (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
+        }
+        else {
+            return this.commonService.saveMovieToPermanentStorage(createMovieDto.movieFileName);
+        }
     }
     async create(createMovieDto, userId, qr) {
         const director = await qr.manager.findOne(director_entity_1.Director, {
@@ -368,6 +376,7 @@ exports.MovieService = MovieService = __decorate([
         typeorm_2.Repository,
         typeorm_2.DataSource,
         common_service_1.CommonService,
-        cache_manager_1.Cache])
+        cache_manager_1.Cache,
+        config_1.ConfigService])
 ], MovieService);
 //# sourceMappingURL=movie.service.js.map

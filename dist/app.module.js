@@ -73,6 +73,10 @@ exports.AppModule = AppModule = __decorate([
                     HASH_ROUNDS: Joi.number().required(),
                     ACCESS_TOKEN_SECRET: Joi.string().required(),
                     REFRESH_TOKEN_SECRET: Joi.string().required(),
+                    AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+                    AWS_ACCESS_KEY_ID: Joi.string().required(),
+                    AWS_REGION: Joi.string().required(),
+                    BUCKET_NAME: Joi.string().required(),
                 }),
             }),
             typeorm_1.TypeOrmModule.forRootAsync({
@@ -83,6 +87,10 @@ exports.AppModule = AppModule = __decorate([
                     username: configService.get(env_const_1.envVariableKeys.dbUsername),
                     password: configService.get(env_const_1.envVariableKeys.dbPassword),
                     database: configService.get(env_const_1.envVariableKeys.dbDatabase),
+                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User, movie_user_like_entity_1.MovieUserLike],
+                    synchronize: configService.get(env_const_1.envVariableKeys.env) === 'prod'
+                        ? false
+                        : true,
                     entities: [
                         movie_entity_1.Movie,
                         movie_detail_entity_1.MovieDetail,

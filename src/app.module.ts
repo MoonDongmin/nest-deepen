@@ -54,6 +54,10 @@ import { WorkerModule } from './worker/worker.module';
         HASH_ROUNDS: Joi.number().required(),
         ACCESS_TOKEN_SECRET: Joi.string().required(),
         REFRESH_TOKEN_SECRET: Joi.string().required(),
+        AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+        AWS_ACCESS_KEY_ID: Joi.string().required(),
+        AWS_REGION: Joi.string().required(),
+        BUCKET_NAME: Joi.string().required(),
       }),
     }),
     // 비동기여야 하는 이유 -> ConfigModule에 설정된 값을 기반으로 설정해야 하기에
@@ -66,20 +70,16 @@ import { WorkerModule } from './worker/worker.module';
         username: configService.get<string>(envVariableKeys.dbUsername),
         password: configService.get<string>(envVariableKeys.dbPassword),
         database: configService.get<string>(envVariableKeys.dbDatabase),
-        entities: [
-          Movie,
-          MovieDetail,
-          Director,
-          Genre,
-          User,
-          MovieUserLike,
-          Chat,
-          ChatRoom,
-        ],
-        synchronize: true,
+        entities: [Movie, MovieDetail, Director, Genre, User, MovieUserLike, Chat, ChatRoom],
+        synchronize:
+          configService.get<string>(envVariableKeys.env) === 'prod'
+            ? false
+            : true,
+        // ...(configService.get<string>(envVariableKeys.env) === 'prod' && {
         // ssl: {
         //   rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
         // },
+        // }),
       }),
       inject: [ConfigService],
     }),
