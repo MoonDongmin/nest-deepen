@@ -17,8 +17,17 @@ const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
+const bullmq_1 = require("bullmq");
+const bullmq_2 = require("@nestjs/bullmq");
 let CommonController = class CommonController {
-    createVideo(movie) {
+    constructor(thumbnailQueue) {
+        this.thumbnailQueue = thumbnailQueue;
+    }
+    async createVideo(movie) {
+        await this.thumbnailQueue.add('thumbnail', {
+            videoId: movie.filename,
+            videoPath: movie.path,
+        });
         return {
             fileName: movie.filename,
         };
@@ -42,10 +51,12 @@ __decorate([
     __param(0, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], CommonController.prototype, "createVideo", null);
 exports.CommonController = CommonController = __decorate([
     (0, common_1.Controller)('common'),
-    (0, swagger_1.ApiBearerAuth)()
+    (0, swagger_1.ApiBearerAuth)(),
+    __param(0, (0, bullmq_2.InjectQueue)('thumbnail-generation')),
+    __metadata("design:paramtypes", [bullmq_1.Queue])
 ], CommonController);
 //# sourceMappingURL=common.controller.js.map

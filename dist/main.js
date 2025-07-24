@@ -5,6 +5,12 @@ const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
 const nest_winston_1 = require("nest-winston");
 const swagger_1 = require("@nestjs/swagger");
+const ffmpeg = require("@ffmpeg-installer/ffmpeg");
+const ffmpegFluent = require("fluent-ffmpeg");
+const ffprobe = require("ffprobe-static");
+const session = require("express-session");
+ffmpegFluent.setFfmpegPath(ffmpeg.path);
+ffmpegFluent.setFfprobePath(ffprobe.path);
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule, {
         logger: ['verbose'],
@@ -30,7 +36,10 @@ async function bootstrap() {
             enableImplicitConversion: true,
         },
     }));
-    await app.listen(3000);
+    app.use(session({
+        secret: 'secret',
+    }));
+    await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

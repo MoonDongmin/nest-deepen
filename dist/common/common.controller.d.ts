@@ -1,5 +1,8 @@
+import { Queue } from 'bullmq';
 export declare class CommonController {
-    createVideo(movie: Express.Multer.File): {
+    private readonly thumbnailQueue;
+    constructor(thumbnailQueue: Queue);
+    createVideo(movie: Express.Multer.File): Promise<{
         fileName: string;
-    };
+    }>;
 }

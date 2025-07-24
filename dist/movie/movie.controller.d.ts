@@ -12,7 +12,7 @@ export declare class MovieController {
         count: number;
     }>;
     getMoviesRecent(): Promise<unknown>;
-    getMovie(id: number): Promise<import("./entity/movie.entity").Movie>;
+    getMovie(id: number, request: any): Promise<import("./entity/movie.entity").Movie>;
     postMovie(body: CreateMovieDto, queryRunner: QR, userId: number): Promise<import("./entity/movie.entity").Movie>;
     patchMovie(id: number, body: UpdateMovieDto): Promise<import("./entity/movie.entity").Movie>;
     deleteMovie(id: number): Promise<number>;
