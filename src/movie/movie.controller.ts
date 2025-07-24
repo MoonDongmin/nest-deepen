@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  Req,
   UseInterceptors,
   VERSION_NEUTRAL,
 } from '@nestjs/common';
@@ -17,7 +18,7 @@ import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Public } from '../auth/decorator/public.decorator';
 import { RBAC } from 'src/auth/decorator/rbac.decorator';
-import { Role } from '../user/entities/user.entity';
+import { Role } from '../user/entity/user.entity';
 import { GetMoviesDto } from './dto/get-movies.dto';
 import { TransactionInterceptor } from '../common/interceptor/transaction.interceptor';
 import { UserId } from '../user/decorator/user-id.decorator';
@@ -76,7 +77,18 @@ export class MovieController {
       // }),
     )
     id: number,
+    @Req() request: any,
   ) {
+    const session = request.session;
+
+    const movieCount = session.movieCount ?? {};
+
+    request.session.movieCount = {
+      ...movieCount,
+      [id]: movieCount[id] ? movieCount[id] + 1 : 1,
+    };
+
+    console.log(session);
     return this.movieService.findOne(id);
   }
 

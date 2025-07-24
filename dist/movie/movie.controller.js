@@ -20,7 +20,7 @@ const create_movie_dto_1 = require("./dto/create-movie.dto");
 const update_movie_dto_1 = require("./dto/update-movie.dto");
 const public_decorator_1 = require("../auth/decorator/public.decorator");
 const rbac_decorator_1 = require("../auth/decorator/rbac.decorator");
-const user_entity_1 = require("../user/entities/user.entity");
+const user_entity_1 = require("../user/entity/user.entity");
 const get_movies_dto_1 = require("./dto/get-movies.dto");
 const transaction_interceptor_1 = require("../common/interceptor/transaction.interceptor");
 const user_id_decorator_1 = require("../user/decorator/user-id.decorator");
@@ -38,7 +38,14 @@ let MovieController = class MovieController {
     getMoviesRecent() {
         return this.movieService.findRecent();
     }
-    getMovie(id) {
+    getMovie(id, request) {
+        const session = request.session;
+        const movieCount = session.movieCount ?? {};
+        request.session.movieCount = {
+            ...movieCount,
+            [id]: movieCount[id] ? movieCount[id] + 1 : 1,
+        };
+        console.log(session);
         return this.movieService.findOne(id);
     }
     postMovie(body, queryRunner, userId) {
@@ -94,8 +101,9 @@ __decorate([
     (0, public_decorator_1.Public)(),
     openapi.ApiResponse({ status: 200, type: require("./entity/movie.entity").Movie }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovie", null);
 __decorate([

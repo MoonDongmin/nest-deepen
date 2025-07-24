@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("../user/entities/user.entity");
+const user_entity_1 = require("../user/entity/user.entity");
 const typeorm_2 = require("typeorm");
 const bcrypt = require("bcrypt");
 const config_1 = require("@nestjs/config");
@@ -121,7 +121,7 @@ let AuthService = class AuthService {
             type: isRefreshToken ? 'refresh' : 'access',
         }, {
             secret: isRefreshToken ? refreshTokenSecret : accessTokenSecret,
-            expiresIn: isRefreshToken ? '24h' : 300,
+            expiresIn: isRefreshToken ? '24h' : '1h',
         });
     }
     async login(rawToken) {

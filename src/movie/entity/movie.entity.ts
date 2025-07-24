@@ -13,8 +13,8 @@ import { BaseTable } from '../../common/entity/base-table.entity';
 import { MovieDetail } from './movie-detail.entity';
 import { Director } from '../../director/entity/director.entity';
 import { Genre } from '../../genre/entity/genre.entity';
-import { Transform } from 'class-transformer';
-import { User } from '../../user/entities/user.entity';
+import { Transform }     from 'class-transformer';
+import { User }          from '../../user/entity/user.entity';
 import { MovieUserLike } from './movie-user-like.entity';
 import * as process from 'node:process';
 

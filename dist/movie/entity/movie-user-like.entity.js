@@ -13,10 +13,10 @@ exports.MovieUserLike = void 0;
 const openapi = require("@nestjs/swagger");
 const typeorm_1 = require("typeorm");
 const movie_entity_1 = require("./movie.entity");
-const user_entity_1 = require("../../user/entities/user.entity");
+const user_entity_1 = require("../../user/entity/user.entity");
 let MovieUserLike = class MovieUserLike {
     static _OPENAPI_METADATA_FACTORY() {
-        return { movie: { required: true, type: () => require("./movie.entity").Movie }, user: { required: true, type: () => require("../../user/entities/user.entity").User }, isLike: { required: true, type: () => Boolean } };
+        return { movie: { required: true, type: () => require("./movie.entity").Movie }, user: { required: true, type: () => require("../../user/entity/user.entity").User }, isLike: { required: true, type: () => Boolean } };
     }
 };
 exports.MovieUserLike = MovieUserLike;

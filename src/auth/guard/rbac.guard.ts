@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from '../../user/entities/user.entity';
-import { RBAC } from '../decorator/rbac.decorator';
+import { Role }      from '../../user/entity/user.entity';
+import { RBAC }      from '../decorator/rbac.decorator';
 
 @Injectable()
 export class RbacGuard implements CanActivate {

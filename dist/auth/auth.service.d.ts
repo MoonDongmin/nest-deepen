@@ -1,4 +1,4 @@
-import { Role, User } from '../user/entities/user.entity';
+import { Role, User } from '../user/entity/user.entity';
 import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
