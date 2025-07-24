@@ -4,9 +4,29 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
-    create(createUserDto: CreateUserDto): Promise<import("./entity/user.entity").User>;
-    findAll(): Promise<import("./entity/user.entity").User[]>;
-    findOne(id: number): Promise<import("./entity/user.entity").User>;
-    update(id: number, updateUserDto: UpdateUserDto): Promise<import("./entity/user.entity").User>;
+    create(createUserDto: CreateUserDto): Promise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
+    findAll(): import("@prisma/client").Prisma.PrismaPromise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }[]>;
+    findOne(id: number): Promise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
     remove(id: number): Promise<number>;
 }

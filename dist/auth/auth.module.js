@@ -16,6 +16,7 @@ const jwt_1 = require("@nestjs/jwt");
 const local_strategy_1 = require("./strategy/local.strategy");
 const jwt_strategy_1 = require("./strategy/jwt.strategy");
 const user_module_1 = require("../user/user.module");
+const common_module_1 = require("../common/common.module");
 let AuthModule = class AuthModule {
 };
 exports.AuthModule = AuthModule;
@@ -25,6 +26,7 @@ exports.AuthModule = AuthModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([user_entity_1.User]),
             jwt_1.JwtModule.register({}),
             user_module_1.UserModule,
+            common_module_1.CommonModule,
         ],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService, local_strategy_1.LocalStrategy, jwt_strategy_1.JwtStrategy],

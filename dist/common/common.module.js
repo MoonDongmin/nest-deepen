@@ -19,6 +19,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const movie_entity_1 = require("../movie/entity/movie.entity");
 const default_logger_1 = require("./logger/default.logger");
 const bullmq_1 = require("@nestjs/bullmq");
+const prisma_service_1 = require("./prisma.service");
 let CommonModule = class CommonModule {
 };
 exports.CommonModule = CommonModule;
@@ -52,8 +53,8 @@ exports.CommonModule = CommonModule = __decorate([
             }),
         ],
         controllers: [common_controller_1.CommonController],
-        providers: [common_service_1.CommonService, tasks_service_1.TasksService, default_logger_1.DefaultLogger],
-        exports: [common_service_1.CommonService, default_logger_1.DefaultLogger],
+        providers: [common_service_1.CommonService, tasks_service_1.TasksService, default_logger_1.DefaultLogger, prisma_service_1.PrismaService],
+        exports: [common_service_1.CommonService, default_logger_1.DefaultLogger, prisma_service_1.PrismaService],
     })
 ], CommonModule);
 //# sourceMappingURL=common.module.js.map

@@ -14,22 +14,20 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("../user/entity/user.entity");
-const typeorm_2 = require("typeorm");
 const bcrypt = require("bcrypt");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
 const env_const_1 = require("../common/const/env.const");
 const cache_manager_1 = require("@nestjs/cache-manager");
 const user_service_1 = require("../user/user.service");
+const prisma_service_1 = require("../common/prisma.service");
 let AuthService = class AuthService {
-    constructor(userRepository, userService, configService, jwtService, cacheManger) {
-        this.userRepository = userRepository;
+    constructor(userService, configService, jwtService, cacheManger, prisma) {
         this.userService = userService;
         this.configService = configService;
         this.jwtService = jwtService;
         this.cacheManger = cacheManger;
+        this.prisma = prisma;
     }
     async tokenBlock(token) {
         const payload = this.jwtService.decode(token);
@@ -98,7 +96,7 @@ let AuthService = class AuthService {
         });
     }
     async authenticate(email, password) {
-        const user = await this.userRepository.findOne({
+        const user = await this.prisma.user.findUnique({
             where: {
                 email,
             },
@@ -136,12 +134,11 @@ let AuthService = class AuthService {
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __param(4, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        user_service_1.UserService,
+    __param(3, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
+    __metadata("design:paramtypes", [user_service_1.UserService,
         config_1.ConfigService,
         jwt_1.JwtService,
-        cache_manager_1.Cache])
+        cache_manager_1.Cache,
+        prisma_service_1.PrismaService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

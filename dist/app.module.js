@@ -70,6 +70,7 @@ exports.AppModule = AppModule = __decorate([
                     DB_USERNAME: Joi.string().required(),
                     DB_PASSWORD: Joi.string().required(),
                     DB_DATABASE: Joi.string().required(),
+                    DB_URL: Joi.string().required(),
                     HASH_ROUNDS: Joi.number().required(),
                     ACCESS_TOKEN_SECRET: Joi.string().required(),
                     REFRESH_TOKEN_SECRET: Joi.string().required(),
@@ -78,11 +79,7 @@ exports.AppModule = AppModule = __decorate([
             typeorm_1.TypeOrmModule.forRootAsync({
                 useFactory: (configService) => ({
                     type: configService.get(env_const_1.envVariableKeys.dbType),
-                    host: configService.get(env_const_1.envVariableKeys.dbHost),
-                    port: configService.get(env_const_1.envVariableKeys.dbPort),
-                    username: configService.get(env_const_1.envVariableKeys.dbUsername),
-                    password: configService.get(env_const_1.envVariableKeys.dbPassword),
-                    database: configService.get(env_const_1.envVariableKeys.dbDatabase),
+                    url: configService.get(env_const_1.envVariableKeys.dbUrl),
                     entities: [
                         movie_entity_1.Movie,
                         movie_detail_entity_1.MovieDetail,
