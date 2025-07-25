@@ -1,2 +1,1 @@
-import { Role } from '../../user/entity/user.entity';
-export declare const RBAC: import("@nestjs/core").ReflectableDecorator<Role, Role>;
+export declare const RBAC: import("@nestjs/core").ReflectableDecorator<import("@prisma/client").$Enums.Role, import("@prisma/client").$Enums.Role>;

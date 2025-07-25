@@ -17,10 +17,10 @@ const class_transformer_1 = require("class-transformer");
 class CursorPaginationDto {
     constructor() {
         this.order = ['id_DESC'];
-        this.take = 5;
+        this.take = 2;
     }
     static _OPENAPI_METADATA_FACTORY() {
-        return { cursor: { required: false, type: () => String }, order: { required: true, type: () => [String], default: ['id_DESC'] }, take: { required: true, type: () => Number, default: 5 } };
+        return { cursor: { required: false, type: () => String }, order: { required: true, type: () => [String], default: ['id_DESC'] }, take: { required: true, type: () => Number, default: 2 } };
     }
 }
 exports.CursorPaginationDto = CursorPaginationDto;

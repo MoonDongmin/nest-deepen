@@ -18,14 +18,14 @@ export declare class AuthService {
     };
     parseBearerToken(rawToken: string, isRefreshToken: boolean): Promise<any>;
     register(rawToken: string): Promise<{
+        id: number;
         email: string;
         password: string;
-        id: number;
         role: import("@prisma/client").$Enums.Role;
     }>;
     authenticate(email: string, password: string): Promise<{
-        password: string;
         id: number;
+        password: string;
         role: import("@prisma/client").$Enums.Role;
     }>;
     issueToken(user: {
