@@ -19,6 +19,7 @@ const genre_entity_1 = require("../../genre/entity/genre.entity");
 const class_transformer_1 = require("class-transformer");
 const user_entity_1 = require("../../user/entity/user.entity");
 const movie_user_like_entity_1 = require("./movie-user-like.entity");
+const process = require("node:process");
 let Movie = class Movie extends base_table_entity_1.BaseTable {
     static _OPENAPI_METADATA_FACTORY() {
         return { id: { required: true, type: () => Number }, creator: { required: true, type: () => require("../../user/entity/user.entity").User }, title: { required: true, type: () => String }, genres: { required: true, type: () => [require("../../genre/entity/genre.entity").Genre] }, likeCount: { required: true, type: () => Number }, dislikeCount: { required: true, type: () => Number }, detail: { required: true, type: () => require("./movie-detail.entity").MovieDetail }, movieFilePath: { required: true, type: () => String }, director: { required: true, type: () => require("../../director/entity/director.entity").Director }, likedUsers: { required: true, type: () => [require("./movie-user-like.entity").MovieUserLike] } };
@@ -66,7 +67,9 @@ __decorate([
 ], Movie.prototype, "detail", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
-    (0, class_transformer_1.Transform)(({ value }) => `http://localthost:3000/${value}`),
+    (0, class_transformer_1.Transform)(({ value }) => process.env.ENV === 'prod'
+        ? `https://${process.env.BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${value}`
+        : `http://localthost:3000/${value}`),
     __metadata("design:type", String)
 ], Movie.prototype, "movieFilePath", void 0);
 __decorate([

@@ -12,6 +12,10 @@ const dbUrl = 'DB_URL';
 const hashRounds = 'HASH_ROUNDS';
 const accessTokenSecret = 'ACCESS_TOKEN_SECRET';
 const refreshTokenSecret = 'REFRESH_TOKEN_SECRET';
+const awsSecretAccessKey = 'AWS_SECRET_ACCESS_KEY';
+const awsAccessKeyId = 'AWS_ACCESS_KEY_ID';
+const awsRegion = 'AWS_REGION';
+const bucketName = 'BUCKET_NAME';
 exports.envVariableKeys = {
     env,
     dbType,
@@ -24,5 +28,9 @@ exports.envVariableKeys = {
     hashRounds,
     accessTokenSecret,
     refreshTokenSecret,
+    awsSecretAccessKey,
+    awsAccessKeyId,
+    awsRegion,
+    bucketName,
 };
 //# sourceMappingURL=env.const.js.map

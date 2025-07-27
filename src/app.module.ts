@@ -55,6 +55,10 @@ import { WorkerModule } from './worker/worker.module';
         HASH_ROUNDS: Joi.number().required(),
         ACCESS_TOKEN_SECRET: Joi.string().required(),
         REFRESH_TOKEN_SECRET: Joi.string().required(),
+        AWS_SECRET_ACCESS_KEY: Joi.string().required(),
+        AWS_ACCESS_KEY_ID: Joi.string().required(),
+        AWS_REGION: Joi.string().required(),
+        BUCKET_NAME: Joi.string().required(),
       }),
     }),
     // 비동기여야 하는 이유 -> ConfigModule에 설정된 값을 기반으로 설정해야 하기에
@@ -82,6 +86,7 @@ import { WorkerModule } from './worker/worker.module';
         // ssl: {
         //   rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
         // },
+        // }),
       }),
       inject: [ConfigService],
     }),

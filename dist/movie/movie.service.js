@@ -29,6 +29,7 @@ let MovieService = class MovieService {
         this.commonService = commonService;
         this.cacheManager = cacheManager;
         this.prisma = prisma;
+
     }
     async findRecent() {
         const cacheData = await this.cacheManager.get('MOVIE_RECENT');
@@ -129,6 +130,20 @@ let MovieService = class MovieService {
     async renameMovieFile(tempFolder, movieFolder, createMovieDto) {
         if (this.configService.get(env_const_1.envVariableKeys.env) !== 'prod') {
             return (0, promises_1.rename)((0, path_1.join)(process.cwd(), tempFolder, createMovieDto.movieFileName), (0, path_1.join)(process.cwd(), movieFolder, createMovieDto.movieFileName));
+
+        }
+        else {
+            return this.commonService.saveMovieToPermanentStorage(createMovieDto.movieFileName);
+        }
+    }
+    async create(createMovieDto, userId, qr) {
+        const director = await qr.manager.findOne(director_entity_1.Director, {
+            where: {
+                id: createMovieDto.directorId,
+            },
+        });
+        if (!director) {
+            throw new common_1.NotFoundException(`존재하지 않는 ID의 감독입니다!`);
         }
         else {
             return;
@@ -352,5 +367,6 @@ exports.MovieService = MovieService = __decorate([
         common_service_1.CommonService,
         cache_manager_1.Cache,
         prisma_service_1.PrismaService])
+        config_1.ConfigService])
 ], MovieService);
 //# sourceMappingURL=movie.service.js.map

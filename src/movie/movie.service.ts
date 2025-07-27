@@ -46,6 +46,7 @@ export class MovieService {
     @Inject(CACHE_MANAGER)
     private readonly cacheManager: Cache,
     private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
   ) {}
 
   async findRecent() {
@@ -277,6 +278,41 @@ export class MovieService {
       return rename(
         join(process.cwd(), tempFolder, createMovieDto.movieFileName),
         join(process.cwd(), movieFolder, createMovieDto.movieFileName),
+      );
+    } else {
+      return this.commonService.saveMovieToPermanentStorage(
+        createMovieDto.movieFileName,
+      );
+    }
+  }
+
+  async create(
+    createMovieDto: CreateMovieDto,
+    userId: number,
+    qr: QueryRunner,
+  ) {
+    // 트랜잭션 만들 때 사용
+    const director = await qr.manager.findOne(Director, {
+      where: {
+        id: createMovieDto.directorId,
+      },
+    });
+
+    if (!director) {
+      throw new NotFoundException(`존재하지 않는 ID의 감독입니다!`);
+    }
+
+    const genres = await qr.manager.find(Genre, {
+      where: {
+        id: In(createMovieDto.genreIds),
+      },
+    });
+
+    if (genres.length !== createMovieDto.genreIds.length) {
+      throw new NotFoundException(
+        `존재하지 않는 장르가 있습니다! 존재하는 ids -> ${genres
+          .map((genre) => genre.id)
+          .join(',')}`,
       );
     } else {
       // return this.commonService.saveMovieToPermanentStorage(
