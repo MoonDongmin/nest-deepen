@@ -12,12 +12,13 @@ const director_service_1 = require("./director.service");
 const director_controller_1 = require("./director.controller");
 const typeorm_1 = require("@nestjs/typeorm");
 const director_entity_1 = require("./entity/director.entity");
+const common_module_1 = require("../common/common.module");
 let DirectorModule = class DirectorModule {
 };
 exports.DirectorModule = DirectorModule;
 exports.DirectorModule = DirectorModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([director_entity_1.Director])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([director_entity_1.Director]), common_module_1.CommonModule],
         controllers: [director_controller_1.DirectorController],
         providers: [director_service_1.DirectorService],
     })

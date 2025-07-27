@@ -51,6 +51,7 @@ import { WorkerModule } from './worker/worker.module';
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_DATABASE: Joi.string().required(),
+        DB_URL: Joi.string().required(),
         HASH_ROUNDS: Joi.number().required(),
         ACCESS_TOKEN_SECRET: Joi.string().required(),
         REFRESH_TOKEN_SECRET: Joi.string().required(),
@@ -65,17 +66,23 @@ import { WorkerModule } from './worker/worker.module';
     TypeOrmModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         type: configService.get<string>(envVariableKeys.dbType) as 'postgres',
-        host: configService.get<string>(envVariableKeys.dbHost),
-        port: configService.get<number>(envVariableKeys.dbPort),
-        username: configService.get<string>(envVariableKeys.dbUsername),
-        password: configService.get<string>(envVariableKeys.dbPassword),
-        database: configService.get<string>(envVariableKeys.dbDatabase),
-        entities: [Movie, MovieDetail, Director, Genre, User, MovieUserLike, Chat, ChatRoom],
-        synchronize:
-          configService.get<string>(envVariableKeys.env) === 'prod'
-            ? false
-            : true,
-        // ...(configService.get<string>(envVariableKeys.env) === 'prod' && {
+        url: configService.get<string>(envVariableKeys.dbUrl),
+        // host: configService.get<string>(envVariableKeys.dbHost),
+        // port: configService.get<number>(envVariableKeys.dbPort),
+        // username: configService.get<string>(envVariableKeys.dbUsername),
+        // password: configService.get<string>(envVariableKeys.dbPassword),
+        // database: configService.get<string>(envVariableKeys.dbDatabase),
+        entities: [
+          Movie,
+          MovieDetail,
+          Director,
+          Genre,
+          User,
+          MovieUserLike,
+          Chat,
+          ChatRoom,
+        ],
+        synchronize: true,
         // ssl: {
         //   rejectUnauthorized: false, // SSL을 사용하지 않아도 사용가능하게 만듬s
         // },

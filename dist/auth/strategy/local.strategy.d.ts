@@ -9,6 +9,10 @@ declare const LocalStrategy_base: new (...args: [] | [options: import("passport-
 export declare class LocalStrategy extends LocalStrategy_base {
     private readonly authService;
     constructor(authService: AuthService);
-    validate(email: string, password: string): Promise<import("../../user/entity/user.entity").User>;
+    validate(email: string, password: string): Promise<{
+        id: number;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
 }
 export {};

@@ -1,15 +1,35 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entity/user.entity';
-import { Repository } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { PrismaService } from '../common/prisma.service';
+import { Prisma } from '@prisma/client';
 export declare class UserService {
-    private readonly userRepository;
     private readonly configService;
-    constructor(userRepository: Repository<User>, configService: ConfigService);
-    create(createUserDto: CreateUserDto): Promise<User>;
-    findAll(): Promise<User[]>;
-    findOne(id: number): Promise<User>;
-    update(id: number, updateUserDto: UpdateUserDto): Promise<User>;
+    private readonly prisma;
+    constructor(configService: ConfigService, prisma: PrismaService);
+    create(createUserDto: CreateUserDto): Promise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
+    findAll(): Prisma.PrismaPromise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }[]>;
+    findOne(id: number): Promise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
     remove(id: number): Promise<number>;
 }

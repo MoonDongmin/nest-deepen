@@ -6,6 +6,7 @@ export declare const envVariableKeys: {
     dbUsername: string;
     dbPort: string;
     dbDatabase: string;
+    dbUrl: string;
     hashRounds: string;
     accessTokenSecret: string;
     refreshTokenSecret: string;

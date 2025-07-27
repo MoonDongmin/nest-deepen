@@ -8,34 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DirectorService = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const director_entity_1 = require("./entity/director.entity");
-const typeorm_2 = require("typeorm");
+const prisma_service_1 = require("../common/prisma.service");
 let DirectorService = class DirectorService {
-    constructor(directorRepository) {
-        this.directorRepository = directorRepository;
+    constructor(prisma) {
+        this.prisma = prisma;
     }
     create(createDirectorDto) {
-        return this.directorRepository.save(createDirectorDto);
+        return this.prisma.director.create({
+            data: createDirectorDto,
+        });
     }
     findAll() {
-        return this.directorRepository.find();
+        return this.prisma.director.findMany();
     }
     findOne(id) {
-        return this.directorRepository.findOne({
+        return this.prisma.director.findUnique({
             where: {
                 id,
             },
         });
     }
     async update(id, updateDirectorDto) {
-        const director = await this.directorRepository.findOne({
+        const director = await this.prisma.director.findUnique({
             where: {
                 id,
             },
@@ -43,12 +40,15 @@ let DirectorService = class DirectorService {
         if (!director) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
-        await this.directorRepository.update({
-            id,
-        }, {
-            ...updateDirectorDto,
+        await this.prisma.director.update({
+            where: {
+                id,
+            },
+            data: {
+                ...updateDirectorDto,
+            },
         });
-        const newDirector = await this.directorRepository.findOne({
+        const newDirector = await this.prisma.director.findUnique({
             where: {
                 id,
             },
@@ -56,7 +56,7 @@ let DirectorService = class DirectorService {
         return newDirector;
     }
     async remove(id) {
-        const director = await this.directorRepository.findOne({
+        const director = await this.prisma.director.findUnique({
             where: {
                 id,
             },
@@ -64,14 +64,17 @@ let DirectorService = class DirectorService {
         if (!director) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
-        await this.directorRepository.delete(id);
+        await this.prisma.director.delete({
+            where: {
+                id,
+            },
+        });
         return id;
     }
 };
 exports.DirectorService = DirectorService;
 exports.DirectorService = DirectorService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(director_entity_1.Director)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], DirectorService);
 //# sourceMappingURL=director.service.js.map

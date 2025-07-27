@@ -2,7 +2,12 @@ import { AuthService } from './auth.service';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
-    registerUser(token: string): Promise<import("../user/entity/user.entity").User>;
+    registerUser(token: string): Promise<{
+        id: number;
+        email: string;
+        password: string;
+        role: import("@prisma/client").$Enums.Role;
+    }>;
     loginUser(token: string): Promise<{
         refreshToken: string;
         accessToken: string;

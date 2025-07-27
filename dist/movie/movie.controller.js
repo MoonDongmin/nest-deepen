@@ -20,14 +20,12 @@ const create_movie_dto_1 = require("./dto/create-movie.dto");
 const update_movie_dto_1 = require("./dto/update-movie.dto");
 const public_decorator_1 = require("../auth/decorator/public.decorator");
 const rbac_decorator_1 = require("../auth/decorator/rbac.decorator");
-const user_entity_1 = require("../user/entity/user.entity");
 const get_movies_dto_1 = require("./dto/get-movies.dto");
-const transaction_interceptor_1 = require("../common/interceptor/transaction.interceptor");
 const user_id_decorator_1 = require("../user/decorator/user-id.decorator");
-const query_runner_decorator_1 = require("../common/decorator/query-runner.decorator");
 const cache_manager_1 = require("@nestjs/cache-manager");
 const throttle_decorator_1 = require("../common/decorator/throttle.decorator");
 const swagger_1 = require("@nestjs/swagger");
+const client_1 = require("@prisma/client");
 let MovieController = class MovieController {
     constructor(movieService) {
         this.movieService = movieService;
@@ -48,8 +46,8 @@ let MovieController = class MovieController {
         console.log(session);
         return this.movieService.findOne(id);
     }
-    postMovie(body, queryRunner, userId) {
-        return this.movieService.create(body, userId, queryRunner);
+    postMovie(body, userId) {
+        return this.movieService.create(body, userId);
     }
     patchMovie(id, body) {
         return this.movieService.update(id, body);
@@ -99,7 +97,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, public_decorator_1.Public)(),
-    openapi.ApiResponse({ status: 200, type: require("./entity/movie.entity").Movie }),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
@@ -108,20 +106,18 @@ __decorate([
 ], MovieController.prototype, "getMovie", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
-    (0, common_1.UseInterceptors)(transaction_interceptor_1.TransactionInterceptor),
-    openapi.ApiResponse({ status: 201, type: require("./entity/movie.entity").Movie }),
+    (0, rbac_decorator_1.RBAC)(client_1.Role.admin),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, query_runner_decorator_1.QueryRunner)()),
-    __param(2, (0, user_id_decorator_1.UserId)()),
+    __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto, Object, Number]),
+    __metadata("design:paramtypes", [create_movie_dto_1.CreateMovieDto, Number]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "postMovie", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
-    openapi.ApiResponse({ status: 200, type: require("./entity/movie.entity").Movie }),
+    (0, rbac_decorator_1.RBAC)(client_1.Role.admin),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -130,7 +126,7 @@ __decorate([
 ], MovieController.prototype, "patchMovie", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    (0, rbac_decorator_1.RBAC)(user_entity_1.Role.admin),
+    (0, rbac_decorator_1.RBAC)(client_1.Role.admin),
     openapi.ApiResponse({ status: 200, type: Number }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),

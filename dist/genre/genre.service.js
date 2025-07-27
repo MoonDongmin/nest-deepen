@@ -8,39 +8,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GenreService = void 0;
 const common_1 = require("@nestjs/common");
-const typeorm_1 = require("@nestjs/typeorm");
-const genre_entity_1 = require("./entity/genre.entity");
-const typeorm_2 = require("typeorm");
+const prisma_service_1 = require("../common/prisma.service");
 let GenreService = class GenreService {
-    constructor(genreRepository) {
-        this.genreRepository = genreRepository;
+    constructor(prisma) {
+        this.prisma = prisma;
     }
     async create(createGenreDto) {
-        const genre = await this.genreRepository.findOne({
-            where: {
-                name: createGenreDto.name,
-            },
-        });
-        return this.genreRepository.save(createGenreDto);
+        return this.prisma.genre.create({ data: createGenreDto });
     }
     findAll() {
-        return this.genreRepository.find();
+        return this.prisma.genre.findMany();
     }
-    findOne(id) {
-        return this.genreRepository.findOne({
+    async findOne(id) {
+        const genre = await this.prisma.genre.findUnique({
             where: {
                 id,
             },
         });
+        if (!genre) {
+            throw new common_1.NotFoundException('존재하지 않는 장르입니다!');
+        }
+        return genre;
     }
     async update(id, updateGenreDto) {
-        const genre = await this.genreRepository.findOne({
+        const genre = await this.prisma.genre.findUnique({
             where: {
                 id,
             },
@@ -48,12 +42,15 @@ let GenreService = class GenreService {
         if (!genre) {
             throw new common_1.NotFoundException(`존재하지 않는 장르입니다.`);
         }
-        await this.genreRepository.update({
-            id,
-        }, {
-            ...updateGenreDto,
+        await this.prisma.genre.update({
+            where: {
+                id,
+            },
+            data: {
+                ...updateGenreDto,
+            },
         });
-        const newGenre = await this.genreRepository.findOne({
+        const newGenre = await this.prisma.genre.findUnique({
             where: {
                 id,
             },
@@ -61,7 +58,7 @@ let GenreService = class GenreService {
         return newGenre;
     }
     async remove(id) {
-        const genre = await this.genreRepository.findOne({
+        const genre = await this.prisma.genre.findUnique({
             where: {
                 id,
             },
@@ -69,14 +66,15 @@ let GenreService = class GenreService {
         if (!genre) {
             throw new common_1.NotFoundException(`존재하지 않는 장르입니다.`);
         }
-        await this.genreRepository.delete(id);
+        await this.prisma.genre.delete({
+            where: { id },
+        });
         return id;
     }
 };
 exports.GenreService = GenreService;
 exports.GenreService = GenreService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(genre_entity_1.Genre)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], GenreService);
 //# sourceMappingURL=genre.service.js.map

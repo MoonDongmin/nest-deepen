@@ -70,6 +70,7 @@ exports.AppModule = AppModule = __decorate([
                     DB_USERNAME: Joi.string().required(),
                     DB_PASSWORD: Joi.string().required(),
                     DB_DATABASE: Joi.string().required(),
+                    DB_URL: Joi.string().required(),
                     HASH_ROUNDS: Joi.number().required(),
                     ACCESS_TOKEN_SECRET: Joi.string().required(),
                     REFRESH_TOKEN_SECRET: Joi.string().required(),
@@ -82,6 +83,7 @@ exports.AppModule = AppModule = __decorate([
             typeorm_1.TypeOrmModule.forRootAsync({
                 useFactory: (configService) => ({
                     type: configService.get(env_const_1.envVariableKeys.dbType),
+                    url: configService.get(env_const_1.envVariableKeys.dbUrl),
                     host: configService.get(env_const_1.envVariableKeys.dbHost),
                     port: configService.get(env_const_1.envVariableKeys.dbPort),
                     username: configService.get(env_const_1.envVariableKeys.dbUsername),
