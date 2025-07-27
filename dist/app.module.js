@@ -41,6 +41,7 @@ const winston = require("winston");
 const chat_entity_1 = require("./chat/entity/chat.entity");
 const chat_room_entity_1 = require("./chat/entity/chat-room.entity");
 const worker_module_1 = require("./worker/worker.module");
+const mongoose_1 = require("@nestjs/mongoose");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer
@@ -80,6 +81,7 @@ exports.AppModule = AppModule = __decorate([
                     BUCKET_NAME: Joi.string().required(),
                 }),
             }),
+            mongoose_1.MongooseModule.forRoot('mongodb+srv://dongmin:min5314@nestjsmongo.qqevrqg.mongodb.net/?retryWrites=true&w=majority&appName=NestJSMongo'),
             typeorm_1.TypeOrmModule.forRootAsync({
                 useFactory: (configService) => ({
                     type: configService.get(env_const_1.envVariableKeys.dbType),
