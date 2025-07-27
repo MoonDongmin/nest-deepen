@@ -84,15 +84,6 @@ exports.AppModule = AppModule = __decorate([
                 useFactory: (configService) => ({
                     type: configService.get(env_const_1.envVariableKeys.dbType),
                     url: configService.get(env_const_1.envVariableKeys.dbUrl),
-                    host: configService.get(env_const_1.envVariableKeys.dbHost),
-                    port: configService.get(env_const_1.envVariableKeys.dbPort),
-                    username: configService.get(env_const_1.envVariableKeys.dbUsername),
-                    password: configService.get(env_const_1.envVariableKeys.dbPassword),
-                    database: configService.get(env_const_1.envVariableKeys.dbDatabase),
-                    entities: [movie_entity_1.Movie, movie_detail_entity_1.MovieDetail, director_entity_1.Director, genre_entity_1.Genre, user_entity_1.User, movie_user_like_entity_1.MovieUserLike],
-                    synchronize: configService.get(env_const_1.envVariableKeys.env) === 'prod'
-                        ? false
-                        : true,
                     entities: [
                         movie_entity_1.Movie,
                         movie_detail_entity_1.MovieDetail,

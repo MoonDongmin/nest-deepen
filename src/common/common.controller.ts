@@ -14,10 +14,10 @@ import { InjectQueue } from '@nestjs/bullmq';
 @Controller('common')
 @ApiBearerAuth()
 export class CommonController {
-  constructor(private readonly commonService: CommonService) {}
   constructor(
     @InjectQueue('thumbnail-generation')
     private readonly thumbnailQueue: Queue,
+    private readonly commonService: CommonService,
   ) {}
 
   @Post('video')
