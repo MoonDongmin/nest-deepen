@@ -1,32 +1,37 @@
 import { CreateDirectorDto } from './dto/create-director.dto';
 import { UpdateDirectorDto } from './dto/update-director.dto';
-import { PrismaService } from '../common/prisma.service';
+import { Director } from './schema/director.schema';
+import { Model } from 'mongoose';
 export declare class DirectorService {
-    private readonly prisma;
-    constructor(prisma: PrismaService);
-    create(createDirectorDto: CreateDirectorDto): import("@prisma/client").Prisma.Prisma__DirectorClient<{
-        id: number;
-        name: string;
-        dob: Date;
-        nationality: string;
-    }, never, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<{
-        id: number;
-        name: string;
-        dob: Date;
-        nationality: string;
-    }[]>;
-    findOne(id: number): import("@prisma/client").Prisma.Prisma__DirectorClient<{
-        id: number;
-        name: string;
-        dob: Date;
-        nationality: string;
-    }, null, import("@prisma/client/runtime/library").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
-    update(id: number, updateDirectorDto: UpdateDirectorDto): Promise<{
-        id: number;
-        name: string;
-        dob: Date;
-        nationality: string;
+    private readonly directorModel;
+    constructor(directorModel: Model<Director>);
+    create(createDirectorDto: CreateDirectorDto): Promise<import("mongoose").Document<unknown, {}, Director, {}> & Director & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    remove(id: number): Promise<number>;
+    findAll(): import("mongoose").Query<(import("mongoose").Document<unknown, {}, Director, {}> & Director & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[], import("mongoose").Document<unknown, {}, Director, {}> & Director & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }, {}, Director, "find", {}>;
+    findOne(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, Director, {}> & Director & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }, import("mongoose").Document<unknown, {}, Director, {}> & Director & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }, {}, Director, "findOne", {}>;
+    update(id: string, updateDirectorDto: UpdateDirectorDto): Promise<import("mongoose").Document<unknown, {}, Director, {}> & Director & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    }>;
+    remove(id: string): Promise<string>;
 }

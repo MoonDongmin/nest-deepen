@@ -50,14 +50,14 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DirectorController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
-    openapi.ApiResponse({ status: 201 }),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_director_dto_1.CreateDirectorDto]),
@@ -65,25 +65,24 @@ __decorate([
 ], DirectorController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_director_dto_1.UpdateDirectorDto]),
+    __metadata("design:paramtypes", [String, update_director_dto_1.UpdateDirectorDto]),
     __metadata("design:returntype", void 0)
 ], DirectorController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    openapi.ApiResponse({ status: 200, type: Number }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    openapi.ApiResponse({ status: 200, type: String }),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], DirectorController.prototype, "remove", null);
 exports.DirectorController = DirectorController = __decorate([
     (0, common_1.Controller)('director'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [director_service_1.DirectorService])
 ], DirectorController);
 //# sourceMappingURL=director.controller.js.map

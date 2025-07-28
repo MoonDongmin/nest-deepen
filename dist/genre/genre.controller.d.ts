@@ -4,21 +4,25 @@ import { UpdateGenreDto } from './dto/update-genre.dto';
 export declare class GenreController {
     private readonly genreService;
     constructor(genreService: GenreService);
-    create(createGenreDto: CreateGenreDto): Promise<{
-        id: number;
-        name: string;
+    create(createGenreDto: CreateGenreDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<{
-        id: number;
-        name: string;
-    }[]>;
-    findOne(id: number): Promise<{
-        id: number;
-        name: string;
+    findAll(): Promise<(import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
+    findOne(id: string): Promise<import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    update(id: number, updateGenreDto: UpdateGenreDto): Promise<{
-        id: number;
-        name: string;
+    update(id: string, updateGenreDto: UpdateGenreDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    remove(id: number): Promise<number>;
+    remove(id: string): Promise<string>;
 }

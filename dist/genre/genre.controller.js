@@ -42,7 +42,7 @@ let GenreController = class GenreController {
 exports.GenreController = GenreController;
 __decorate([
     (0, common_1.Post)(),
-    openapi.ApiResponse({ status: 201 }),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_genre_dto_1.CreateGenreDto]),
@@ -50,40 +50,39 @@ __decorate([
 ], GenreController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: [Object] }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], GenreController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], GenreController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_genre_dto_1.UpdateGenreDto]),
+    __metadata("design:paramtypes", [String, update_genre_dto_1.UpdateGenreDto]),
     __metadata("design:returntype", void 0)
 ], GenreController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
-    openapi.ApiResponse({ status: 200, type: Number }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    openapi.ApiResponse({ status: 200, type: String }),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], GenreController.prototype, "remove", null);
 exports.GenreController = GenreController = __decorate([
     (0, common_1.Controller)('genre'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [genre_service_1.GenreService])
 ], GenreController);
 //# sourceMappingURL=genre.controller.js.map

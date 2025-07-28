@@ -8,73 +8,50 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DirectorService = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../common/prisma.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const director_schema_1 = require("./schema/director.schema");
+const mongoose_2 = require("mongoose");
 let DirectorService = class DirectorService {
-    constructor(prisma) {
-        this.prisma = prisma;
+    constructor(directorModel) {
+        this.directorModel = directorModel;
     }
     create(createDirectorDto) {
-        return this.prisma.director.create({
-            data: createDirectorDto,
-        });
+        return this.directorModel.create(createDirectorDto);
     }
     findAll() {
-        return this.prisma.director.findMany();
+        return this.directorModel.find();
     }
     findOne(id) {
-        return this.prisma.director.findUnique({
-            where: {
-                id,
-            },
-        });
+        return this.directorModel.findById(id);
     }
     async update(id, updateDirectorDto) {
-        const director = await this.prisma.director.findUnique({
-            where: {
-                id,
-            },
-        });
+        const director = await this.directorModel.findById(id);
         if (!director) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
-        await this.prisma.director.update({
-            where: {
-                id,
-            },
-            data: {
-                ...updateDirectorDto,
-            },
-        });
-        const newDirector = await this.prisma.director.findUnique({
-            where: {
-                id,
-            },
-        });
+        await this.directorModel.findByIdAndUpdate(id, updateDirectorDto).exec();
+        const newDirector = await this.directorModel.findById(id);
         return newDirector;
     }
     async remove(id) {
-        const director = await this.prisma.director.findUnique({
-            where: {
-                id,
-            },
-        });
+        const director = await this.directorModel.findById(id);
         if (!director) {
             throw new common_1.NotFoundException(`존재하지 않는 ID의 영화입니다!`);
         }
-        await this.prisma.director.delete({
-            where: {
-                id,
-            },
-        });
+        await this.directorModel.findByIdAndDelete(id);
         return id;
     }
 };
 exports.DirectorService = DirectorService;
 exports.DirectorService = DirectorService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __param(0, (0, mongoose_1.InjectModel)(director_schema_1.Director.name)),
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], DirectorService);
 //# sourceMappingURL=director.service.js.map

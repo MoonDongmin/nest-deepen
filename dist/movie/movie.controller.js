@@ -77,7 +77,7 @@ __decorate([
         status: 200,
         description: '성공적으로 Pagination API 실행',
     }),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
@@ -97,11 +97,11 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, public_decorator_1.Public)(),
-    openapi.ApiResponse({ status: 200 }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    openapi.ApiResponse({ status: 200, type: Object }),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "getMovie", null);
 __decorate([
@@ -118,43 +118,42 @@ __decorate([
     (0, common_1.Patch)(':id'),
     (0, rbac_decorator_1.RBAC)(client_1.Role.admin),
     openapi.ApiResponse({ status: 200, type: Object }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_movie_dto_1.UpdateMovieDto]),
+    __metadata("design:paramtypes", [String, update_movie_dto_1.UpdateMovieDto]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "patchMovie", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     (0, rbac_decorator_1.RBAC)(client_1.Role.admin),
-    openapi.ApiResponse({ status: 200, type: Number }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    openapi.ApiResponse({ status: 200, type: String }),
+    __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "deleteMovie", null);
 __decorate([
     (0, common_1.Post)(':id/like'),
     openapi.ApiResponse({ status: 201 }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "createMovieLike", null);
 __decorate([
     (0, common_1.Post)(':id/dislike'),
     openapi.ApiResponse({ status: 201 }),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], MovieController.prototype, "createMovieDislike", null);
 exports.MovieController = MovieController = __decorate([
     (0, common_1.Controller)('movie'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseInterceptors)(common_1.ClassSerializerInterceptor),
     __metadata("design:paramtypes", [movie_service_1.MovieService])
 ], MovieController);
 //# sourceMappingURL=movie.controller.js.map

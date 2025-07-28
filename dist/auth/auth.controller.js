@@ -49,7 +49,7 @@ exports.AuthController = AuthController;
 __decorate([
     (0, public_decorator_1.Public)(),
     (0, common_1.Post)('register'),
-    openapi.ApiResponse({ status: 201 }),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, authorization_decorator_1.Authorization)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

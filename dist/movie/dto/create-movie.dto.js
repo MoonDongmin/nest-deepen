@@ -16,7 +16,7 @@ const class_transformer_1 = require("class-transformer");
 const swagger_1 = require("@nestjs/swagger");
 class CreateMovieDto {
     static _OPENAPI_METADATA_FACTORY() {
-        return { title: { required: true, type: () => String }, detail: { required: true, type: () => String }, directorId: { required: true, type: () => Number }, genreIds: { required: true, type: () => [Number], minItems: 1 }, movieFileName: { required: true, type: () => String } };
+        return { title: { required: true, type: () => String }, detail: { required: true, type: () => String }, directorId: { required: true, type: () => String }, genreIds: { required: true, type: () => [String], minItems: 1 }, movieFileName: { required: true, type: () => String } };
     }
 }
 exports.CreateMovieDto = CreateMovieDto;
@@ -40,20 +40,19 @@ __decorate([
 ], CreateMovieDto.prototype, "detail", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
+    (0, class_validator_1.IsString)(),
     (0, swagger_1.ApiProperty)({
         description: '감독 객체 ID',
         example: 1,
     }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], CreateMovieDto.prototype, "directorId", void 0);
 __decorate([
-    (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ArrayNotEmpty)(),
-    (0, class_validator_1.IsNumber)({}, {
+    (0, class_validator_1.IsString)({
         each: true,
     }),
-    (0, class_transformer_1.Type)(() => Number),
+    (0, class_transformer_1.Type)(() => String),
     (0, swagger_1.ApiProperty)({
         description: '장르 IDs',
         example: [1, 2, 3],

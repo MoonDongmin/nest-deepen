@@ -37,6 +37,7 @@ import * as winston from 'winston';
 import { Chat } from './chat/entity/chat.entity';
 import { ChatRoom } from './chat/entity/chat-room.entity';
 import { WorkerModule } from './worker/worker.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -61,6 +62,9 @@ import { WorkerModule } from './worker/worker.module';
         BUCKET_NAME: Joi.string().required(),
       }),
     }),
+    MongooseModule.forRoot(
+      'mongodb+srv://dongmin:min5314@nestjsmongo.qqevrqg.mongodb.net/?retryWrites=true&w=majority&appName=NestJSMongo',
+    ),
     // 비동기여야 하는 이유 -> ConfigModule에 설정된 값을 기반으로 설정해야 하기에
     // 이렇게 하면 장점: 이렇게하면 Module에서 의존성을 주입받을 수 있음
     TypeOrmModule.forRootAsync({
