@@ -12,15 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RbacGuard = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
-const user_entity_1 = require("../../user/entity/user.entity");
 const rbac_decorator_1 = require("../decorator/rbac.decorator");
+const client_1 = require("@prisma/client");
 let RbacGuard = class RbacGuard {
     constructor(reflector) {
         this.reflector = reflector;
     }
     canActivate(context) {
         const role = this.reflector.get(rbac_decorator_1.RBAC, context.getHandler());
-        if (!Object.values(user_entity_1.Role).includes(role)) {
+        if (!Object.values(client_1.Role).includes(role)) {
             return true;
         }
         const request = context.switchToHttp().getRequest();
@@ -28,7 +28,12 @@ let RbacGuard = class RbacGuard {
         if (!user) {
             return false;
         }
-        return user.role <= role;
+        const roleAccessLevel = {
+            [client_1.Role.admin]: 0,
+            [client_1.Role.paidUser]: 1,
+            [client_1.Role.user]: 2,
+        };
+        return roleAccessLevel[user.role] <= roleAccessLevel[role];
     }
 };
 exports.RbacGuard = RbacGuard;

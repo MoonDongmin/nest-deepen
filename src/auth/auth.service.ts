@@ -14,6 +14,9 @@ import { Cache, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { UserService } from '../user/user.service';
 import { Role } from '@prisma/client';
 import { PrismaService } from '../common/prisma.service';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from '../user/schema/user.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +28,9 @@ export class AuthService {
     private readonly jwtService: JwtService,
     @Inject(CACHE_MANAGER)
     private readonly cacheManger: Cache,
-    private readonly prisma: PrismaService,
+    // private readonly prisma: PrismaService,
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
   ) {}
 
   async tokenBlock(token: string) {
@@ -125,16 +130,27 @@ export class AuthService {
   }
 
   async authenticate(email: string, password: string) {
-    const user = await this.prisma.user.findUnique({
-      where: {
+    const user = await this.userModel.findOne(
+      {
         email,
       },
-      select: {
-        id: true,
-        password: true,
-        role: true,
+      {
+        password: 1,
+        role: 1,
       },
-    });
+    );
+
+    // const user = await this.prisma.user.findUnique({
+    //   where: {
+    //     email,
+    //   },
+    //   select: {
+    //     id: true,
+    //     password: true,
+    //     role: true,
+    //   },
+    // });
+
     // const user = await this.userRepository.findOne({
     //   where: {
     //     email,
@@ -154,7 +170,7 @@ export class AuthService {
     return user;
   }
 
-  async issueToken(user: { id: number; role: Role }, isRefreshToken: boolean) {
+  async issueToken(user: { _id: any; role: Role }, isRefreshToken: boolean) {
     const refreshTokenSecret = this.configService.get<string>(
       envVariableKeys.refreshTokenSecret,
     );
@@ -165,7 +181,7 @@ export class AuthService {
 
     return this.jwtService.signAsync(
       {
-        sub: user.id,
+        sub: user._id,
         role: user.role,
         type: isRefreshToken ? 'refresh' : 'access',
       },

@@ -13,7 +13,7 @@ export declare class DirectorController {
     }> & {
         __v: number;
     }, {}, import("./schema/director.schema").Director, "find", {}>;
-    findOne(id: number): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("./schema/director.schema").Director, {}> & import("./schema/director.schema").Director & Required<{
+    findOne(id: string): import("mongoose").Query<import("mongoose").Document<unknown, {}, import("./schema/director.schema").Director, {}> & import("./schema/director.schema").Director & Required<{
         _id: unknown;
     }> & {
         __v: number;
@@ -27,10 +27,10 @@ export declare class DirectorController {
     }> & {
         __v: number;
     }>;
-    update(id: number, updateDirectorDto: UpdateDirectorDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/director.schema").Director, {}> & import("./schema/director.schema").Director & Required<{
+    update(id: string, updateDirectorDto: UpdateDirectorDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/director.schema").Director, {}> & import("./schema/director.schema").Director & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    remove(id: number): Promise<number>;
+    remove(id: string): Promise<string>;
 }

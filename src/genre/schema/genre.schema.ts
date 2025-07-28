@@ -10,6 +10,7 @@ export class Genre extends Document {
   @Prop({
     required: true,
     unique: true,
+    // select: false,
   })
   name: string;
 
@@ -25,3 +26,10 @@ export class Genre extends Document {
 }
 
 export const GenreSchema = SchemaFactory.createForClass(Genre);
+
+// GenreSchema.set('toObject', {
+//   transform: (model, ret) => {
+//     ret._id = ret._id.toString();
+//     return ret;
+//   },
+// });

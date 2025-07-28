@@ -47,7 +47,7 @@ export declare class MovieService {
         hasNextPage: boolean;
     }>;
     findMovieDetail(id: number): Promise<void>;
-    findOne(id: number): Promise<Document<unknown, {}, Movie, {}> & Movie & Required<{
+    findOne(id: string): Promise<Document<unknown, {}, Movie, {}> & Movie & Required<{
         _id: unknown;
     }> & {
         __v: number;
@@ -64,15 +64,15 @@ export declare class MovieService {
     updateMovie(qr: QueryRunner, movieUpdateFields: UpdateMovieDto, id: number): Promise<void>;
     updateMovieDetail(qr: QueryRunner, detail: string, movie: Movie): Promise<void>;
     updateMovieGenreRelation(qr: QueryRunner, id: number, newGenres: Genre[], movie: Movie): Promise<void>;
-    update(id: number, updateMovieDto: UpdateMovieDto): Promise<Document<unknown, {}, Movie, {}> & Movie & Required<{
+    update(id: string, updateMovieDto: UpdateMovieDto): Promise<Document<unknown, {}, Movie, {}> & Movie & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
     deleteMovie(id: number): Promise<void>;
-    remove(id: number): Promise<number>;
+    remove(id: string): Promise<string>;
     getLikeRecord(movieId: number, userId: number): Promise<void>;
-    toggleMovieLike(movieId: number, userId: number, isLike: boolean): Promise<{
+    toggleMovieLike(movieId: string, userId: string, isLike: boolean): Promise<{
         isLike: boolean;
     }>;
 }

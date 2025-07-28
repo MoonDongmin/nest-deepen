@@ -77,6 +77,10 @@ export class MovieService {
 
     const data = await this.movieModel
       .find()
+      .populate({
+        path: 'genres',
+        model: 'Genre',
+      })
       .sort({ createdAt: -1 })
       .limit(10)
       .exec();
@@ -123,7 +127,11 @@ export class MovieService {
 
     const orderBy = order.reduce((acc, field) => {
       const [column, direction] = field.split('_');
-      acc[column] = direction.toLocaleLowerCase();
+      if (column === 'id') {
+        acc['_id'] = direction.toLowerCase();
+      } else {
+        acc[column] = direction.toLowerCase();
+      }
       return acc;
     }, {});
 
@@ -163,7 +171,7 @@ export class MovieService {
       .limit(take + 1);
 
     if (cursor) {
-      query.skip(1).gt('_id', new Types.ObjectId(cursor));
+      query.lt('_id', new Types.ObjectId(cursor));
     }
 
     const movies = await query.populate('genres director').exec();
@@ -194,8 +202,10 @@ export class MovieService {
           ? []
           : await this.movieUserLikeModel
               .find({
-                movie: { $in: movieIds },
-                user: userId,
+                movie: {
+                  $in: movieIds.map((id) => new Types.ObjectId(id.toString())),
+                },
+                user: new Types.ObjectId(userId.toString()),
               })
               .populate('movie')
               .exec();
@@ -276,7 +286,7 @@ export class MovieService {
     //   .getOne();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const movie = await this.movieModel.findById(id);
 
     // const movie = await this.prisma.movie.findUnique({
@@ -625,7 +635,7 @@ export class MovieService {
     //   );
   }
 
-  async update(id: number, updateMovieDto: UpdateMovieDto) {
+  async update(id: string, updateMovieDto: UpdateMovieDto) {
     const session = await this.movieModel.startSession();
     session.startTransaction();
 
@@ -882,7 +892,7 @@ export class MovieService {
     //   .execute();
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const movie = await this.movieModel.findById(id).populate('detail').exec();
 
     // const movie = await this.prisma.movie.findUnique({
@@ -932,8 +942,8 @@ export class MovieService {
     //   .getOne();
   }
 
-  async toggleMovieLike(movieId: number, userId: number, isLike: boolean) {
-    const movie = await this.movieDetailModel.findById(movieId).exec();
+  async toggleMovieLike(movieId: string, userId: string, isLike: boolean) {
+    const movie = await this.movieModel.findById(movieId).exec();
     // const movie = await this.prisma.movie.findUnique({
     //   where: {
     //     id: movieId,
@@ -950,7 +960,7 @@ export class MovieService {
       throw new BadRequestException(`존재하지 않는 영화입니다!`);
     }
 
-    const user = await this.movieModel.findById(userId).exec();
+    const user = await this.userModel.findById(userId).exec();
 
     // const user = await this.prisma.user.findUnique({
     //   where: {
@@ -969,8 +979,8 @@ export class MovieService {
     }
 
     const likeRecord = await this.movieUserLikeModel.findOne({
-      movie: movieId,
-      user: userId,
+      movie: new Types.ObjectId(movieId),
+      user: new Types.ObjectId(userId),
     });
 
     // const likeRecord = await this.prisma.movieUserLike.findUnique({
@@ -1029,8 +1039,8 @@ export class MovieService {
       }
     } else {
       await this.movieUserLikeModel.create({
-        movie: movieId,
-        user: userId,
+        movie: new Types.ObjectId(movieId),
+        user: new Types.ObjectId(userId),
         isLike,
       });
       // await this.prisma.movieUserLike.create({
@@ -1049,8 +1059,8 @@ export class MovieService {
     }
 
     const result = await this.movieUserLikeModel.findOne({
-      movie: movieId,
-      user: userId,
+      movie: new Types.ObjectId(movieId),
+      user: new Types.ObjectId(userId),
     });
 
     // const result = await this.prisma.movieUserLike.findUnique({

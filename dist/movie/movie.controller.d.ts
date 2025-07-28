@@ -25,7 +25,7 @@ export declare class MovieController {
         hasNextPage: boolean;
     }>;
     getMoviesRecent(): Promise<unknown>;
-    getMovie(id: number, request: any): Promise<import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
+    getMovie(id: string, request: any): Promise<import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
         _id: unknown;
     }> & {
         __v: number;
@@ -35,16 +35,16 @@ export declare class MovieController {
     }> & {
         __v: number;
     }>;
-    patchMovie(id: number, body: UpdateMovieDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
+    patchMovie(id: string, body: UpdateMovieDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    deleteMovie(id: number): Promise<number>;
-    createMovieLike(movieId: number, userId: number): Promise<{
+    deleteMovie(id: string): Promise<string>;
+    createMovieLike(movieId: string, userId: string): Promise<{
         isLike: boolean;
     }>;
-    createMovieDislike(movieId: number, userId: number): Promise<{
+    createMovieDislike(movieId: string, userId: string): Promise<{
         isLike: boolean;
     }>;
 }

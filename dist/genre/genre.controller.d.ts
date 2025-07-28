@@ -14,15 +14,15 @@ export declare class GenreController {
     }> & {
         __v: number;
     })[]>;
-    findOne(id: number): Promise<import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
+    findOne(id: string): Promise<import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    update(id: number, updateGenreDto: UpdateGenreDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
+    update(id: string, updateGenreDto: UpdateGenreDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/genre.schema").Genre, {}> & import("./schema/genre.schema").Genre & Required<{
         _id: unknown;
     }> & {
         __v: number;
     }>;
-    remove(id: number): Promise<number>;
+    remove(id: string): Promise<string>;
 }

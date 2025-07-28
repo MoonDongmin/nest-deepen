@@ -33,7 +33,7 @@ export class DirectorService {
     // return this.directorRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.directorModel.findById(id);
     // return this.prisma.director.findUnique({
     //   where: {
@@ -48,7 +48,7 @@ export class DirectorService {
     // });
   }
 
-  async update(id: number, updateDirectorDto: UpdateDirectorDto) {
+  async update(id: string, updateDirectorDto: UpdateDirectorDto) {
     const director = await this.directorModel.findById(id);
     // const director = await this.prisma.director.findUnique({
     //   where: {
@@ -102,7 +102,7 @@ export class DirectorService {
     return newDirector;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const director = await this.directorModel.findById(id);
     // const director = await this.prisma.director.findUnique({
     //   where: {

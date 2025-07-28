@@ -34,7 +34,7 @@ import { Role } from '@prisma/client';
 
 @Controller('movie')
 @ApiBearerAuth()
-@UseInterceptors(ClassSerializerInterceptor)
+// @UseInterceptors(ClassSerializerInterceptor)
 export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
@@ -69,14 +69,13 @@ export class MovieController {
   getMovie(
     @Param(
       'id',
-      ParseIntPipe,
       // new ParseIntPipe({
       //   exceptionFactory(error) {
       //     throw new BadRequestException(`숫자를 입력해주세요!`);
       //   },
       // }),
     )
-    id: number,
+    id: string,
     @Req() request: any,
   ) {
     const session = request.session;
@@ -105,16 +104,13 @@ export class MovieController {
 
   @Patch(':id')
   @RBAC(Role.admin)
-  patchMovie(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: UpdateMovieDto,
-  ) {
+  patchMovie(@Param('id') id: string, @Body() body: UpdateMovieDto) {
     return this.movieService.update(id, body);
   }
 
   @Delete(':id')
   @RBAC(Role.admin)
-  deleteMovie(@Param('id', ParseIntPipe) id: number) {
+  deleteMovie(@Param('id') id: string) {
     return this.movieService.remove(id);
   }
 
@@ -133,18 +129,12 @@ export class MovieController {
    * Like 버튼 누름 -> Like 버튼 불 켜짐 -> Dislike 버튼 누름 -> Like 버튼 불 꺼지고 Dislike 불 켜짐
    */
   @Post(':id/like')
-  createMovieLike(
-    @Param('id', ParseIntPipe) movieId: number,
-    @UserId() userId: number,
-  ) {
+  createMovieLike(@Param('id') movieId: string, @UserId() userId: string) {
     return this.movieService.toggleMovieLike(movieId, userId, true);
   }
 
   @Post(':id/dislike')
-  createMovieDislike(
-    @Param('id', ParseIntPipe) movieId: number,
-    @UserId() userId: number,
-  ) {
+  createMovieDislike(@Param('id') movieId: string, @UserId() userId: string) {
     return this.movieService.toggleMovieLike(movieId, userId, false);
   }
 }

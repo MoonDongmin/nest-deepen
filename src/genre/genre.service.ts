@@ -33,6 +33,12 @@ export class GenreService {
     // return this.genreRepository.save(createGenreDto);
 
     return this.genreModel.create(createGenreDto);
+
+    // return await this.genreModel.findById(result._id);
+    // return {
+    //   ...result.toObject(),
+    //   _id: result._id.toString(),
+    // };
     // return this.prisma.genre.create({ data: createGenreDto });
   }
 
@@ -42,7 +48,7 @@ export class GenreService {
     // return this.genreRepository.find();
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const genre = await this.genreModel.findById(id).exec();
     // const genre = await this.prisma.genre.findUnique({
     //   where: {
@@ -63,7 +69,7 @@ export class GenreService {
     return genre;
   }
 
-  async update(id: number, updateGenreDto: UpdateGenreDto) {
+  async update(id: string, updateGenreDto: UpdateGenreDto) {
     const genre = await this.genreModel.findById(id).exec();
     // const genre = await this.prisma.genre.findUnique({
     //   where: {
@@ -118,7 +124,7 @@ export class GenreService {
     return newGenre;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const genre = await this.genreModel.findById(id);
     // const genre = await this.prisma.genre.findUnique({
     //   where: {

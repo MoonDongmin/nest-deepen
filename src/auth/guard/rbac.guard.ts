@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role }      from '../../user/entity/user.entity';
-import { RBAC }      from '../decorator/rbac.decorator';
+import { RBAC } from '../decorator/rbac.decorator';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class RbacGuard implements CanActivate {
@@ -23,6 +23,12 @@ export class RbacGuard implements CanActivate {
       return false;
     }
 
-    return user.role <= role;
+    const roleAccessLevel = {
+      [Role.admin]: 0,
+      [Role.paidUser]: 1,
+      [Role.user]: 2,
+    };
+
+    return roleAccessLevel[user.role] <= roleAccessLevel[role];
   }
 }

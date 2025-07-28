@@ -1,7 +1,7 @@
 export declare class CreateMovieDto {
     title: string;
     detail: string;
-    directorId: number;
-    genreIds: number[];
+    directorId: string;
+    genreIds: string[];
     movieFileName: string;
 }

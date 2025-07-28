@@ -49,6 +49,10 @@ let MovieService = class MovieService {
         }
         const data = await this.movieModel
             .find()
+            .populate({
+            path: 'genres',
+            model: 'Genre',
+        })
             .sort({ createdAt: -1 })
             .limit(10)
             .exec();
@@ -63,7 +67,12 @@ let MovieService = class MovieService {
         const { title, cursor, take, order } = dto;
         const orderBy = order.reduce((acc, field) => {
             const [column, direction] = field.split('_');
-            acc[column] = direction.toLocaleLowerCase();
+            if (column === 'id') {
+                acc['_id'] = direction.toLowerCase();
+            }
+            else {
+                acc[column] = direction.toLowerCase();
+            }
             return acc;
         }, {});
         const query = this.movieModel
@@ -78,7 +87,7 @@ let MovieService = class MovieService {
             .sort(orderBy)
             .limit(take + 1);
         if (cursor) {
-            query.skip(1).gt('_id', new mongoose_2.Types.ObjectId(cursor));
+            query.lt('_id', new mongoose_2.Types.ObjectId(cursor));
         }
         const movies = await query.populate('genres director').exec();
         const hasNextPage = movies.length > take;
@@ -93,8 +102,10 @@ let MovieService = class MovieService {
                 ? []
                 : await this.movieUserLikeModel
                     .find({
-                    movie: { $in: movieIds },
-                    user: userId,
+                    movie: {
+                        $in: movieIds.map((id) => new mongoose_2.Types.ObjectId(id.toString())),
+                    },
+                    user: new mongoose_2.Types.ObjectId(userId.toString()),
                 })
                     .populate('movie')
                     .exec();
@@ -279,17 +290,17 @@ let MovieService = class MovieService {
     async getLikeRecord(movieId, userId) {
     }
     async toggleMovieLike(movieId, userId, isLike) {
-        const movie = await this.movieDetailModel.findById(movieId).exec();
+        const movie = await this.movieModel.findById(movieId).exec();
         if (!movie) {
             throw new common_1.BadRequestException(`존재하지 않는 영화입니다!`);
         }
-        const user = await this.movieModel.findById(userId).exec();
+        const user = await this.userModel.findById(userId).exec();
         if (!user) {
             throw new common_1.UnauthorizedException(`사용자 정보가 없습니다!!!`);
         }
         const likeRecord = await this.movieUserLikeModel.findOne({
-            movie: movieId,
-            user: userId,
+            movie: new mongoose_2.Types.ObjectId(movieId),
+            user: new mongoose_2.Types.ObjectId(userId),
         });
         if (likeRecord) {
             if (isLike === likeRecord.isLike) {
@@ -302,14 +313,14 @@ let MovieService = class MovieService {
         }
         else {
             await this.movieUserLikeModel.create({
-                movie: movieId,
-                user: userId,
+                movie: new mongoose_2.Types.ObjectId(movieId),
+                user: new mongoose_2.Types.ObjectId(userId),
                 isLike,
             });
         }
         const result = await this.movieUserLikeModel.findOne({
-            movie: movieId,
-            user: userId,
+            movie: new mongoose_2.Types.ObjectId(movieId),
+            user: new mongoose_2.Types.ObjectId(userId),
         });
         return {
             isLike: result && result.isLike,

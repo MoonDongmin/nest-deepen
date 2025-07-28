@@ -20,14 +20,16 @@ const jwt_1 = require("@nestjs/jwt");
 const env_const_1 = require("../common/const/env.const");
 const cache_manager_1 = require("@nestjs/cache-manager");
 const user_service_1 = require("../user/user.service");
-const prisma_service_1 = require("../common/prisma.service");
+const mongoose_1 = require("@nestjs/mongoose");
+const user_schema_1 = require("../user/schema/user.schema");
+const mongoose_2 = require("mongoose");
 let AuthService = class AuthService {
-    constructor(userService, configService, jwtService, cacheManger, prisma) {
+    constructor(userService, configService, jwtService, cacheManger, userModel) {
         this.userService = userService;
         this.configService = configService;
         this.jwtService = jwtService;
         this.cacheManger = cacheManger;
-        this.prisma = prisma;
+        this.userModel = userModel;
     }
     async tokenBlock(token) {
         const payload = this.jwtService.decode(token);
@@ -96,15 +98,11 @@ let AuthService = class AuthService {
         });
     }
     async authenticate(email, password) {
-        const user = await this.prisma.user.findUnique({
-            where: {
-                email,
-            },
-            select: {
-                id: true,
-                password: true,
-                role: true,
-            },
+        const user = await this.userModel.findOne({
+            email,
+        }, {
+            password: 1,
+            role: 1,
         });
         if (!user) {
             throw new common_1.BadRequestException(`잘못된 로그인 정보입니다.`);
@@ -119,7 +117,7 @@ let AuthService = class AuthService {
         const refreshTokenSecret = this.configService.get(env_const_1.envVariableKeys.refreshTokenSecret);
         const accessTokenSecret = this.configService.get(env_const_1.envVariableKeys.accessTokenSecret);
         return this.jwtService.signAsync({
-            sub: user.id,
+            sub: user._id,
             role: user.role,
             type: isRefreshToken ? 'refresh' : 'access',
         }, {
@@ -140,10 +138,11 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __param(3, (0, common_1.Inject)(cache_manager_1.CACHE_MANAGER)),
+    __param(4, (0, mongoose_1.InjectModel)(user_schema_1.User.name)),
     __metadata("design:paramtypes", [user_service_1.UserService,
         config_1.ConfigService,
         jwt_1.JwtService,
         cache_manager_1.Cache,
-        prisma_service_1.PrismaService])
+        mongoose_2.Model])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map
