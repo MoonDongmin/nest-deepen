@@ -4,29 +4,25 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export declare class UserController {
     private readonly userService;
     constructor(userService: UserService);
-    create(createUserDto: CreateUserDto): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    create(createUserDto: CreateUserDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/user.schema").User, {}> & import("./schema/user.schema").User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    findAll(): import("@prisma/client").Prisma.PrismaPromise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
-    }[]>;
-    findOne(id: number): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    findAll(): Promise<(import("mongoose").Document<unknown, {}, import("./schema/user.schema").User, {}> & import("./schema/user.schema").User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
+    findOne(id: number): Promise<import("mongoose").Document<unknown, {}, import("./schema/user.schema").User, {}> & import("./schema/user.schema").User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    update(id: number, updateUserDto: UpdateUserDto): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/user.schema").User, {}> & import("./schema/user.schema").User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     remove(id: number): Promise<number>;
 }

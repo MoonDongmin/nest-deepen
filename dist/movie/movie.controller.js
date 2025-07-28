@@ -77,7 +77,7 @@ __decorate([
         status: 200,
         description: '성공적으로 Pagination API 실행',
     }),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Query)()),
     __param(1, (0, user_id_decorator_1.UserId)()),
     __metadata("design:type", Function),
@@ -97,7 +97,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)(':id'),
     (0, public_decorator_1.Public)(),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),

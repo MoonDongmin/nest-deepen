@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
 import { Role } from '@prisma/client';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Movie } from '../../movie/schema/movie.schema';

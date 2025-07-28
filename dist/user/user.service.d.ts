@@ -1,35 +1,31 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ConfigService } from '@nestjs/config';
-import { PrismaService } from '../common/prisma.service';
-import { Prisma } from '@prisma/client';
+import { User } from './schema/user.schema';
+import { Model } from 'mongoose';
 export declare class UserService {
     private readonly configService;
-    private readonly prisma;
-    constructor(configService: ConfigService, prisma: PrismaService);
-    create(createUserDto: CreateUserDto): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    private readonly userModel;
+    constructor(configService: ConfigService, userModel: Model<User>);
+    create(createUserDto: CreateUserDto): Promise<import("mongoose").Document<unknown, {}, User, {}> & User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    findAll(): Prisma.PrismaPromise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
-    }[]>;
-    findOne(id: number): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    findAll(): Promise<(import("mongoose").Document<unknown, {}, User, {}> & User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
+    })[]>;
+    findOne(id: number): Promise<import("mongoose").Document<unknown, {}, User, {}> & User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    update(id: number, updateUserDto: UpdateUserDto): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    update(id: number, updateUserDto: UpdateUserDto): Promise<import("mongoose").Document<unknown, {}, User, {}> & User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     remove(id: number): Promise<number>;
 }

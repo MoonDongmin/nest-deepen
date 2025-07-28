@@ -57,7 +57,7 @@ __decorate([
 ], DirectorController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
-    openapi.ApiResponse({ status: 201 }),
+    openapi.ApiResponse({ status: 201, type: Object }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_director_dto_1.CreateDirectorDto]),
@@ -65,7 +65,7 @@ __decorate([
 ], DirectorController.prototype, "create", null);
 __decorate([
     (0, common_1.Patch)(':id'),
-    openapi.ApiResponse({ status: 200 }),
+    openapi.ApiResponse({ status: 200, type: Object }),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),

@@ -17,11 +17,10 @@ export declare class AuthService {
         password: string;
     };
     parseBearerToken(rawToken: string, isRefreshToken: boolean): Promise<any>;
-    register(rawToken: string): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    register(rawToken: string): Promise<import("mongoose").Document<unknown, {}, import("../user/schema/user.schema").User, {}> & import("../user/schema/user.schema").User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     authenticate(email: string, password: string): Promise<{
         id: number;

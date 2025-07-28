@@ -6,102 +6,39 @@ export declare class MovieController {
     private readonly movieService;
     constructor(movieService: MovieService);
     getMovies(dto: GetMoviesDto, userId?: number): Promise<{
-        data: ({
-            genres: {
-                id: number;
-                name: string;
-            }[];
-            director: {
-                id: number;
-                name: string;
-                dob: Date;
-                nationality: string;
-            };
+        data: (import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, Record<string, any>> & import("./schema/movie.schema").Movie & Required<{
+            _id: unknown;
+        }> & {
+            __v?: number;
         } & {
-            title: string;
-            directorId: number;
-            createdAt: Date;
-            version: number;
-            id: number;
-            likeCount: number;
-            dislikeCount: number;
-            movieFilePath: string;
-            creatorId: number;
-            detailId: number;
-            updateAt: Date;
+            likeStatus: boolean;
+        })[];
+        nextCursor: string;
+        hasNextPage: boolean;
+    } | {
+        data: (import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
         })[];
         nextCursor: string;
         hasNextPage: boolean;
     }>;
     getMoviesRecent(): Promise<unknown>;
-    getMovie(id: number, request: any): Promise<{
-        title: string;
-        directorId: number;
-        createdAt: Date;
-        version: number;
-        id: number;
-        likeCount: number;
-        dislikeCount: number;
-        movieFilePath: string;
-        creatorId: number;
-        detailId: number;
-        updateAt: Date;
+    getMovie(id: number, request: any): Promise<import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    postMovie(body: CreateMovieDto, userId: number): Promise<{
-        detail: {
-            detail: string;
-            id: number;
-        };
-        genres: {
-            id: number;
-            name: string;
-        }[];
-        director: {
-            id: number;
-            name: string;
-            dob: Date;
-            nationality: string;
-        };
-    } & {
-        title: string;
-        directorId: number;
-        createdAt: Date;
-        version: number;
-        id: number;
-        likeCount: number;
-        dislikeCount: number;
-        movieFilePath: string;
-        creatorId: number;
-        detailId: number;
-        updateAt: Date;
+    postMovie(body: CreateMovieDto, userId: number): Promise<import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
-    patchMovie(id: number, body: UpdateMovieDto): Promise<{
-        detail: {
-            detail: string;
-            id: number;
-        };
-        genres: {
-            id: number;
-            name: string;
-        }[];
-        director: {
-            id: number;
-            name: string;
-            dob: Date;
-            nationality: string;
-        };
-    } & {
-        title: string;
-        directorId: number;
-        createdAt: Date;
-        version: number;
-        id: number;
-        likeCount: number;
-        dislikeCount: number;
-        movieFilePath: string;
-        creatorId: number;
-        detailId: number;
-        updateAt: Date;
+    patchMovie(id: number, body: UpdateMovieDto): Promise<import("mongoose").Document<unknown, {}, import("./schema/movie.schema").Movie, {}> & import("./schema/movie.schema").Movie & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     deleteMovie(id: number): Promise<number>;
     createMovieLike(movieId: number, userId: number): Promise<{

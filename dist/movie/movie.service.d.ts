@@ -1,128 +1,73 @@
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
-import { Movie } from './entity/movie.entity';
 import { DataSource, QueryRunner } from 'typeorm';
-import { Director } from '../director/entity/director.entity';
-import { Genre } from '../genre/entity/genre.entity';
 import { GetMoviesDto } from './dto/get-movies.dto';
 import { CommonService } from '../common/common.service';
 import { Cache } from '@nestjs/cache-manager';
-import { PrismaService } from '../common/prisma.service';
 import { ConfigService } from '@nestjs/config';
+import { Movie } from './schema/movie.schema';
+import { MovieDetail } from './schema/movie-detail.schema';
+import { Model, Document } from 'mongoose';
+import { Director } from '../director/schema/director.schema';
+import { Genre } from '../genre/schema/genre.schema';
+import { User } from '../user/schema/user.schema';
+import { MovieUserLike } from './schema/movie-user-like.schema';
 export declare class MovieService {
+    private readonly movieModel;
+    private readonly movieDetailModel;
+    private readonly directorModel;
+    private readonly genreModel;
+    private readonly userModel;
+    private readonly movieUserLikeModel;
     private readonly configService;
     private readonly dataSource;
     private readonly commonService;
     private readonly cacheManager;
-    private readonly prisma;
-    constructor(configService: ConfigService, dataSource: DataSource, commonService: CommonService, cacheManager: Cache, prisma: PrismaService);
+    constructor(movieModel: Model<Movie>, movieDetailModel: Model<MovieDetail>, directorModel: Model<Director>, genreModel: Model<Genre>, userModel: Model<User>, movieUserLikeModel: Model<MovieUserLike>, configService: ConfigService, dataSource: DataSource, commonService: CommonService, cacheManager: Cache);
     findRecent(): Promise<unknown>;
     getMovies(): Promise<void>;
     getLikedMovies(movieIds: number[], userId: number): Promise<void>;
     findAll(dto: GetMoviesDto, userId?: number): Promise<{
-        data: ({
-            genres: {
-                id: number;
-                name: string;
-            }[];
-            director: {
-                id: number;
-                name: string;
-                dob: Date;
-                nationality: string;
-            };
+        data: (Document<unknown, {}, Movie> & Movie & Required<{
+            _id: unknown;
+        }> & {
+            __v?: number;
         } & {
-            title: string;
-            directorId: number;
-            createdAt: Date;
-            version: number;
-            id: number;
-            likeCount: number;
-            dislikeCount: number;
-            movieFilePath: string;
-            creatorId: number;
-            detailId: number;
-            updateAt: Date;
+            likeStatus: boolean;
+        })[];
+        nextCursor: string;
+        hasNextPage: boolean;
+    } | {
+        data: (Document<unknown, {}, Movie, {}> & Movie & Required<{
+            _id: unknown;
+        }> & {
+            __v: number;
         })[];
         nextCursor: string;
         hasNextPage: boolean;
     }>;
     findMovieDetail(id: number): Promise<void>;
-    findOne(id: number): Promise<{
-        title: string;
-        directorId: number;
-        createdAt: Date;
-        version: number;
-        id: number;
-        likeCount: number;
-        dislikeCount: number;
-        movieFilePath: string;
-        creatorId: number;
-        detailId: number;
-        updateAt: Date;
+    findOne(id: number): Promise<Document<unknown, {}, Movie, {}> & Movie & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     createMovieDetail(qr: QueryRunner, createMovieDto: CreateMovieDto): Promise<void>;
     createMovie(qr: QueryRunner, createMovieDto: CreateMovieDto, director: Director, movieDetailId: number, userId: number, movieFolder: string): Promise<void>;
     createMovieGenreRelation(qr: QueryRunner, movieId: number, genres: Genre[]): Promise<void>;
     renameMovieFile(tempFolder: string, movieFolder: string, createMovieDto: CreateMovieDto): Promise<void>;
-    create(createMovieDto: CreateMovieDto, userId: number): Promise<{
-        detail: {
-            detail: string;
-            id: number;
-        };
-        genres: {
-            id: number;
-            name: string;
-        }[];
-        director: {
-            id: number;
-            name: string;
-            dob: Date;
-            nationality: string;
-        };
-    } & {
-        title: string;
-        directorId: number;
-        createdAt: Date;
-        version: number;
-        id: number;
-        likeCount: number;
-        dislikeCount: number;
-        movieFilePath: string;
-        creatorId: number;
-        detailId: number;
-        updateAt: Date;
+    create(createMovieDto: CreateMovieDto, userId: number): Promise<Document<unknown, {}, Movie, {}> & Movie & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     updateMovie(qr: QueryRunner, movieUpdateFields: UpdateMovieDto, id: number): Promise<void>;
     updateMovieDetail(qr: QueryRunner, detail: string, movie: Movie): Promise<void>;
     updateMovieGenreRelation(qr: QueryRunner, id: number, newGenres: Genre[], movie: Movie): Promise<void>;
-    update(id: number, updateMovieDto: UpdateMovieDto): Promise<{
-        detail: {
-            detail: string;
-            id: number;
-        };
-        genres: {
-            id: number;
-            name: string;
-        }[];
-        director: {
-            id: number;
-            name: string;
-            dob: Date;
-            nationality: string;
-        };
-    } & {
-        title: string;
-        directorId: number;
-        createdAt: Date;
-        version: number;
-        id: number;
-        likeCount: number;
-        dislikeCount: number;
-        movieFilePath: string;
-        creatorId: number;
-        detailId: number;
-        updateAt: Date;
+    update(id: number, updateMovieDto: UpdateMovieDto): Promise<Document<unknown, {}, Movie, {}> & Movie & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     deleteMovie(id: number): Promise<void>;
     remove(id: number): Promise<number>;

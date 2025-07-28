@@ -2,11 +2,10 @@ import { AuthService } from './auth.service';
 export declare class AuthController {
     private readonly authService;
     constructor(authService: AuthService);
-    registerUser(token: string): Promise<{
-        id: number;
-        email: string;
-        password: string;
-        role: import("@prisma/client").$Enums.Role;
+    registerUser(token: string): Promise<import("mongoose").Document<unknown, {}, import("../user/schema/user.schema").User, {}> & import("../user/schema/user.schema").User & Required<{
+        _id: unknown;
+    }> & {
+        __v: number;
     }>;
     loginUser(token: string): Promise<{
         refreshToken: string;
